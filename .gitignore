@@ -1,0 +1,13 @@
+node_modules/
+dist/
+*.tgz
+.env
+.DS_Store
+Thumbs.db
+*.log
+
+# Claude Code
+.claude/
+
+# Test output files
+*-design.md

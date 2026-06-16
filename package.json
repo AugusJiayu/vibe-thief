@@ -1,0 +1,62 @@
+{
+  "name": "vibe-thief",
+  "version": "0.1.0",
+  "description": "Good artists copy, great artists steal. Extract design systems from any website and generate DESIGN.md",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "bin": {
+    "vibe-thief": "./bin/cli.mjs"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./mcp": {
+      "types": "./dist/mcp/server.d.ts",
+      "import": "./dist/mcp/server.js"
+    }
+  },
+  "files": [
+    "dist",
+    "bin",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "tsc --noEmit",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "design-system",
+    "design-tokens",
+    "css-extraction",
+    "ui-analysis",
+    "mcp",
+    "claude",
+    "figma",
+    "playwright"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.12.1",
+    "commander": "^13.1.0",
+    "playwright": "^1.52.0",
+    "sharp": "^0.35.1",
+    "zod": "^3.25.67"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.29",
+    "tsup": "^8.5.0",
+    "typescript": "^5.8.3",
+    "vitest": "^3.2.1"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
