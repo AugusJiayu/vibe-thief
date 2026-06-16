@@ -5,21 +5,21 @@
 
 import type { InputSource, PipelineConfig } from '../types/input.js';
 import type { CSSExtraction, PixelExtraction, VisionAnalysis } from '../types/extraction.js';
-import type { DesignTokens } from '../types/tokens.js';
+import type { DesignSystemDoc } from '../types/design-doc.js';
 import { BrowserManager } from '../browser/manager.js';
 import { captureScreenshots } from '../browser/screenshot.js';
 import { extractCSSFromPage } from '../extractors/css-extractor.js';
 import { extractPixelsFromBuffer } from '../extractors/pixel-extractor.js';
 import { analyzeVision } from '../extractors/vision-analyzer.js';
 import { compile } from './compile.js';
-import { renderMarkdown } from './output.js';
+import { renderDesignDoc } from './output.js';
 import { logger } from '../utils/logger.js';
 
 export interface DesignResult {
   /** 最终 DESIGN.md 内容 */
   markdown: string;
-  /** 结构化 token 数据 */
-  tokens: DesignTokens;
+  /** 结构化设计文档 */
+  doc: DesignSystemDoc;
   /** 提取的原始数据（调试用） */
   raw: {
     css?: CSSExtraction;
@@ -85,34 +85,26 @@ export async function extractFromURL(
       pixelData,
       visionData,
       config.llm,
+      url,
       config.output?.language
     );
 
-    // 计算置信度
-    const confidence = calculateConfidence(cssData, pixelData, visionData, degraded);
-
-    // 设置 token 元数据
-    compileResult.tokens.source = url;
-    compileResult.tokens.extractedAt = new Date().toISOString();
-    compileResult.tokens.schemaVersion = '1.0';
-    compileResult.tokens.confidence = confidence;
-
     // 输出层
-    const markdown = renderMarkdown(compileResult.tokens, config.output?.language);
+    const markdown = renderDesignDoc(compileResult.doc);
 
     const result: DesignResult = {
       markdown,
-      tokens: compileResult.tokens,
+      doc: compileResult.doc,
       raw: { css: cssData || undefined, pixel: pixelData || undefined, vision: visionData || undefined },
       meta: {
         duration: Date.now() - startTime,
         llmTokensUsed: compileResult.llmTokensUsed,
-        confidence,
+        confidence: compileResult.doc.frontmatter.confidence,
         degraded,
       },
     };
 
-    logger.info(`Extraction complete in ${result.meta.duration}ms (confidence: ${confidence})`);
+    logger.info(`Extraction complete in ${result.meta.duration}ms (confidence: ${result.meta.confidence})`);
     return result;
   } finally {
     await manager.close();
@@ -140,6 +132,8 @@ export async function extractFromScreenshot(
     screenshotBuffer = source;
   }
 
+  const sourceName = typeof source === 'string' ? source : 'uploaded-screenshot';
+
   // 提取层：像素提取 + 视觉分析
   const [pixelData, visionData] = await Promise.all([
     extractPixelsFromBuffer(screenshotBuffer).catch(err => {
@@ -160,28 +154,21 @@ export async function extractFromScreenshot(
     pixelData,
     visionData,
     config.llm,
+    sourceName,
     config.output?.language
   );
 
-  const confidence = calculateConfidence(null, pixelData, visionData, degraded);
-
-  // 设置 token 元数据
-  compileResult.tokens.source = typeof source === 'string' ? source : 'uploaded-screenshot';
-  compileResult.tokens.extractedAt = new Date().toISOString();
-  compileResult.tokens.schemaVersion = '1.0';
-  compileResult.tokens.confidence = confidence;
-
   // 输出层
-  const markdown = renderMarkdown(compileResult.tokens, config.output?.language);
+  const markdown = renderDesignDoc(compileResult.doc);
 
   return {
     markdown,
-    tokens: compileResult.tokens,
+    doc: compileResult.doc,
     raw: { pixel: pixelData || undefined, vision: visionData || undefined },
     meta: {
       duration: Date.now() - startTime,
       llmTokensUsed: compileResult.llmTokensUsed,
-      confidence,
+      confidence: compileResult.doc.frontmatter.confidence,
       degraded,
     },
   };
@@ -232,25 +219,6 @@ export async function extractOnly(
     });
     return { pixel: pixelData || undefined };
   }
-}
-
-/** 计算置信度 */
-function calculateConfidence(
-  css: CSSExtraction | null,
-  pixel: PixelExtraction | null,
-  vision: VisionAnalysis | null,
-  degraded: string[]
-): number {
-  let score = 1.0;
-  // 每个降级步骤扣分
-  if (degraded.includes('css')) score -= 0.3;
-  if (degraded.includes('pixel')) score -= 0.2;
-  if (degraded.includes('vision')) score -= 0.2;
-  // 数据质量
-  if (css && css.colors.raw.length < 3) score -= 0.1;
-  if (pixel && pixel.dominantColors.length < 3) score -= 0.1;
-  if (vision && vision.confidence < 0.5) score -= 0.1;
-  return Math.max(0, Math.min(1, Math.round(score * 100) / 100));
 }
 
 /** 空的 CSS 提取结果 */

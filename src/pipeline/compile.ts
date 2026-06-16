@@ -1,10 +1,10 @@
 /**
  * 编译层
- * 两阶段 LLM 处理：结构化分析 → 感知融合
+ * 两阶段 LLM 处理：结构化分析 → 设计文档生成
  */
 
 import type { CSSExtraction, PixelExtraction, VisionAnalysis } from '../types/extraction.js';
-import type { DesignTokens } from '../types/tokens.js';
+import type { DesignSystemDoc } from '../types/design-doc.js';
 import type { LLMConfig } from '../types/input.js';
 import { createLLMProvider, type LLMMessage } from '../llm/provider.js';
 import { buildAnalysisPrompt } from '../llm/prompts/analysis.js';
@@ -12,20 +12,21 @@ import { buildGenerationPrompt } from '../llm/prompts/generation.js';
 import { logger } from '../utils/logger.js';
 
 export interface CompileResult {
-  tokens: DesignTokens;
+  doc: DesignSystemDoc;
   llmTokensUsed: number;
   notes: string[];
 }
 
 /**
  * 编译层入口
- * 将提取数据编译为最终 DesignTokens
+ * 将提取数据编译为 DesignSystemDoc
  */
 export async function compile(
   cssData: CSSExtraction,
   pixelData: PixelExtraction | null,
   visionData: VisionAnalysis | null,
   llmConfig: LLMConfig,
+  source: string,
   language: 'zh' | 'en' = 'zh'
 ): Promise<CompileResult> {
   let totalTokensUsed = 0;
@@ -37,18 +38,15 @@ export async function compile(
   totalTokensUsed += stage1Result.tokensUsed;
   notes.push(...(stage1Result.notes || []));
 
-  // 阶段 2：感知融合
-  logger.info('Stage 2: Perception fusion...');
-  const stage2Result = await stage2Fusion(stage1Result.data, visionData, llmConfig, language);
+  // 阶段 2：设计文档生成
+  logger.info('Stage 2: Design document generation...');
+  const stage2Result = await stage2Generation(stage1Result.data, visionData, llmConfig, source, language);
   totalTokensUsed += stage2Result.tokensUsed;
-
-  // 确保必要字段存在
-  const tokens = ensureDefaults(stage2Result.data) as unknown as DesignTokens;
 
   logger.info(`Compilation complete. LLM tokens used: ${totalTokensUsed}`);
 
   return {
-    tokens: tokens as DesignTokens,
+    doc: stage2Result.doc,
     llmTokensUsed: totalTokensUsed,
     notes,
   };
@@ -79,9 +77,7 @@ async function stage1Analysis(
     if (jsonStr.startsWith('```')) {
       jsonStr = jsonStr.replace(/^```(?:json)?\n?/, '').replace(/\n?```$/, '');
     }
-    // 修复可能被截断的 JSON
     if (!jsonStr.endsWith('}')) {
-      // 尝试找到最后一个完整的对象闭合
       const lastBrace = jsonStr.lastIndexOf('}');
       if (lastBrace > 0) {
         jsonStr = jsonStr.substring(0, lastBrace + 1);
@@ -95,7 +91,6 @@ async function stage1Analysis(
     };
   } catch (err) {
     logger.error(`Stage 1 JSON parse failed: ${err}`);
-    // 降级：用原始数据构建基础 token
     return {
       data: buildFallbackTokens(cssData),
       tokensUsed: response.usage.totalTokens,
@@ -104,13 +99,14 @@ async function stage1Analysis(
   }
 }
 
-/** 阶段 2：感知融合 */
-async function stage2Fusion(
+/** 阶段 2：设计文档生成 */
+async function stage2Generation(
   tokenData: Record<string, unknown>,
   visionData: VisionAnalysis | null,
   llmConfig: LLMConfig,
+  source: string,
   language: 'zh' | 'en'
-): Promise<{ data: Record<string, unknown>; tokensUsed: number }> {
+): Promise<{ doc: DesignSystemDoc; tokensUsed: number }> {
   const provider = createLLMProvider(llmConfig);
   const { system, user } = buildGenerationPrompt(tokenData, visionData, language);
 
@@ -120,8 +116,8 @@ async function stage2Fusion(
   ];
 
   const response = await provider.chat(messages, {
-    temperature: 0.5,
-    maxTokens: 8192,
+    temperature: 0.4,
+    maxTokens: 12288,
     jsonMode: true,
   });
 
@@ -136,15 +132,30 @@ async function stage2Fusion(
         jsonStr = jsonStr.substring(0, lastBrace + 1);
       }
     }
-    const data = JSON.parse(jsonStr);
-    return { data, tokensUsed: response.usage.totalTokens };
+    const doc = JSON.parse(jsonStr) as DesignSystemDoc;
+
+    // 确保 frontmatter 元数据正确
+    doc.frontmatter = {
+      schema: 'vibe-thief/1.0',
+      source,
+      extracted_at: new Date().toISOString(),
+      confidence: doc.frontmatter?.confidence ?? 0.8,
+      generator: 'vibe-thief@0.1.0',
+      mood: doc.frontmatter?.mood || 'unknown',
+      style_archetype: doc.frontmatter?.style_archetype || 'custom',
+    };
+
+    return { doc, tokensUsed: response.usage.totalTokens };
   } catch (err) {
-    logger.error(`Stage 2 JSON parse failed: ${err}, returning stage 1 data`);
-    return { data: tokenData, tokensUsed: response.usage.totalTokens };
+    logger.error(`Stage 2 JSON parse failed: ${err}, building fallback doc`);
+    return {
+      doc: buildFallbackDoc(tokenData, source),
+      tokensUsed: response.usage.totalTokens,
+    };
   }
 }
 
-/** 降级方案：从 CSS 数据构建基础 token */
+/** 降级方案：从 Stage 1 数据构建基础 token */
 function buildFallbackTokens(cssData: CSSExtraction): Record<string, unknown> {
   const colors = cssData.colors.raw.slice(0, 10);
   return {
@@ -175,21 +186,66 @@ function buildFallbackTokens(cssData: CSSExtraction): Record<string, unknown> {
   };
 }
 
-/** 确保必要字段存在 */
-function ensureDefaults(data: Record<string, unknown>): Record<string, unknown> {
-  if (!data.colors) data.colors = {};
-  if (!data.typography) data.typography = {};
-  if (!data.spacing) data.spacing = {};
-  if (!data.borderRadius) data.borderRadius = {};
-  if (!data.shadows) data.shadows = {};
-  if (!data.perception) {
-    data.perception = {
+/** 降级方案：构建基础 DesignSystemDoc */
+function buildFallbackDoc(tokenData: Record<string, unknown>, source: string): DesignSystemDoc {
+  const colors = (tokenData.colors as any) || {};
+  const typography = (tokenData.typography as any) || {};
+  const spacing = (tokenData.spacing as any) || {};
+
+  return {
+    frontmatter: {
+      schema: 'vibe-thief/1.0',
+      source,
+      extracted_at: new Date().toISOString(),
+      confidence: 0.5,
+      generator: 'vibe-thief@0.1.0',
       mood: 'unknown',
-      descriptors: [],
-      density: 'comfortable',
-      contrastLevel: 'medium',
-      designPhilosophy: '',
-    };
-  }
-  return data;
+      style_archetype: 'custom',
+    },
+    narrative: {
+      philosophy: '（LLM 编译失败，以下是基于 CSS 数据的自动提取结果）',
+      keywords: [],
+    },
+    colors: {
+      background_layers: [],
+      signal_colors: colors.primary ? [{ token: 'primary', value: colors.primary.value || '#000', usage: '主色' }] : [],
+      text_hierarchy: [{ token: 'text', value: '#000000', usage: '正文' }],
+      philosophy: '',
+    },
+    typography: {
+      font_stack: {
+        heading: typography.fontFamily?.heading || 'sans-serif',
+        body: typography.fontFamily?.body || 'sans-serif',
+        mono: typography.fontFamily?.mono || 'monospace',
+      },
+      scale: (typography.scale || []).map((s: any) => ({
+        token: s.name || 'text',
+        size: s.size || '16px',
+        weight: s.weight || 400,
+        usage: '',
+      })),
+      philosophy: '',
+    },
+    spacing: {
+      base_unit: spacing.baseUnit || '4px',
+      scale: (spacing.scale || []).map((s: any) => ({
+        token: s.name || 'space',
+        value: s.value || '8px',
+        usage: '',
+      })),
+      philosophy: '',
+    },
+    depth: { border_radius: [], shadows: [], borders: [], philosophy: '' },
+    motion: { tokens: [], philosophy: '' },
+    components: [],
+    interactions: {
+      hover_style: '颜色微调',
+      focus_style: 'outline',
+      active_style: '颜色变深',
+      loading_style: 'spinner',
+      transition_speed: '150ms ease-out',
+    },
+    layout: { max_width: '1200px', breakpoints: [], philosophy: '' },
+    agent_guide: { do: [], dont: [] },
+  };
 }

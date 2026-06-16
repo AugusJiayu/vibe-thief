@@ -77,7 +77,7 @@ server.tool(
         outputs.push(result.markdown);
       }
       if (outputFormat === 'json' || outputFormat === 'both') {
-        outputs.push('```json\n' + JSON.stringify(result.tokens, null, 2) + '\n```');
+        outputs.push('```json\n' + JSON.stringify(result.doc, null, 2) + '\n```');
       }
 
       return {

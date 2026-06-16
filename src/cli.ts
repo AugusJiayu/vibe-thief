@@ -107,7 +107,7 @@ program
 
       let outputContent: string;
       if (options.format === 'json') {
-        outputContent = JSON.stringify(result.tokens, null, 2);
+        outputContent = JSON.stringify(result.doc, null, 2);
       } else {
         outputContent = result.markdown;
       }
