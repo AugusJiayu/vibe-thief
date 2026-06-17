@@ -15,6 +15,8 @@ export interface CompileResult {
   doc: DesignSystemDoc;
   llmTokensUsed: number;
   notes: string[];
+  stage1Success: boolean;
+  stage2Success: boolean;
 }
 
 /**
@@ -37,6 +39,7 @@ export async function compile(
   const stage1Result = await stage1Analysis(cssData, pixelData, llmConfig);
   totalTokensUsed += stage1Result.tokensUsed;
   notes.push(...(stage1Result.notes || []));
+  const stage1Success = !stage1Result.notes?.includes('Stage 1 LLM output was not valid JSON, using fallback');
 
   // 阶段 2：设计文档生成
   logger.info('Stage 2: Design document generation...');
@@ -49,6 +52,8 @@ export async function compile(
     doc: stage2Result.doc,
     llmTokensUsed: totalTokensUsed,
     notes,
+    stage1Success,
+    stage2Success: true,
   };
 }
 

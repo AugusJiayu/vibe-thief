@@ -13,6 +13,7 @@ import { extractPixelsFromBuffer } from '../extractors/pixel-extractor.js';
 import { analyzeVision } from '../extractors/vision-analyzer.js';
 import { compile } from './compile.js';
 import { renderDesignDoc } from './output.js';
+import { buildExtractionMeta, deterministicScore, hybridConfidence } from '../utils/confidence.js';
 import { logger } from '../utils/logger.js';
 
 export interface DesignResult {
@@ -89,6 +90,12 @@ export async function extractFromURL(
       config.output?.language
     );
 
+    // 混合置信度：确定性 60% + LLM 主观 40%
+    const meta = buildExtractionMeta(cssData, pixelData, visionData, compileResult.stage1Success, compileResult.stage2Success);
+    const detScore = deterministicScore(meta);
+    const llmScore = compileResult.doc.frontmatter.confidence ?? null;
+    const confidence = hybridConfidence(detScore, llmScore);
+
     // 输出层
     const markdown = renderDesignDoc(compileResult.doc);
 
@@ -99,7 +106,7 @@ export async function extractFromURL(
       meta: {
         duration: Date.now() - startTime,
         llmTokensUsed: compileResult.llmTokensUsed,
-        confidence: compileResult.doc.frontmatter.confidence,
+        confidence,
         degraded,
       },
     };
@@ -158,6 +165,12 @@ export async function extractFromScreenshot(
     config.output?.language
   );
 
+  // 混合置信度
+  const extractionMeta = buildExtractionMeta(null, pixelData, visionData, compileResult.stage1Success, compileResult.stage2Success);
+  const detScore = deterministicScore(extractionMeta);
+  const llmScore = compileResult.doc.frontmatter.confidence ?? null;
+  const confidence = hybridConfidence(detScore, llmScore);
+
   // 输出层
   const markdown = renderDesignDoc(compileResult.doc);
 
@@ -168,7 +181,7 @@ export async function extractFromScreenshot(
     meta: {
       duration: Date.now() - startTime,
       llmTokensUsed: compileResult.llmTokensUsed,
-      confidence: compileResult.doc.frontmatter.confidence,
+      confidence,
       degraded,
     },
   };

@@ -29,6 +29,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "lint": "tsc --noEmit",
+    "test:pipeline": "npx tsx scripts/test-pipeline.ts",
+    "test:validate": "npx tsx scripts/validate.ts",
     "prepublishOnly": "npm run build"
   },
   "keywords": [
