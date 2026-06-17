@@ -31,6 +31,7 @@
     "lint": "tsc --noEmit",
     "test:pipeline": "npx tsx scripts/test-pipeline.ts",
     "test:validate": "npx tsx scripts/validate.ts",
+    "test:round": "npx tsx scripts/run-round.ts",
     "prepublishOnly": "npm run build"
   },
   "keywords": [
