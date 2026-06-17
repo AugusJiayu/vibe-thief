@@ -1,0 +1,486 @@
+{
+  "frontmatter": {
+    "schema": "vibe-thief/1.0",
+    "source": "https://notion.so",
+    "extracted_at": "2026-06-17T10:10:53.320Z",
+    "confidence": 0.7,
+    "generator": "vibe-thief@0.1.0",
+    "mood": "专业、清晰、可靠",
+    "style_archetype": "light-saas"
+  },
+  "narrative": {
+    "philosophy": "这个设计系统的灵魂在于通过克制的视觉语言建立信任感。它不是要炫技，而是创造一个干净、专注的画布，让用户的内容和操作成为主角。中性色是这个画布的基调，而唯一的强信号色——橙色——就像聚光灯，只在最需要用户注意力的关键时刻亮起。排版追求清晰易读，但通过细微的字号和行高变化建立层次，让信息自然流动。",
+    "keywords": [
+      "克制",
+      "清晰",
+      "信任",
+      "专注",
+      "结构化"
+    ]
+  },
+  "colors": {
+    "background_layers": [
+      {
+        "token": "bg-page",
+        "value": "#f9f9f8",
+        "usage": "页面最底层背景，营造温暖、不刺眼的阅读环境"
+      },
+      {
+        "token": "bg-surface",
+        "value": "#f6f5f4",
+        "usage": "卡片、侧边栏等需要轻微抬起的元素背景，与页面背景有细微色差"
+      },
+      {
+        "token": "bg-elevated",
+        "value": "#ffffff",
+        "usage": "模态框、弹出层等最高层级的表面（如需要更白）"
+      }
+    ],
+    "signal_colors": [
+      {
+        "token": "signal-primary",
+        "value": "#ff6d00",
+        "usage": "主CTA按钮、重要链接、需要用户立即注意的标记（如“新”）。这是系统中唯一的强烈视觉焦点。"
+      },
+      {
+        "token": "signal-warning",
+        "value": "#ff6d00",
+        "usage": "警告状态、需要注意的提示。复用主信号色以保持统一。"
+      },
+      {
+        "token": "signal-error",
+        "value": "#f64932",
+        "usage": "错误状态、破坏性操作确认。"
+      },
+      {
+        "token": "signal-success",
+        "value": "#1aae39",
+        "usage": "成功状态、正向反馈。"
+      },
+      {
+        "token": "signal-info",
+        "value": "#097fe8",
+        "usage": "信息性提示、帮助链接。"
+      }
+    ],
+    "text_hierarchy": [
+      {
+        "token": "text-heading",
+        "value": "#111111",
+        "usage": "页面主标题、最重要的信息。"
+      },
+      {
+        "token": "text-body",
+        "value": "rgb(17 17 17)",
+        "usage": "正文内容，高可读性。"
+      },
+      {
+        "token": "text-secondary",
+        "value": "rgb(0 0 0 / 60%)",
+        "usage": "副标题、辅助说明、标签。"
+      },
+      {
+        "token": "text-tertiary",
+        "value": "rgb(0 0 0 / 40%)",
+        "usage": "占位符文本、禁用状态文字、最次要的信息。"
+      }
+    ],
+    "philosophy": "色彩策略的核心是“少即是多”。整个系统建立在从近白到深灰的暖色系中性色谱之上，通过微妙的色阶差异构建空间深度，而非依赖强烈的阴影。唯一的强信号色——橙色(#ff6d00)——被严格限制用途，只用于最关键的操作点和状态，确保它每次出现都能被用户立即识别。文字颜色通过透明度控制层级，从100%到40%，清晰地表达了信息的重要性梯度。"
+  },
+  "typography": {
+    "font_stack": {
+      "heading": "NotionInter, Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, 'Apple Color Emoji', Arial, sans-serif, 'Segoe UI Emoji', 'Segoe UI Symbol'",
+      "body": "NotionInter, Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, 'Apple Color Emoji', Arial, sans-serif, 'Segoe UI Emoji', 'Segoe UI Symbol'",
+      "mono": "'iA Writer Mono', Nitti, Menlo, Courier, monospace"
+    },
+    "scale": [
+      {
+        "token": "text-xs",
+        "size": "12px",
+        "weight": 400,
+        "usage": "小标签、注释、辅助信息"
+      },
+      {
+        "token": "text-sm",
+        "size": "14px",
+        "weight": 400,
+        "usage": "次要内容、列表项、按钮文字"
+      },
+      {
+        "token": "text-base",
+        "size": "16px",
+        "weight": 400,
+        "usage": "正文默认尺寸，最佳阅读体验"
+      },
+      {
+        "token": "text-lg",
+        "size": "18px",
+        "weight": 400,
+        "usage": "引导性段落、副标题"
+      },
+      {
+        "token": "text-xl",
+        "size": "22px",
+        "weight": 500,
+        "usage": "区块标题、卡片标题"
+      },
+      {
+        "token": "text-2xl",
+        "size": "26px",
+        "weight": 600,
+        "usage": "页面子标题"
+      },
+      {
+        "token": "text-3xl",
+        "size": "32px",
+        "weight": 700,
+        "usage": "主要章节标题"
+      },
+      {
+        "token": "text-4xl",
+        "size": "42px",
+        "weight": 700,
+        "usage": "页面大标题"
+      },
+      {
+        "token": "text-5xl",
+        "size": "54px",
+        "weight": 700,
+        "usage": "首屏英雄区大标题"
+      },
+      {
+        "token": "text-6xl",
+        "size": "64px",
+        "weight": 700,
+        "usage": "超大展示文字"
+      }
+    ],
+    "philosophy": "排版系统追求极致的清晰和可读性。字体栈以通用无衬线体Inter为核心，确保跨平台的一致性。字号阶梯并非严格的数学比例，而是根据阅读舒适度和信息层级精心调整。行高宽松，为文本留出呼吸空间。字体粗细(w300, w400, w500, w600, w700)与字号明确对应，共同构建出清晰、稳定且有节奏感的视觉层次，避免花哨的字体效果。"
+  },
+  "spacing": {
+    "base_unit": "4px",
+    "scale": [
+      {
+        "token": "space-1",
+        "value": "4px",
+        "usage": "极小间距，用于图标与文字之间、紧凑列表的行间距"
+      },
+      {
+        "token": "space-2",
+        "value": "8px",
+        "usage": "组件内部元素的标准间距，如输入框的内边距"
+      },
+      {
+        "token": "space-3",
+        "value": "12px",
+        "usage": "次级间距，用于相关元素的分组"
+      },
+      {
+        "token": "space-4",
+        "value": "16px",
+        "usage": "组件内部的标准内边距，或相邻组件之间的基础间距"
+      },
+      {
+        "token": "space-6",
+        "value": "24px",
+        "usage": "组件之间的标准间距，创造清晰的区块分离"
+      },
+      {
+        "token": "space-8",
+        "value": "32px",
+        "usage": "较大区块之间的间距"
+      },
+      {
+        "token": "space-12",
+        "value": "48px",
+        "usage": "页面级内容区块的间距"
+      },
+      {
+        "token": "space-20",
+        "value": "80px",
+        "usage": "首屏或重要章节之间的间距，创造强烈的节奏感"
+      }
+    ],
+    "philosophy": "间距系统基于4px网格，确保所有尺寸和定位都保持像素级的精确对齐。策略是“呼吸在组件之间，而非组件之内”。组件内部使用8-12px的紧凑间距保持内聚性，而组件之间则使用16-24px或更大的间距来创造清晰的视觉分离和流动的布局节奏。通过阶梯式的空间分配，页面自然形成了从紧凑到舒展的呼吸节奏。"
+  },
+  "depth": {
+    "border_radius": [
+      {
+        "token": "radius-sm",
+        "value": "4px",
+        "usage": "小元素，如标签、小型按钮"
+      },
+      {
+        "token": "radius-md",
+        "value": "6px",
+        "usage": "中等元素，如输入框、中型按钮"
+      },
+      {
+        "token": "radius-lg",
+        "value": "8px",
+        "usage": "标准卡片、主要按钮"
+      },
+      {
+        "token": "radius-xl",
+        "value": "12px",
+        "usage": "大型卡片、模态框"
+      },
+      {
+        "token": "radius-full",
+        "value": "624.9375rem",
+        "usage": "圆形，如头像、图标按钮"
+      }
+    ],
+    "shadows": [
+      {
+        "token": "shadow-subtle",
+        "value": "0px 0.7px 1.462px 0px rgb(0% 0% 0%/0.015), 0px 3px 9px 0px rgb(0% 0% 0%/0.03)",
+        "usage": "卡片悬停、下拉菜单出现时的轻微抬升效果"
+      },
+      {
+        "token": "shadow-dropdown",
+        "value": "0px 0.175px 1.041px 0px rgb(0% 0% 0%/0.013), 0px 0.8px 2.925px 0px rgb(0% 0% 0%/0.02), 0px 2.025px 7.847px 0px rgb(0% 0% 0%/0.027), 0px 4px 18px 0px rgb(0% 0% 0%/0.04)",
+        "usage": "下拉框、弹出菜单、Toast通知"
+      },
+      {
+        "token": "shadow-modal",
+        "value": "0px 0.667px 3.502px 0px rgb(0% 0% 0%/0.0096), 0px 2.933px 7.252px 0px rgb(0% 0% 0%/0.0157), 0px 7.2px 14.462px 0px rgb(0% 0% 0%/0.02), 0px 13.867px 28.348px 0px rgb(0% 0% 0%/0.0243), 0px 23.333px 52.123px 0px rgb(0% 0% 0%/0.0304), 0px 36px 89px 0px rgb(0% 0% 0%/0.04)",
+        "usage": "模态对话框、全屏覆盖层"
+      }
+    ],
+    "borders": [
+      {
+        "token": "border-subtle",
+        "value": "1px solid #dfdcd9",
+        "usage": "卡片边框、分隔线、输入框默认边框"
+      },
+      {
+        "token": "border-strong",
+        "value": "2px solid #dfdcd9",
+        "usage": "需要强调的容器边框"
+      },
+      {
+        "token": "border-focus",
+        "value": "1px solid #097fe8",
+        "usage": "输入框、按钮聚焦状态"
+      }
+    ],
+    "philosophy": "深度和层级表达主要依靠背景色阶的细微差异和柔和的阴影，而非粗重的边框。阴影被设计得非常柔和，旨在模拟自然光照下的轻微抬升效果，而不是制造强烈的3D感。边框颜色与背景色系保持一致，非常克制，主要用于定义元素的物理边界（如输入框）或对内容进行轻量分组。圆角(radius)的使用遵循“越重要/越大，圆角越明显”的原则。"
+  },
+  "motion": {
+    "tokens": [
+      {
+        "token": "motion-fast",
+        "duration": "150ms",
+        "easing": "cubic-bezier(0.42, 0, 1, 1)",
+        "usage": "微交互反馈，如hover效果、开关切换"
+      },
+      {
+        "token": "motion-normal",
+        "duration": "250ms",
+        "easing": "cubic-bezier(0.45, 0, 0.55, 1)",
+        "usage": "常规状态过渡，如展开/折叠、面板滑入"
+      },
+      {
+        "token": "motion-slow",
+        "duration": "300ms",
+        "easing": "cubic-bezier(0, 0, 0.58, 1)",
+        "usage": "页面级动画，如模态框出现"
+      }
+    ],
+    "philosophy": "动效策略是“快速且有意义”。动效的主要目的是提供即时的状态反馈（如按钮按下）和流畅的界面过渡（如面板打开），而不是成为装饰。所有动效都采用简洁的缓动曲线，避免弹跳或过度夸张的物理效果，以保持界面的专业感和响应速度。"
+  },
+  "components": [
+    {
+      "name": "Button",
+      "description": "核心交互元素，根据重要性分为不同层级。",
+      "default": {
+        "bg": "#f6f5f4",
+        "color": "#111111",
+        "border-radius": "8px",
+        "height": "36px",
+        "padding": "0 16px",
+        "font-size": "14px",
+        "font-weight": 500
+      },
+      "hover": {
+        "bg": "#dfdcd9",
+        "color": "#111111"
+      },
+      "focus": {
+        "outline": "2px solid #097fe8",
+        "outline-offset": "2px"
+      },
+      "active": {
+        "bg": "#a39e98"
+      },
+      "disabled": {
+        "opacity": 0.4,
+        "cursor": "not-allowed"
+      },
+      "variants": [
+        {
+          "name": "Primary",
+          "properties": {
+            "bg": "#ff6d00",
+            "color": "#ffffff",
+            "hover-bg": "#e56200"
+          }
+        },
+        {
+          "name": "Secondary",
+          "properties": {
+            "bg": "transparent",
+            "border": "1px solid #dfdcd9",
+            "color": "#111111"
+          }
+        },
+        {
+          "name": "Ghost",
+          "properties": {
+            "bg": "transparent",
+            "color": "#78736f",
+            "hover-bg": "#f6f5f4"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Input",
+      "description": "文本输入框，用于表单数据收集。",
+      "default": {
+        "bg": "#ffffff",
+        "color": "#111111",
+        "border": "1px solid #dfdcd9",
+        "border-radius": "6px",
+        "height": "36px",
+        "padding": "0 12px",
+        "font-size": "14px"
+      },
+      "hover": {
+        "border-color": "#a39e98"
+      },
+      "focus": {
+        "border-color": "#097fe8",
+        "box-shadow": "0 0 0 2px rgba(9, 127, 232, 0.15)"
+      },
+      "disabled": {
+        "bg": "#f6f5f4",
+        "color": "#a39e98",
+        "cursor": "not-allowed"
+      },
+      "placeholder": {
+        "color": "#a39e98"
+      }
+    },
+    {
+      "name": "Card",
+      "description": "内容容器，用于信息分组和视觉分离。",
+      "default": {
+        "bg": "#ffffff",
+        "border": "1px solid #dfdcd9",
+        "border-radius": "12px",
+        "padding": "24px",
+        "shadow": "none"
+      },
+      "hover": {
+        "shadow": "0px 0.7px 1.462px 0px rgb(0% 0% 0%/0.015), 0px 3px 9px 0px rgb(0% 0% 0%/0.03)"
+      },
+      "focus": {
+        "outline": "none"
+      }
+    },
+    {
+      "name": "NavigationItem",
+      "description": "侧边栏或顶部导航中的链接项。",
+      "default": {
+        "bg": "transparent",
+        "color": "#494744",
+        "padding": "8px 12px",
+        "border-radius": "6px"
+      },
+      "hover": {
+        "bg": "#f6f5f4",
+        "color": "#111111"
+      },
+      "active": {
+        "bg": "#f6f5f4",
+        "color": "#111111",
+        "font-weight": 600
+      }
+    }
+  ],
+  "interactions": {
+    "hover_style": "背景色从透明或浅灰变为稍深的灰色(#dfdcd9)，产生微妙的按压感。卡片等容器增加柔和阴影。颜色过渡平滑。",
+    "focus_style": "使用2px宽的蓝色(#097fe8)轮廓线，轮廓与元素本身有2px间距。输入框内部可能有淡淡的蓝色光晕。",
+    "active_style": "背景色进一步变暗，模拟按钮被按下的瞬间，提供坚实的触觉反馈。",
+    "loading_style": "使用颜色与当前背景或文字对比度适中的旋转加载器，或在按钮文字上显示“加载中...”并禁用交互。",
+    "transition_speed": "大部分交互过渡使用150ms的ease-in曲线，确保反馈快速而不突兀。"
+  },
+  "layout": {
+    "max_width": "60rem",
+    "grid": {
+      "columns": 12,
+      "gap": "28px"
+    },
+    "breakpoints": [
+      {
+        "name": "sm",
+        "value": "640px"
+      },
+      {
+        "name": "md",
+        "value": "768px"
+      },
+      {
+        "name": "lg",
+        "value": "1024px"
+      },
+      {
+        "name": "xl",
+        "value": "1280px"
+      }
+    ],
+    "philosophy": "布局以内容为核心，采用居中对齐的最大宽度容器(60rem/960px)，确保在宽屏上也能保持舒适的阅读行长。12栏网格系统提供了灵活而结构化的布局能力。整体密度为“舒适型”，在信息呈现和留白之间取得平衡，让界面看起来不拥挤也不空旷。"
+  },
+  "agent_guide": {
+    "do": [
+      "用背景色层级(#f9f9f8 -> #f6f5f4 -> #ffffff)来表达界面深度，而非依赖浓重阴影。",
+      "将橙色(#ff6d00)严格限制在最重要的操作点上，如主提交按钮、关键警告。一个界面通常不超过1-2处。",
+      "确保文字层级清晰：标题用#111111，正文用rgb(17,17,17)，辅助信息用rgba(0,0,0,0.6)。",
+      "所有间距和尺寸尽量使用4px的倍数，如8px, 12px, 16px, 24px, 32px，保持网格对齐。",
+      "按钮、输入框等交互元素必须定义清晰的hover, focus, active, disabled状态。",
+      "阴影仅用于轻微的抬升效果（如卡片hover、下拉菜单），避免用于普通元素的静态状态。"
+    ],
+    "dont": [
+      "不要将橙色作为大面积背景色或装饰色，这会稀释其作为信号的力量。",
+      "不要使用过重或扩散范围过大的阴影，保持界面的轻盈和现代感。",
+      "不要在浅色背景上使用纯黑(#000000)文字，使用#111111或#31302e等深灰以获得更好的阅读舒适度。",
+      "不要随意使用边框来分隔内容，优先使用间距和背景色差。边框应非常细微且颜色协调。",
+      "避免使用非4px倍数的间距值，这会导致视觉上的不协调和对齐问题。",
+      "不要过度使用动效，所有过渡都应快速(150-300ms)且有明确的功能目的。"
+    ],
+    "snippets": [
+      {
+        "scenario": "创建一个主操作按钮",
+        "description": "使用唯一的强信号色作为背景，白色文字，确保其在中性背景中脱颖而出。",
+        "example": "background-color: #ff6d00; color: #ffffff; border: none; border-radius: 8px; height: 36px; padding: 0 16px; font-size: 14px; font-weight: 500; cursor: pointer;"
+      },
+      {
+        "scenario": "创建一个信息卡片",
+        "description": "使用白色背景，极其细微的边框，较大的圆角，内部通过宽松的内边距容纳内容。",
+        "example": "background-color: #ffffff; border: 1px solid #dfdcd9; border-radius: 12px; padding: 24px;"
+      },
+      {
+        "scenario": "创建一个文本输入框",
+        "description": "白色背景，灰色边框，适中的圆角。聚焦时边框变为蓝色并带有光晕。",
+        "example": "background-color: #ffffff; border: 1px solid #dfdcd9; border-radius: 6px; height: 36px; padding: 0 12px; font-size: 14px; color: #111111;"
+      },
+      {
+        "scenario": "设置页面主布局",
+        "description": "内容居中，最大宽度受限。主体内容与侧边栏通过网格系统并排，使用28px的间距。",
+        "example": ".container { max-width: 60rem; margin: 0 auto; } .main-layout { display: grid; grid-template-columns: 240px 1fr; gap: 28px; padding: 24px; }"
+      }
+    ]
+  }
+}

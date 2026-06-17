@@ -7,7 +7,7 @@ import type { Page } from 'playwright';
 import type { CSSExtraction } from '../types/extraction.js';
 import type { BrowserConfig } from '../types/input.js';
 import { BrowserManager } from '../browser/manager.js';
-import { collectCSSFromPage } from '../browser/css-collect.js';
+import { COLLECT_CSS_SCRIPT } from '../browser/css-collect.js';
 import { normalizeColorValue } from '../utils/color.js';
 import { logger } from '../utils/logger.js';
 
@@ -35,7 +35,9 @@ export async function extractCSSFromURL(
 export async function extractCSSFromPage(page: Page): Promise<CSSExtraction> {
   logger.info('Extracting CSS data from page...');
 
-  const raw = await page.evaluate(collectCSSFromPage);
+  // 使用字符串形式的脚本，避免 tsup 打包注入浏览器不兼容的 helper
+  // 包装为立即执行函数
+  const raw = await page.evaluate(`(${COLLECT_CSS_SCRIPT})()`);
 
   // 后处理：标准化颜色值，过滤掉无法转换的现代 CSS 颜色函数
   const processedColors = raw.colors.raw

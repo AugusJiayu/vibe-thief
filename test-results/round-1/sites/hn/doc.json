@@ -1,0 +1,364 @@
+{
+  "frontmatter": {
+    "schema": "vibe-thief/1.0",
+    "source": "https://news.ycombinator.com",
+    "extracted_at": "2026-06-17T10:38:33.426Z",
+    "confidence": 0.75,
+    "generator": "vibe-thief@0.1.0",
+    "mood": [
+      "专业",
+      "干净",
+      "高效"
+    ],
+    "style_archetype": "light-saas"
+  },
+  "narrative": {
+    "philosophology": "这是一个追求清晰与效率的实用主义设计系统。它不追求花哨，而是通过严谨的层级（颜色、间距）来组织信息，让内容成为绝对主角。白色背景和醒目的橙色强调色形成了鲜明的“信号-环境”关系。设计师的职责不是创造炫目的视觉，而是搭建一个稳定、可预测的信息框架。",
+    "keywords": [
+      "实用",
+      "层级",
+      "信号",
+      "紧凑",
+      "清晰"
+    ]
+  },
+  "colors": {
+    "background_layers": [
+      {
+        "token": "bg-page",
+        "value": "#ffffff",
+        "usage": "页面最底层背景"
+      },
+      {
+        "token": "bg-surface",
+        "value": "#f8f8f8",
+        "usage": "卡片、面板、表单区域等次级背景，用于区分内容区块"
+      }
+    ],
+    "signal_colors": [
+      {
+        "token": "signal-primary",
+        "value": "#ff6600",
+        "usage": "主按钮、重要链接、选中状态、需要用户立即注意的关键交互元素"
+      },
+      {
+        "token": "signal-warning",
+        "value": "#f86000",
+        "usage": "警告状态提示、需注意但非错误的次级信号"
+      }
+    ],
+    "text_hierarchy": [
+      {
+        "token": "text-primary",
+        "value": "#000000",
+        "usage": "标题、关键数据、正文主文字"
+      },
+      {
+        "token": "text-secondary",
+        "value": "#828282",
+        "usage": "副标题、说明性文字、时间戳、标签"
+      },
+      {
+        "token": "text-disabled",
+        "value": "#767676",
+        "usage": "禁用状态文字、占位符文本"
+      }
+    ],
+    "philosophy": "色彩策略的核心是‘信号与环境’。纯白背景#ffffff和浅灰表面#f8f8f8构成了一个干净、中性的环境。唯一的强信号色是橙色#ff6600，它必须稀缺地使用在所有需要用户行动的地方（主按钮、选中态、关键链接）。如果橙色到处都是，它就不再是信号了。文字颜色则形成了清晰的层级：#000000吸引注意，#828282提供上下文，#767676表示不可用。"
+  },
+  "typography": {
+    "font_stack": {
+      "heading": "Verdana, Geneva, sans-serif",
+      "body": "Verdana, Geneva, sans-serif",
+      "mono": "monospace"
+    },
+    "scale": [
+      {
+        "token": "text-caption",
+        "size": "9.33333px",
+        "weight": 400,
+        "line-height": "12px",
+        "usage": "极小的辅助文本、标签"
+      },
+      {
+        "token": "text-small",
+        "size": "10.6667px",
+        "weight": 400,
+        "line-height": "12px",
+        "usage": "次要说明文本、表格单元格内容"
+      },
+      {
+        "token": "text-body",
+        "size": "13.3333px",
+        "weight": 400,
+        "line-height": "16px",
+        "usage": "默认正文字体大小"
+      },
+      {
+        "token": "text-heading",
+        "size": "16.6666px",
+        "weight": 700,
+        "line-height": "20px",
+        "usage": "主要标题、卡片标题、强调文本"
+      }
+    ],
+    "philosophy": "排版系统紧凑而务实。默认使用Verdana，这是一种清晰、易读的无衬线字体，尤其在小字号下表现稳定，符合系统对‘效率’的追求。字号从9.3px到16.7px，倍数关系约为1.25（Major Third），但这不是严格的艺术比例，而是服务于信息密度——在有限空间内，用字号和字重（400 vs 700）来建立清晰的视觉层级。"
+  },
+  "spacing": {
+    "base_unit": "2px",
+    "scale": [
+      {
+        "token": "space-tight",
+        "value": "2px",
+        "usage": "文本与图标的微调间距"
+      },
+      {
+        "token": "space-compact",
+        "value": "4px",
+        "usage": "列表项内、表单元素内、图标与相邻文字"
+      },
+      {
+        "token": "space-normal",
+        "value": "8px",
+        "usage": "组件内元素间距（如按钮内图文）"
+      },
+      {
+        "token": "space-relaxed",
+        "value": "16px",
+        "usage": "组件间、区块间、卡片内边距"
+      },
+      {
+        "token": "space-section",
+        "value": "24px",
+        "usage": "主要区块之间的间距"
+      }
+    ],
+    "philosophy": "间距系统建立在一个精细的2px基数上，允许高度紧凑的布局。设计理念是‘呼吸在组件之间，而非组件之内’。组件内部（如按钮的padding）使用4-8px的紧凑值，确保元素凝聚。而组件与组件之间则使用16-24px的较大间距，形成清晰的视觉分组，引导用户的视线流动。这种内外节奏的差异是构建可读界面的关键。"
+  },
+  "depth": {
+    "border_radius": [
+      {
+        "token": "radius-sm",
+        "value": "4px",
+        "usage": "输入框、小按钮、标签"
+      },
+      {
+        "token": "radius-md",
+        "value": "8px",
+        "usage": "卡片、对话框、大按钮"
+      },
+      {
+        "token": "radius-lg",
+        "value": "12px",
+        "usage": "大型容器或需要柔和感的元素"
+      }
+    ],
+    "shadows": [
+      {
+        "token": "shadow-subtle",
+        "value": "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
+        "usage": "非常轻微的层次提升，如输入框聚焦"
+      },
+      {
+        "token": "shadow-card",
+        "value": "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
+        "usage": "卡片、弹出菜单、下拉列表"
+      }
+    ],
+    "borders": [
+      {
+        "token": "border-default",
+        "value": "1px solid #e5e5e5",
+        "usage": "输入框、分隔线"
+      },
+      {
+        "token": "border-focus",
+        "value": "2px solid #ff6600",
+        "usage": "输入框聚焦状态"
+      }
+    ],
+    "philosophy": "深度表达策略以边框和浅阴影为主，而非强烈的投影。这是浅色SaaS风格的典型做法：通过非常浅的阴影（shadow-card）和细边框（border-default）来微妙地提升卡片、弹窗等容器的层级，使其从白色背景中浮现，但又不显突兀。圆角适中（8px为主），传递友好感但又不幼稚。整体效果是干净、有层次但不复杂的。"
+  },
+  "motion": {
+    "tokens": [
+      {
+        "token": "motion-fast",
+        "duration": "150ms",
+        "easing": "ease-out",
+        "usage": "hover反馈、状态切换（如开关）"
+      },
+      {
+        "token": "motion-normal",
+        "duration": "250ms",
+        "easing": "ease",
+        "usage": "展开/折叠、模态框出现"
+      },
+      {
+        "token": "motion-slow",
+        "duration": "400ms",
+        "easing": "ease-in-out",
+        "usage": "页面过渡、复杂组件的入场"
+      }
+    ],
+    "philosophy": "动效策略服务于‘高效’的目标。动效必须快速、目的明确，绝不拖沓。最常用的动效是150ms的ease-out，用于为用户的直接操作（如悬停按钮）提供即时、自然的反馈。更复杂的动画（250ms-400ms）仅用于必要的状态转换，如打开面板。整体基调是‘功能驱动’而非‘装饰性’。"
+  },
+  "components": [
+    {
+      "name": "Button",
+      "description": "核心交互组件，用于触发动作。视觉强调通过背景色而非边框实现。",
+      "default": {
+        "background": "#f8f8f8",
+        "color": "#000000",
+        "border-radius": "8px",
+        "height": "36px",
+        "padding": "0 16px",
+        "font-weight": 600,
+        "border": "none"
+      },
+      "hover": {
+        "background": "#f0f0f0"
+      },
+      "focus": {
+        "outline": "2px solid #ff6600",
+        "outline-offset": "2px"
+      },
+      "active": {
+        "background": "#e8e8e8"
+      },
+      "disabled": {
+        "background": "#f8f8f8",
+        "color": "#767676",
+        "cursor": "not-allowed"
+      },
+      "variants": [
+        {
+          "name": "Primary",
+          "properties": {
+            "background": "#ff6600",
+            "color": "#ffffff",
+            "hover_background": "#e65c00"
+          }
+        },
+        {
+          "name": "Secondary",
+          "properties": {
+            "background": "transparent",
+            "border": "1px solid #e5e5e5",
+            "color": "#000000",
+            "hover_background": "#f8f8f8"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Input",
+      "description": "文本输入框，承载用户输入。",
+      "default": {
+        "background": "#ffffff",
+        "color": "#000000",
+        "border": "1px solid #e5e5e5",
+        "border-radius": "4px",
+        "height": "36px",
+        "padding": "0 12px"
+      },
+      "hover": {
+        "border_color": "#d4d4d4"
+      },
+      "focus": {
+        "outline": "2px solid #ff6600",
+        "border_color": "#ff6600"
+      },
+      "disabled": {
+        "background": "#f8f8f8",
+        "color": "#767676",
+        "border_color": "#f0f0f0"
+      }
+    },
+    {
+      "name": "Card",
+      "description": "内容容器，用于分组相关信息。",
+      "default": {
+        "background": "#ffffff",
+        "border-radius": "8px",
+        "padding": "16px",
+        "box-shadow": "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)"
+      },
+      "hover": {
+        "box-shadow": "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)"
+      }
+    }
+  ],
+  "interactions": {
+    "hover_style": "颜色变深（background 颜色值变深 5-10%）或轻微的阴影提升。",
+    "focus_style": "使用信号色（橙色）的轮廓线（outline: 2px solid #ff6600）明确标识当前焦点，确保键盘导航的可访问性。",
+    "active_style": "颜色比hover态再深一级，提供“按下”的反馈感。",
+    "loading_style": "预期为与背景对比度高的简单动画（如脉冲、骨架屏），但数据未明确。",
+    "transition_speed": "所有颜色和阴影变化都应平滑过渡，使用150ms的ease-out timing function。"
+  },
+  "layout": {
+    "max_width": "1200px",
+    "grid": {
+      "columns": 12,
+      "gap": "24px"
+    },
+    "breakpoints": [
+      {
+        "name": "sm",
+        "value": "640px"
+      },
+      {
+        "name": "md",
+        "value": "768px"
+      },
+      {
+        "name": "lg",
+        "value": "1024px"
+      },
+      {
+        "name": "xl",
+        "value": "1280px"
+      }
+    ],
+    "philosophy": "布局采用经典的12列网格系统，最大宽度1200px，保证了内容的可读性和在大屏上的舒适度。24px的网格间隙与组件间距（section token）一致，确保了视觉节奏的统一。响应式断点覆盖了从手机到桌面的常见尺寸，策略是在小屏上堆叠内容，在大屏上展开为多列布局。"
+  },
+  "agent_guide": {
+    "do": [
+      "使用背景色层级（#ffffff 和 #f8f8f8）来组织信息结构，而不是依赖阴影。",
+      "将橙色（#ff6600）仅用于主按钮、当前选中项、关键操作链接等‘信号点’。",
+      "文本颜色遵循层级：关键信息用#000000，辅助信息用#828282，禁用信息用#767676。",
+      "组件内部间距（如padding）使用4-8px的紧凑值，组件间间距使用16-24px。",
+      "为所有可交互元素提供清晰的focus状态，使用橙色outline。",
+      "动画使用150ms的ease-out用于反馈，250-400ms用于状态转换。"
+    ],
+    "dont": [
+      "不要大面积使用橙色，否则会失去其作为信号色的强调作用。",
+      "不要使用过于强烈的阴影（如shadow-xl），保持系统干净、扁平的基调。",
+      "不要在组件内部使用过大的间距（如>16px），这会破坏系统的紧凑感。",
+      "不要使用纯黑色（#000000）作为背景或阴影颜色，保持柔和感。",
+      "不要忽略禁用状态的视觉反馈（灰色文本和降低对比度的背景）。",
+      "不要使用过于花哨或持续的动画，保持交互反馈快速、直接。"
+    ],
+    "snippets": [
+      {
+        "scenario": "创建主按钮 (Primary Button)",
+        "description": "使用信号色作为背景，白色文字，中等圆角。",
+        "example": "background-color: #ff6600; color: #ffffff; border: none; border-radius: 8px; padding: 0 16px; height: 36px; font-weight: 600; cursor: pointer; transition: background-color 150ms ease-out;"
+      },
+      {
+        "scenario": "创建内容卡片 (Content Card)",
+        "description": "白色背景，中等圆角，使用系统阴影提升层级。",
+        "example": "background-color: #ffffff; border-radius: 8px; padding: 16px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);"
+      },
+      {
+        "scenario": "创建文本输入框 (Text Input)",
+        "description": "白色背景，细边框，小圆角，聚焦时显示橙色轮廓。",
+        "example": "background-color: #ffffff; border: 1px solid #e5e5e5; border-radius: 4px; padding: 0 12px; height: 36px; transition: border-color 150ms ease-out, outline-color 150ms ease-out;&:focus { outline: 2px solid #ff6600; border-color: #ff6600; }"
+      },
+      {
+        "scenario": "设置页面主布局",
+        "description": "使用最大宽度容器和网格进行内容对齐。",
+        "example": ".container { max-width: 1200px; margin: 0 auto; padding: 0 24px; } .grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 24px; }"
+      }
+    ]
+  }
+}

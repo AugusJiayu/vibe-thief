@@ -17,7 +17,7 @@ export function buildAnalysisPrompt(
 3. 从间距值列表中推断 spacing base unit 和倍数关系
 4. 为每个 token 生成语义名称和用途描述
 5. 如果 CSS 数据和像素数据有冲突，以 CSS 数据为准，但在 notes 中标注冲突
-6. 输出严格 JSON，不要包含任何解释文字
+6. 你必须且只能输出一个合法的 JSON 对象，不要用 markdown 代码块包裹，第一个字符必须是 {
 
 输出 JSON 结构：
 {

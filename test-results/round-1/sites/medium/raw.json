@@ -1,0 +1,243 @@
+{
+  "pixel": {
+    "dominantColors": [
+      {
+        "hex": "#f0f0e8",
+        "rgb": [
+          240,
+          240,
+          232
+        ],
+        "hsl": [
+          60,
+          21,
+          93
+        ],
+        "role": "background",
+        "population": 0.8895871913580247
+      },
+      {
+        "hex": "#30a840",
+        "rgb": [
+          48,
+          168,
+          64
+        ],
+        "hsl": [
+          128,
+          56,
+          42
+        ],
+        "role": "secondary",
+        "population": 0.058257716049382714
+      },
+      {
+        "hex": "#202020",
+        "rgb": [
+          32,
+          32,
+          32
+        ],
+        "hsl": [
+          0,
+          0,
+          13
+        ],
+        "role": "text",
+        "population": 0.021425154320987655
+      },
+      {
+        "hex": "#181818",
+        "rgb": [
+          24,
+          24,
+          24
+        ],
+        "hsl": [
+          0,
+          0,
+          9
+        ],
+        "role": "text",
+        "population": 0.008273919753086419
+      },
+      {
+        "hex": "#e8e8e0",
+        "rgb": [
+          232,
+          232,
+          224
+        ],
+        "hsl": [
+          60,
+          15,
+          89
+        ],
+        "role": "unknown",
+        "population": 0.0008626543209876543
+      },
+      {
+        "hex": "#e0e0d8",
+        "rgb": [
+          224,
+          224,
+          216
+        ],
+        "hsl": [
+          60,
+          11,
+          86
+        ],
+        "role": "unknown",
+        "population": 0.0007361111111111111
+      },
+      {
+        "hex": "#38a848",
+        "rgb": [
+          56,
+          168,
+          72
+        ],
+        "hsl": [
+          129,
+          50,
+          44
+        ],
+        "role": "unknown",
+        "population": 0.0005987654320987654
+      },
+      {
+        "hex": "#c8c8c0",
+        "rgb": [
+          200,
+          200,
+          192
+        ],
+        "hsl": [
+          60,
+          7,
+          77
+        ],
+        "role": "neutral",
+        "population": 0.0005516975308641975
+      },
+      {
+        "hex": "#303030",
+        "rgb": [
+          48,
+          48,
+          48
+        ],
+        "hsl": [
+          0,
+          0,
+          19
+        ],
+        "role": "neutral",
+        "population": 0.0005432098765432099
+      },
+      {
+        "hex": "#d8d8d0",
+        "rgb": [
+          216,
+          216,
+          208
+        ],
+        "hsl": [
+          60,
+          9,
+          83
+        ],
+        "role": "neutral",
+        "population": 0.0004783950617283951
+      },
+      {
+        "hex": "#404040",
+        "rgb": [
+          64,
+          64,
+          64
+        ],
+        "hsl": [
+          0,
+          0,
+          25
+        ],
+        "role": "neutral",
+        "population": 0.0004351851851851852
+      },
+      {
+        "hex": "#282828",
+        "rgb": [
+          40,
+          40,
+          40
+        ],
+        "hsl": [
+          0,
+          0,
+          16
+        ],
+        "role": "neutral",
+        "population": 0.0003618827160493827
+      }
+    ],
+    "paletteHarmony": {
+      "type": "complementary",
+      "saturationRange": [
+        0,
+        56
+      ],
+      "lightnessRange": [
+        9,
+        93
+      ]
+    }
+  },
+  "vision": {
+    "mood": {
+      "primary": {
+        "overall": "professional",
+        "description": [
+          "clean",
+          "organized",
+          "modern"
+        ]
+      },
+      "descriptors": []
+    },
+    "components": {
+      "buttons": {
+        "borderRadius": "8px",
+        "shadow": "light drop-shadow",
+        "border": "none"
+      },
+      "cards": {
+        "borderRadius": "12px",
+        "shadow": "subtle elevation",
+        "border": "1px solid #e0e0e0"
+      },
+      "inputs": {
+        "borderRadius": "6px",
+        "shadow": "none",
+        "border": "1px solid #ccc"
+      }
+    },
+    "layout": {
+      "density": "comfortable",
+      "alignment": "left-aligned",
+      "gridSense": "strong grid-based"
+    },
+    "visualWeight": {
+      "contrast": "moderate",
+      "focus": "balanced",
+      "focusType": "typography and color"
+    },
+    "interactions": {
+      "hover": "color change with smooth transition",
+      "focus": "outline highlight",
+      "transitionSpeed": "0.2s ease-in-out"
+    },
+    "confidence": 0.5
+  }
+}

@@ -59,9 +59,10 @@ ${langInstruction}
 
 ## 输出格式
 
-输出严格 JSON，结构如下（不要包含任何解释文字，只输出 JSON）：
+你必须且只能输出一个合法的 JSON 对象。不要输出任何解释文字，不要用 markdown 代码块包裹，不要在 JSON 前后添加任何内容。第一个字符必须是 {，最后一个字符必须是 }。
 
-\`\`\`json
+JSON 结构如下：
+
 {
   "frontmatter": {
     "schema": "vibe-thief/1.0",

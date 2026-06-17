@@ -1,0 +1,519 @@
+{
+  "frontmatter": {
+    "schema": "vibe-thief/1.0",
+    "source": "https://figma.com",
+    "extracted_at": "2026-06-17T10:29:26.728Z",
+    "confidence": 0.75,
+    "generator": "vibe-thief@0.1.0",
+    "mood": "clean, professional, functional",
+    "style_archetype": "light-saas"
+  },
+  "narrative": {
+    "philosophy": "这是一个以清晰信息层级和克制设计为核心的设计系统。它避免使用强烈的色彩或复杂的效果来吸引注意力，而是通过精细的排版阶梯、一致的间距和极低的色彩饱和度来构建一个平静、可信赖的专业工具界面。设计的‘信号’非常微弱，只在真正需要用户注意的地方（如错误状态）才出现，其余一切都服务于内容的清晰呈现。",
+    "keywords": [
+      "minimalist",
+      "clarity",
+      "hierarchy",
+      "professional",
+      "functional"
+    ]
+  },
+  "colors": {
+    "background_layers": [
+      {
+        "token": "bg-page",
+        "value": "#FFFFFF",
+        "usage": "页面最底层背景"
+      },
+      {
+        "token": "bg-surface",
+        "value": "color-mix(in oklch, #000000, transparent 92%)",
+        "usage": "卡片、输入框、组件内部背景，与页面背景形成微妙的层次"
+      },
+      {
+        "token": "bg-elevated",
+        "value": "color-mix(in oklch, #000000, transparent 96%)",
+        "usage": "按钮透明背景、悬浮菜单等需要更浅背景的交互元素"
+      }
+    ],
+    "signal_colors": [
+      {
+        "token": "signal-error",
+        "value": "#972121",
+        "usage": "唯一且仅用于错误状态。这是系统中最强烈的色彩，确保它能立即被感知到错误，但又不破坏整体的平静感。"
+      },
+      {
+        "token": "signal-primary-action",
+        "value": "#000000",
+        "usage": "主按钮、强调性操作。使用纯黑而非彩色，强调的是操作的严肃性和基础性，而非愉悦感。"
+      },
+      {
+        "token": "signal-success",
+        "value": "#4CAF50",
+        "usage": "成功状态（推断）"
+      },
+      {
+        "token": "signal-warning",
+        "value": "#FF9800",
+        "usage": "警告状态（推断）"
+      },
+      {
+        "token": "signal-info",
+        "value": "#2196F3",
+        "usage": "信息状态、focus 轮廓（推断）"
+      }
+    ],
+    "text_hierarchy": [
+      {
+        "token": "text-primary",
+        "value": "#000000",
+        "usage": "标题、关键信息、主要内容"
+      },
+      {
+        "token": "text-secondary",
+        "value": "color-mix(in oklch, #000000, transparent 46%)",
+        "usage": "次要说明、辅助信息、占位符"
+      },
+      {
+        "token": "text-disabled",
+        "value": "color-mix(in oklch, #000000, transparent 60%)",
+        "usage": "禁用状态的文字"
+      }
+    ],
+    "philosophy": "色彩策略极度克制，核心是‘单色黑+透明度’。主背景为纯白，通过混合不同程度透明的黑色来创建层次（surface, elevated）。唯一的‘信号’是用于错误的深红色。这种策略让界面极度干净，所有视觉焦点都留给了内容本身和排版。"
+  },
+  "typography": {
+    "font_stack": {
+      "heading": "figmaSans, system-ui, sans-serif",
+      "body": "figmaSans, system-ui, sans-serif",
+      "mono": "figmaMono, ui-monospace, monospace"
+    },
+    "scale": [
+      {
+        "token": "text-display-xl",
+        "size": "84px",
+        "weight": 400,
+        "usage": "最大展示型标题，用于营销页面或超大数字"
+      },
+      {
+        "token": "text-display",
+        "size": "44px",
+        "weight": 400,
+        "usage": "次级展示标题"
+      },
+      {
+        "token": "text-heading-1",
+        "size": "36px",
+        "weight": 400,
+        "usage": "页面主标题"
+      },
+      {
+        "token": "text-heading-2",
+        "size": "32px",
+        "weight": 400,
+        "usage": "章节标题"
+      },
+      {
+        "token": "text-heading-3",
+        "size": "24px",
+        "weight": 400,
+        "usage": "子章节标题"
+      },
+      {
+        "token": "text-heading-4",
+        "size": "22px",
+        "weight": 400,
+        "usage": "卡片标题"
+      },
+      {
+        "token": "text-body-xl",
+        "size": "18px",
+        "weight": 400,
+        "usage": "引言、突出正文"
+      },
+      {
+        "token": "text-body-lg",
+        "size": "16px",
+        "weight": 400,
+        "usage": "大段落正文"
+      },
+      {
+        "token": "text-body",
+        "size": "14px",
+        "weight": 400,
+        "usage": "标准正文，最常用尺寸"
+      },
+      {
+        "token": "text-caption",
+        "size": "14px",
+        "weight": 400,
+        "usage": "说明文字、注释"
+      },
+      {
+        "token": "text-button",
+        "size": "16px",
+        "weight": 400,
+        "usage": "标准按钮文字"
+      },
+      {
+        "token": "text-button-sm",
+        "size": "14px",
+        "weight": 400,
+        "usage": "小按钮文字"
+      },
+      {
+        "token": "text-badge",
+        "size": "12px",
+        "weight": 400,
+        "usage": "标签、徽章"
+      },
+      {
+        "token": "text-form-input",
+        "size": "14px",
+        "weight": 400,
+        "usage": "表单输入文字"
+      },
+      {
+        "token": "text-form-label",
+        "size": "11px",
+        "weight": 400,
+        "usage": "表单标签文字，非常小，强调其辅助性"
+      }
+    ],
+    "philosophy": "排版是建立层级的主要手段。所有 font-weight 均为 400 (Regular)，完全依靠字号和透明度（text-secondary）来区分信息重要性。这创造出一种平静、无压迫感的阅读体验，让内容本身成为主角。字号阶梯不是严格的数学比例，而是经过设计的视觉阶梯，确保在不同上下文中都有良好的可读性。"
+  },
+  "spacing": {
+    "base_unit": "4px",
+    "scale": [
+      {
+        "token": "space-0",
+        "value": "0",
+        "usage": "无间距"
+      },
+      {
+        "token": "space-1",
+        "value": "4px",
+        "usage": "图标与文字、紧凑元素内部间距"
+      },
+      {
+        "token": "space-2",
+        "value": "8px",
+        "usage": "组件内部标准间距、列表项间距"
+      },
+      {
+        "token": "space-3",
+        "value": "12px",
+        "usage": "输入框内边距"
+      },
+      {
+        "token": "space-4",
+        "value": "16px",
+        "usage": "组件之间标准间距、卡片内边距"
+      },
+      {
+        "token": "space-6",
+        "value": "24px",
+        "usage": "区块间距、章节标题与内容间距"
+      },
+      {
+        "token": "space-8",
+        "value": "32px",
+        "usage": "大区块间距"
+      },
+      {
+        "token": "space-10",
+        "value": "40px",
+        "usage": "页面主要区块间距"
+      },
+      {
+        "token": "space-14",
+        "value": "56px",
+        "usage": "超大间距，用于页面标题与内容分隔"
+      },
+      {
+        "token": "space-16",
+        "value": "64px",
+        "usage": "极特殊情况下的大间距"
+      },
+      {
+        "token": "space-20",
+        "value": "80px",
+        "usage": "营销页面区块间距"
+      },
+      {
+        "token": "space-30",
+        "value": "120px",
+        "usage": "营销页面超大间距"
+      }
+    ],
+    "philosophy": "间距系统基于 4px 基数，但阶梯中有 12px, 24px 等非 4 的整数倍，这是一个设计导向的、灵活的间距系统。策略是：组件内部使用紧凑的 8px 和 12px，保持信息密度；组件之间使用 16px 及以上，创造呼吸感。这样既保证了界面的紧凑和效率，又避免了元素之间的拥挤。"
+  },
+  "depth": {
+    "border_radius": [
+      {
+        "token": "radius-none",
+        "value": "0",
+        "usage": "无圆角"
+      },
+      {
+        "token": "radius-sm",
+        "value": "2px",
+        "usage": "标签、小元素"
+      },
+      {
+        "token": "radius-md",
+        "value": "4px",
+        "usage": "按钮、输入框"
+      },
+      {
+        "token": "radius-lg",
+        "value": "8px",
+        "usage": "卡片、弹窗"
+      },
+      {
+        "token": "radius-xl",
+        "value": "12px",
+        "usage": "大型卡片、模态框"
+      },
+      {
+        "token": "radius-2xl",
+        "value": "16px",
+        "usage": "特殊强调的容器"
+      },
+      {
+        "token": "radius-full",
+        "value": "9999px",
+        "usage": "圆形头像、圆形按钮"
+      }
+    ],
+    "shadows": [
+      {
+        "token": "shadow-sm",
+        "value": "0 0.25rem 2rem 0 color-mix(in oklch, #000000, transparent 90%)",
+        "usage": "极淡的阴影，用于卡片的轻微悬浮感"
+      },
+      {
+        "token": "shadow-md",
+        "value": "0 1.5rem 4.375rem 0 color-mix(in oklch, #000000, transparent 90%)",
+        "usage": "下拉菜单、模态框等需要明确浮于页面之上的元素"
+      }
+    ],
+    "borders": [
+      {
+        "token": "border-subtle",
+        "value": "1px solid color-mix(in oklch, #000000, transparent 84%)",
+        "usage": "输入框、分隔线、卡片边框。使用极淡的灰色，几乎不可见，仅用于结构划分。"
+      }
+    ],
+    "philosophy": "深度表达非常克制。主要依赖背景色层级（bg-page vs bg-surface）来区分层次，而非强烈的阴影。阴影极淡，几乎只作为提示。边框同样极淡，主要功能是划分区域而非强调。圆角使用 4px 和 8px 为主，保持现代感但不过分圆润。整体策略是‘平面的层次感’。"
+  },
+  "motion": {
+    "tokens": [
+      {
+        "token": "motion-fast",
+        "duration": "150ms",
+        "easing": "ease-out",
+        "usage": "微交互反馈，如按钮 hover、状态切换"
+      },
+      {
+        "token": "motion-normal",
+        "duration": "250ms",
+        "easing": "ease",
+        "usage": "元素展开/收起，如折叠面板、下拉菜单"
+      },
+      {
+        "token": "motion-slow",
+        "duration": "400ms",
+        "easing": "ease-in-out",
+        "usage": "页面级过渡或复杂动画"
+      }
+    ],
+    "philosophy": "动效是功能性的，而非装饰性的。目的是提供即时的反馈和状态转换的流畅感。速度很快，不会让用户等待。使用 ease-out 和 ease 作为主要缓动，让动画感觉灵敏且自然。避免任何可能分散注意力的复杂或弹跳效果。"
+  },
+  "components": [
+    {
+      "name": "Button",
+      "description": "核心交互元素，用于触发操作。样式克制，强调清晰性和可操作性。",
+      "default": {
+        "bg": "#000000",
+        "color": "#FFFFFF",
+        "border-radius": "4px",
+        "height": "36px",
+        "padding": "0 16px",
+        "font-size": "16px",
+        "font-weight": 400,
+        "border": "none"
+      },
+      "hover": {
+        "bg": "color-mix(in oklch, #000000, #FFFFFF 15%)",
+        "filter": "brightness(1.1)"
+      },
+      "focus": {
+        "outline": "2px solid #2196F3",
+        "outline-offset": "2px"
+      },
+      "active": {
+        "transform": "scale(0.98)"
+      },
+      "disabled": {
+        "bg": "color-mix(in oklch, #000000, transparent 60%)",
+        "color": "color-mix(in oklch, #FFFFFF, transparent 40%)",
+        "cursor": "not-allowed"
+      },
+      "variants": [
+        {
+          "name": "Primary",
+          "properties": {
+            "bg": "#000000",
+            "color": "#FFFFFF"
+          }
+        },
+        {
+          "name": "Secondary",
+          "properties": {
+            "bg": "transparent",
+            "color": "#000000",
+            "border": "1px solid color-mix(in oklch, #000000, transparent 84%)"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Card",
+      "description": "用于分组相关内容和信息的容器。通过背景色与页面背景形成微妙对比。",
+      "default": {
+        "bg": "color-mix(in oklch, #000000, transparent 92%)",
+        "border-radius": "8px",
+        "padding": "16px",
+        "border": "none"
+      },
+      "hover": {
+        "bg": "color-mix(in oklch, #000000, transparent 90%)",
+        "box-shadow": "0 0.25rem 2rem 0 color-mix(in oklch, #000000, transparent 90%)"
+      },
+      "focus": {},
+      "active": {}
+    },
+    {
+      "name": "Input",
+      "description": "用于文本输入的表单元素。边框极淡，聚焦时有明确状态指示。",
+      "default": {
+        "bg": "color-mix(in oklch, #000000, transparent 92%)",
+        "color": "#000000",
+        "border": "1px solid color-mix(in oklch, #000000, transparent 84%)",
+        "border-radius": "4px",
+        "height": "36px",
+        "padding": "0 12px",
+        "font-size": "14px"
+      },
+      "hover": {
+        "border-color": "color-mix(in oklch, #000000, transparent 60%)"
+      },
+      "focus": {
+        "outline": "2px solid #2196F3",
+        "outline-offset": "-1px",
+        "border-color": "#2196F3"
+      },
+      "disabled": {
+        "bg": "color-mix(in oklch, #000000, transparent 96%)",
+        "color": "color-mix(in oklch, #000000, transparent 60%)",
+        "border-color": "color-mix(in oklch, #000000, transparent 92%)",
+        "cursor": "not-allowed"
+      },
+      "error": {
+        "border-color": "#972121"
+      }
+    },
+    {
+      "name": "Navigation",
+      "description": "用于页面导航。基于推断，应保持与整体一致的克制风格。",
+      "default": {
+        "bg": "transparent",
+        "color": "color-mix(in oklch, #000000, transparent 46%)",
+        "font-size": "14px"
+      },
+      "hover": {
+        "color": "#000000",
+        "background-color": "color-mix(in oklch, #000000, transparent 96%)"
+      },
+      "active": {
+        "color": "#000000",
+        "font-weight": 500,
+        "background-color": "color-mix(in oklch, #000000, transparent 92%)"
+      }
+    }
+  ],
+  "interactions": {
+    "hover_style": "通过微妙的背景色变化、亮度提升 (filter: brightness) 或边框颜色加深提供反馈。变化幅度小，确保整体视觉稳定。",
+    "focus_style": "统一使用 2px solid #2196F3 的蓝色轮廓 (outline)，偏移 2px，确保在各种背景下都清晰可见且不干扰布局。",
+    "active_style": "通过轻微的 scale 变换 (scale(0.98)) 或更暗的背景色来模拟物理按压感，给予用户即时操作反馈。",
+    "loading_style": "应使用与主色调一致的 spinner 或 skeleton 屏，避免引入新色彩。动效应平滑、循环。",
+    "transition_speed": "绝大多数交互动效使用 150ms (fast) 或 250ms (normal) 完成，确保快速响应。"
+  },
+  "layout": {
+    "max_width": "1440px",
+    "grid": {
+      "columns": 4,
+      "gap": "16px"
+    },
+    "breakpoints": [
+      {
+        "name": "sm",
+        "value": "640px"
+      },
+      {
+        "name": "md",
+        "value": "768px"
+      },
+      {
+        "name": "lg",
+        "value": "1024px"
+      },
+      {
+        "name": "xl",
+        "value": "1440px"
+      }
+    ],
+    "philosophy": "布局以灵活性和内容优先为核心。基于 4 列的网格系统提供基本对齐，但允许内容自适应。最大宽度 1440px 确保在大屏上的可读性。间距一致（主要为 16px 的倍数），创造秩序感，同时通过合理的留白避免界面拥挤，平衡信息密度与舒适度。"
+  },
+  "agent_guide": {
+    "do": [
+      "使用 color-mix 和透明度值 (如 color-mix(in oklch, #000000, transparent X%)) 来创建背景和文字的层次，这是该系统的核心视觉语言。",
+      "严格遵守 font-weight: 400，完全依靠字号大小和透明度来建立信息层级。",
+      "将 #972121 (Error Red) 视为珍贵的信号资源，只用于错误状态。",
+      "主按钮使用 #000000 作为背景，以强调其基础性和严肃性。",
+      "使用 4px 作为基础间距单位，优先使用 scale 中的 8, 12, 16, 24px 等值。",
+      "交互反馈（hover, focus）变化要非常微妙，避免破坏整体的平静感。",
+      "focus 状态必须使用 2px solid #2196F3 的轮廓，这是系统唯一的、明确的视觉焦点指示。"
+    ],
+    "dont": [
+      "不要使用鲜艳的、非语义性的颜色作为主色或装饰色。系统主色是黑、白、灰。",
+      "不要为按钮、卡片等元素添加厚重的阴影或复杂的边框。深度由背景色和极淡的阴影/边框暗示。",
+      "不要在正文中使用粗体 (font-weight: 500/600)，这会破坏排版的平静感。强调应通过字号、颜色或空间来实现。",
+      "不要过度使用圆角。按钮 4px，卡片 8px 是标准，避免无处不在的大圆角。",
+      "不要在动效中使用弹性、弹跳等非功能性效果。动效必须快速、直接、有目的。"
+    ],
+    "snippets": [
+      {
+        "scenario": "创建主操作按钮",
+        "description": "使用纯黑背景和白色文字，圆角 4px，高度 36px。",
+        "example": ".btn-primary {\n  background: #000000;\n  color: #FFFFFF;\n  border-radius: 4px;\n  height: 36px;\n  padding: 0 16px;\n  font-size: 16px;\n  font-weight: 400;\n  border: none;\n  transition: all 150ms ease-out;\n}\n.btn-primary:hover {\n  background: color-mix(in oklch, #000000, #FFFFFF 15%);\n}\n.btn-primary:focus-visible {\n  outline: 2px solid #2196F3;\n  outline-offset: 2px;\n}"
+      },
+      {
+        "scenario": "创建信息卡片",
+        "description": "使用 surface 背景色，无边框，标准内边距。",
+        "example": ".card {\n  background: color-mix(in oklch, #000000, transparent 92%);\n  border-radius: 8px;\n  padding: 16px;\n  border: none;\n  transition: box-shadow 150ms ease-out;\n}\n.card:hover {\n  box-shadow: 0 0.25rem 2rem 0 color-mix(in oklch, #000000, transparent 90%);\n}"
+      },
+      {
+        "scenario": "创建文本输入框",
+        "description": "使用与卡片相同的 surface 背景，极淡边框，清晰的 focus 状态。",
+        "example": ".input {\n  background: color-mix(in oklch, #000000, transparent 92%);\n  color: #000000;\n  border: 1px solid color-mix(in oklch, #000000, transparent 84%);\n  border-radius: 4px;\n  height: 36px;\n  padding: 0 12px;\n  font-size: 14px;\n  font-weight: 400;\n  transition: border-color 150ms ease-out;\n}\n.input:hover {\n  border-color: color-mix(in oklch, #000000, transparent 60%);\n}\n.input:focus {\n  outline: 2px solid #2196F3;\n  outline-offset: -1px;\n  border-color: #2196F3;\n}"
+      },
+      {
+        "scenario": "设置页面主体布局",
+        "description": "使用最大宽度容器和标准间距。",
+        "example": ".page-container {\n  max-width: 1440px;\n  margin: 0 auto;\n  padding: 40px 24px; /* space-10 space-6 */\n}\n.section {\n  margin-bottom: 32px; /* space-8 */\n}\n.section-title {\n  font-size: 36px; /* text-heading-1 */\n  font-weight: 400;\n  margin-bottom: 16px; /* space-4 */\n  color: #000000;\n}"
+      }
+    ]
+  }
+}

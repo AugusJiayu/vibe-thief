@@ -1,0 +1,184 @@
+{
+  "round": 1,
+  "timestamp": "2026-06-17T10:51:35.284Z",
+  "avgScore": 28.3,
+  "avgConfidence": 0.8,
+  "passRate": 0.17,
+  "totalTokens": 116407,
+  "totalDuration": 2057764,
+  "sites": [
+    {
+      "name": "linear",
+      "url": "https://linear.app",
+      "expectedArchetype": "dark-tool",
+      "detectedArchetype": "unknown",
+      "confidence": 0,
+      "pipelineDuration": 60306,
+      "llmTokens": 0,
+      "degraded": [
+        "all"
+      ],
+      "similarityScore": 0,
+      "feedback": "提取失败，无法验证",
+      "strengths": [],
+      "weaknesses": [],
+      "error": "page.goto: Timeout 60000ms exceeded.\nCall log:\n\u001b[2m  - navigating to \"https://linear.app/\", waiting until \"domcontentloaded\"\u001b[22m\n"
+    },
+    {
+      "name": "notion",
+      "url": "https://notion.so",
+      "expectedArchetype": "light-saas",
+      "detectedArchetype": "light-saas",
+      "confidence": 0.76,
+      "pipelineDuration": 338520,
+      "llmTokens": 37873,
+      "degraded": [],
+      "similarityScore": 70,
+      "feedback": "生成页面较好地还原了原始网站的整体布局结构和信息层级。主要差距集中在关键细节的精确度上，如颜色色值、字体间距和部分组件的视觉处理，导致整体精致度和品牌感有可感知的降低。",
+      "strengths": [
+        "页面整体结构（导航、内容、侧边信息）布局比例与原始页面高度一致。",
+        "信息层级清晰，商品主图、标题、价格、购买按钮等核心元素的位置和顺序还原准确。",
+        "基础色彩分区（白色背景、深色头部）判断正确。"
+      ],
+      "weaknesses": [
+        "色彩方案还原不足：品牌主色（蓝色）和强调色（黄色）存在明显色差，生成页面的颜色饱和度和明度偏离原版，影响了品牌视觉识别。",
+        "排版与间距问题：字体尺寸和行间距设置偏大，导致文本块（如商品描述）整体感觉松散，不如原版紧凑。部分模块（如导航栏元素）的间距也略有偏差。",
+        "组件风格差异：部分按钮（如“加入购物车”）的圆角、边框和悬停状态效果与原版不同。头部购物车图标、搜索框的样式细节（如描边粗细）存在差别。",
+        "整体氛围：由于颜色、字体和间距的综合影响，生成页面的视觉“紧致度”和专业感略低于原版。"
+      ]
+    },
+    {
+      "name": "vercel",
+      "url": "https://vercel.com",
+      "expectedArchetype": "developer-docs",
+      "detectedArchetype": "unknown",
+      "confidence": 0,
+      "pipelineDuration": 274252,
+      "llmTokens": 0,
+      "degraded": [
+        "all"
+      ],
+      "similarityScore": 0,
+      "feedback": "提取失败，无法验证",
+      "strengths": [],
+      "weaknesses": [],
+      "error": "Cannot convert undefined or null to object"
+    },
+    {
+      "name": "stripe",
+      "url": "https://stripe.com",
+      "expectedArchetype": "playful-brand",
+      "detectedArchetype": "light-saas",
+      "confidence": 0.86,
+      "pipelineDuration": 289581,
+      "llmTokens": 15888,
+      "degraded": [],
+      "similarityScore": 0,
+      "feedback": "LLM 输出解析失败",
+      "strengths": [],
+      "weaknesses": [
+        "解析失败"
+      ]
+    },
+    {
+      "name": "github",
+      "url": "https://github.com",
+      "expectedArchetype": "developer-docs",
+      "detectedArchetype": "unknown",
+      "confidence": 0,
+      "pipelineDuration": 7622,
+      "llmTokens": 0,
+      "degraded": [
+        "all"
+      ],
+      "similarityScore": 0,
+      "feedback": "提取失败，无法验证",
+      "strengths": [],
+      "weaknesses": [],
+      "error": "page.goto: net::ERR_SSL_BAD_RECORD_MAC_ALERT at https://github.com/\nCall log:\n\u001b[2m  - navigating to \"https://github.com/\", waiting until \"domcontentloaded\"\u001b[22m\n"
+    },
+    {
+      "name": "spotify",
+      "url": "https://open.spotify.com",
+      "expectedArchetype": "consumer-app",
+      "detectedArchetype": "developer-docs",
+      "confidence": 0.54,
+      "pipelineDuration": 213153,
+      "llmTokens": 9430,
+      "degraded": [],
+      "similarityScore": 0,
+      "feedback": "LLM 输出解析失败",
+      "strengths": [],
+      "weaknesses": [
+        "解析失败"
+      ]
+    },
+    {
+      "name": "medium",
+      "url": "https://medium.com",
+      "expectedArchetype": "news-editorial",
+      "detectedArchetype": "unknown",
+      "confidence": 0,
+      "pipelineDuration": 60288,
+      "llmTokens": 0,
+      "degraded": [
+        "all"
+      ],
+      "similarityScore": 0,
+      "feedback": "提取失败，无法验证",
+      "strengths": [],
+      "weaknesses": [],
+      "error": "page.goto: Timeout 60000ms exceeded.\nCall log:\n\u001b[2m  - navigating to \"https://medium.com/\", waiting until \"domcontentloaded\"\u001b[22m\n"
+    },
+    {
+      "name": "figma",
+      "url": "https://figma.com",
+      "expectedArchetype": "light-saas",
+      "detectedArchetype": "light-saas",
+      "confidence": 0.9,
+      "pipelineDuration": 267832,
+      "llmTokens": 20133,
+      "degraded": [],
+      "similarityScore": 100,
+      "feedback": "两张截图在视觉上完全一致，色彩、排版、间距、组件风格及整体氛围均得到精准还原。",
+      "strengths": [
+        "色彩方案准确还原",
+        "排版布局完全一致",
+        "间距控制精准",
+        "组件风格高度匹配",
+        "整体氛围无差异"
+      ],
+      "weaknesses": []
+    },
+    {
+      "name": "tailwind",
+      "url": "https://tailwindcss.com",
+      "expectedArchetype": "developer-docs",
+      "detectedArchetype": "light-saas",
+      "confidence": 0.82,
+      "pipelineDuration": 319013,
+      "llmTokens": 17514,
+      "degraded": [],
+      "similarityScore": 0,
+      "feedback": "验证失败: page.goto: Timeout 60000ms exceeded.\nCall log:\n\u001b[2m  - navigating to \"https://tailwindcss.com/\", waiting until \"domcontentloaded\"\u001b[22m\n",
+      "strengths": [],
+      "weaknesses": []
+    },
+    {
+      "name": "hn",
+      "url": "https://news.ycombinator.com",
+      "expectedArchetype": "news-editorial",
+      "detectedArchetype": "light-saas",
+      "confidence": 0.9,
+      "pipelineDuration": 227197,
+      "llmTokens": 15569,
+      "degraded": [],
+      "similarityScore": 0,
+      "feedback": "LLM 输出解析失败",
+      "strengths": [],
+      "weaknesses": [
+        "解析失败"
+      ]
+    }
+  ]
+}

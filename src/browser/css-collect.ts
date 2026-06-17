@@ -1,234 +1,179 @@
 /**
- * 注入到页面中执行的 CSS 采集脚本
- * 在 Playwright page.evaluate() 中运行
- * 注意：此文件在浏览器环境中执行，不是 Node.js
+ * CSS 采集脚本
+ *
+ * 重要：此函数通过 page.evaluate() 在浏览器中执行
+ * 必须完全自包含，不能引用任何外部变量或模块
+ * 不能使用 TypeScript 语法（会被 tsup 编译注入 __name 等 helper）
  */
-// @ts-nocheck — 此文件在 page.evaluate() 中运行，需要 DOM 类型
 
-export function collectCSSFromPage() {
-  // 检测 spacing base unit（GCD 方法）— 必须定义在函数内部
+// 导出为字符串，避免 tsup 处理
+export const COLLECT_CSS_SCRIPT = `
+function() {
   function detectBaseUnit(values) {
     if (values.length < 3) return null;
-    const topValues = values
-      .sort((a, b) => b.count - a.count)
-      .slice(0, 20)
-      .map(v => v.px);
-
-    const gcd = (a, b) => (b === 0 ? a : gcd(b, a % b));
-    let result = topValues[0];
-    for (const val of topValues) {
-      result = gcd(result, val);
+    var topValues = values.sort(function(a, b) { return b.count - a.count; }).slice(0, 20).map(function(v) { return v.px; });
+    function gcd(a, b) { return b === 0 ? a : gcd(b, a % b); }
+    var result = topValues[0];
+    for (var i = 0; i < topValues.length; i++) {
+      result = gcd(result, topValues[i]);
       if (result <= 2) break;
     }
-
-    if (result >= 2 && result <= 16) {
-      return `${result}px`;
-    }
-    return null;
+    return (result >= 2 && result <= 16) ? result + 'px' : null;
   }
 
-  // 采样目标
-  const SELECTORS = [
-    'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
-    'p', 'span', 'a', 'li', 'label', 'td', 'th',
-    'button', 'input', 'textarea', 'select',
-    'header', 'nav', 'main', 'footer', 'section', 'article', 'aside',
-    'div', 'img', 'svg',
-  ];
+  var SELECTORS = ['h1','h2','h3','h4','h5','h6','p','span','a','li','label','td','th','button','input','textarea','select','header','nav','main','footer','section','article','aside','div','img','svg'];
+  var colorFreq = new Map();
+  var fontFamilyFreq = new Map();
+  var fontSizeFreq = new Map();
+  var fontWeightFreq = new Map();
+  var lineHeightFreq = new Map();
+  var spacingFreq = new Map();
+  var borderRadiusFreq = new Map();
+  var borderWidthFreq = new Map();
+  var borderStyleFreq = new Map();
+  var shadowFreq = new Map();
+  var cssVariables = {};
 
-  const colorFreq = new Map();
-  const fontFamilyFreq = new Map();
-  const fontSizeFreq = new Map();
-  const fontWeightFreq = new Map();
-  const lineHeightFreq = new Map();
-  const spacingFreq = new Map();
-  const borderRadiusFreq = new Map();
-  const borderWidthFreq = new Map();
-  const borderStyleFreq = new Map();
-  const shadowFreq = new Map();
-
-  // 收集 CSS Variables
-  const cssVariables = {};
   try {
-    for (const sheet of Array.from(document.styleSheets)) {
+    for (var si = 0; si < document.styleSheets.length; si++) {
       try {
-        for (const rule of Array.from(sheet.cssRules || [])) {
+        var rules = document.styleSheets[si].cssRules || [];
+        for (var ri = 0; ri < rules.length; ri++) {
+          var rule = rules[ri];
           if (rule instanceof CSSStyleRule && rule.selectorText === ':root') {
-            for (const prop of Array.from(rule.style)) {
-              if (prop.startsWith('--')) {
+            for (var pi = 0; pi < rule.style.length; pi++) {
+              var prop = rule.style[pi];
+              if (prop.indexOf('--') === 0) {
                 cssVariables[prop] = rule.style.getPropertyValue(prop).trim();
               }
             }
           }
         }
-      } catch {
-        // 跨域 stylesheet 无法访问
-      }
+      } catch(e) {}
     }
-  } catch { /* ignore */ }
+  } catch(e) {}
 
-  // 采样元素
-  const sampledElements = [];
-  for (const sel of SELECTORS) {
-    const els = document.querySelectorAll(sel);
-    const limit = Math.min(els.length, 10);
-    for (let i = 0; i < limit; i++) {
-      sampledElements.push(els[i]);
-    }
+  var sampledElements = [];
+  for (var si2 = 0; si2 < SELECTORS.length; si2++) {
+    var els = document.querySelectorAll(SELECTORS[si2]);
+    var limit = Math.min(els.length, 10);
+    for (var ei = 0; ei < limit; ei++) sampledElements.push(els[ei]);
   }
 
-  // 遍历采样元素，提取 computed styles
-  for (const el of sampledElements) {
-    const cs = getComputedStyle(el);
-    const tag = el.tagName.toLowerCase();
+  for (var k = 0; k < sampledElements.length; k++) {
+    var el = sampledElements[k];
+    var cs = getComputedStyle(el);
+    var tag = el.tagName.toLowerCase();
 
-    // 颜色
-    const colorProps = ['color', 'background-color', 'border-color'];
-    for (const prop of colorProps) {
-      const val = cs.getPropertyValue(prop);
-      if (val && val !== 'rgba(0, 0, 0, 0)' && val !== 'transparent' && val !== 'inherit') {
-        const existing = colorFreq.get(val);
-        if (existing) {
-          existing.count++;
-          existing.sources.add(prop);
-        } else {
-          colorFreq.set(val, { count: 1, sources: new Set([prop]) });
-        }
+    var colorProps = ['color', 'background-color', 'border-color'];
+    for (var ci = 0; ci < colorProps.length; ci++) {
+      var cv = cs.getPropertyValue(colorProps[ci]);
+      if (cv && cv !== 'rgba(0, 0, 0, 0)' && cv !== 'transparent' && cv !== 'inherit') {
+        var ce = colorFreq.get(cv);
+        if (ce) { ce.count++; ce.sources.add(colorProps[ci]); }
+        else { colorFreq.set(cv, { count: 1, sources: new Set([colorProps[ci]]) }); }
       }
     }
 
-    // 字体
-    const ff = cs.fontFamily;
+    var ff = cs.fontFamily;
     if (ff) {
-      const primary = ff.split(',')[0].trim().replace(/["']/g, '');
+      var primary = ff.split(',')[0].trim().replace(/["']/g, '');
       fontFamilyFreq.set(primary, (fontFamilyFreq.get(primary) || 0) + 1);
     }
 
-    // 字号
-    const fs = cs.fontSize;
+    var fs = cs.fontSize;
     if (fs) {
-      const existing = fontSizeFreq.get(fs);
-      if (existing) {
-        existing.count++;
-        existing.contexts.add(tag);
-      } else {
-        fontSizeFreq.set(fs, { count: 1, contexts: new Set([tag]) });
+      var fse = fontSizeFreq.get(fs);
+      if (fse) { fse.count++; fse.contexts.add(tag); }
+      else { fontSizeFreq.set(fs, { count: 1, contexts: new Set([tag]) }); }
+    }
+
+    var fw = parseInt(cs.fontWeight, 10);
+    if (!isNaN(fw)) fontWeightFreq.set(fw, (fontWeightFreq.get(fw) || 0) + 1);
+
+    var lh = cs.lineHeight;
+    if (lh && lh !== 'normal') lineHeightFreq.set(lh, (lineHeightFreq.get(lh) || 0) + 1);
+
+    var spacingProps = ['padding-top','padding-right','padding-bottom','padding-left','margin-top','margin-right','margin-bottom','margin-left'];
+    for (var spi = 0; spi < spacingProps.length; spi++) {
+      var sv = cs.getPropertyValue(spacingProps[spi]);
+      if (sv && sv !== '0px' && sv !== 'auto' && parseInt(sv) > 0) {
+        spacingFreq.set(sv, (spacingFreq.get(sv) || 0) + 1);
       }
     }
 
-    // 字重
-    const fw = parseInt(cs.fontWeight, 10);
-    if (!isNaN(fw)) {
-      fontWeightFreq.set(fw, (fontWeightFreq.get(fw) || 0) + 1);
-    }
+    var br = cs.borderRadius;
+    if (br && br !== '0px') borderRadiusFreq.set(br, (borderRadiusFreq.get(br) || 0) + 1);
 
-    // 行高
-    const lh = cs.lineHeight;
-    if (lh && lh !== 'normal') {
-      lineHeightFreq.set(lh, (lineHeightFreq.get(lh) || 0) + 1);
-    }
+    var bw = cs.borderWidth;
+    if (bw && bw !== '0px') borderWidthFreq.set(bw, (borderWidthFreq.get(bw) || 0) + 1);
 
-    // 间距
-    for (const prop of ['padding-top', 'padding-right', 'padding-bottom', 'padding-left',
-      'margin-top', 'margin-right', 'margin-bottom', 'margin-left']) {
-      const val = cs.getPropertyValue(prop);
-      if (val && val !== '0px' && val !== 'auto') {
-        spacingFreq.set(val, (spacingFreq.get(val) || 0) + 1);
-      }
-    }
+    var bs = cs.borderStyle;
+    if (bs && bs !== 'none') borderStyleFreq.set(bs, (borderStyleFreq.get(bs) || 0) + 1);
 
-    // 圆角
-    const br = cs.borderRadius;
-    if (br && br !== '0px') {
-      borderRadiusFreq.set(br, (borderRadiusFreq.get(br) || 0) + 1);
-    }
-
-    // 边框宽度
-    const bw = cs.borderWidth;
-    if (bw && bw !== '0px') {
-      borderWidthFreq.set(bw, (borderWidthFreq.get(bw) || 0) + 1);
-    }
-
-    // 边框样式
-    const bs = cs.borderStyle;
-    if (bs && bs !== 'none') {
-      borderStyleFreq.set(bs, (borderStyleFreq.get(bs) || 0) + 1);
-    }
-
-    // 阴影
-    const shadow = cs.boxShadow;
-    if (shadow && shadow !== 'none') {
-      shadowFreq.set(shadow, (shadowFreq.get(shadow) || 0) + 1);
-    }
+    var shadow = cs.boxShadow;
+    if (shadow && shadow !== 'none') shadowFreq.set(shadow, (shadowFreq.get(shadow) || 0) + 1);
   }
 
-  // 检测断点（通过 CSS media rules）
-  const breakpoints = [];
+  var breakpoints = [];
   try {
-    for (const sheet of Array.from(document.styleSheets)) {
+    for (var bsi = 0; bsi < document.styleSheets.length; bsi++) {
       try {
-        for (const rule of Array.from(sheet.cssRules || [])) {
-          if (rule instanceof CSSMediaRule) {
-            const condition = rule.conditionText || '';
-            const match = condition.match(/min-width:\s*(\d+px)/);
-            if (match) {
-              const existing = breakpoints.find(b => b.minWidth === match[1]);
-              if (!existing) {
-                breakpoints.push({ minWidth: match[1], label: '' });
-              }
+        var bsrules = document.styleSheets[bsi].cssRules || [];
+        for (var bri = 0; bri < bsrules.length; bri++) {
+          if (bsrules[bri] instanceof CSSMediaRule) {
+            var cond = bsrules[bri].conditionText || '';
+            var m = cond.match(/min-width:\\\\s*(\\\\d+px)/);
+            if (m && !breakpoints.find(function(b) { return b.minWidth === m[1]; })) {
+              breakpoints.push({ minWidth: m[1], label: '' });
             }
           }
         }
-      } catch { /* cross-origin */ }
+      } catch(e) {}
     }
-  } catch { /* ignore */ }
+  } catch(e) {}
+  breakpoints.sort(function(a, b) { return parseInt(a.minWidth) - parseInt(b.minWidth); });
+  var bpLabels = ['sm','md','lg','xl','2xl'];
+  for (var bli = 0; bli < breakpoints.length; bli++) breakpoints[bli].label = bpLabels[bli] || 'bp'+bli;
 
-  // 排序断点
-  breakpoints.sort((a, b) => parseInt(a.minWidth) - parseInt(b.minWidth));
-  const labels = ['sm', 'md', 'lg', 'xl', '2xl'];
-  breakpoints.forEach((bp, i) => { bp.label = labels[i] || `bp${i}`; });
+  var spacingValues = [];
+  spacingFreq.forEach(function(count, val) {
+    var px = parseInt(val);
+    if (!isNaN(px) && px > 0) spacingValues.push({ px: px, count: count });
+  });
+  var detectedBaseUnit = detectBaseUnit(spacingValues);
 
-  // 检测 spacing base unit（过滤负值和 0）
-  const spacingValues = [...spacingFreq.entries()]
-    .map(([val, count]) => ({ px: parseInt(val), count }))
-    .filter(v => !isNaN(v.px) && v.px > 0);
-  const detectedBaseUnit = detectBaseUnit(spacingValues);
+  function mapToArr(map) {
+    var arr = [];
+    map.forEach(function(v, k) { arr.push([k, v]); });
+    return arr;
+  }
 
-  // 转换为输出格式
   return {
     colors: {
-      raw: [...colorFreq.entries()].map(([value, { count, sources }]) => ({
-        value,
-        frequency: count,
-        sources: [...sources],
-      })),
-      cssVariables,
+      raw: mapToArr(colorFreq).map(function(e) { return { value: e[0], frequency: e[1].count, sources: Array.from(e[1].sources) }; }),
+      cssVariables: cssVariables
     },
     typography: {
-      fontFamilies: [...fontFamilyFreq.entries()].map(([family, frequency]) => ({ family, frequency })),
-      fontSizes: [...fontSizeFreq.entries()].map(([size, { count, contexts }]) => ({
-        size,
-        frequency: count,
-        contexts: [...contexts],
-      })),
-      fontWeights: [...fontWeightFreq.entries()].map(([weight, frequency]) => ({ weight, frequency })),
-      lineHeights: [...lineHeightFreq.entries()].map(([value, frequency]) => ({ value, frequency })),
+      fontFamilies: mapToArr(fontFamilyFreq).map(function(e) { return { family: e[0], frequency: e[1] }; }),
+      fontSizes: mapToArr(fontSizeFreq).map(function(e) { return { size: e[0], frequency: e[1].count, contexts: Array.from(e[1].contexts) }; }),
+      fontWeights: mapToArr(fontWeightFreq).map(function(e) { return { weight: e[0], frequency: e[1] }; }),
+      lineHeights: mapToArr(lineHeightFreq).map(function(e) { return { value: e[0], frequency: e[1] }; })
     },
     spacing: {
-      values: [...spacingFreq.entries()]
-        .filter(([value]) => parseInt(value) > 0)
-        .map(([value, frequency]) => ({ value, frequency })),
-      detectedBaseUnit,
+      values: mapToArr(spacingFreq).filter(function(e) { return parseInt(e[0]) > 0; }).map(function(e) { return { value: e[0], frequency: e[1] }; }),
+      detectedBaseUnit: detectedBaseUnit
     },
     borders: {
-      radii: [...borderRadiusFreq.entries()].map(([value, frequency]) => ({ value, frequency })),
-      widths: [...borderWidthFreq.entries()].map(([value, frequency]) => ({ value, frequency })),
-      styles: [...borderStyleFreq.entries()].map(([value, frequency]) => ({ value, frequency })),
+      radii: mapToArr(borderRadiusFreq).map(function(e) { return { value: e[0], frequency: e[1] }; }),
+      widths: mapToArr(borderWidthFreq).map(function(e) { return { value: e[0], frequency: e[1] }; }),
+      styles: mapToArr(borderStyleFreq).map(function(e) { return { value: e[0], frequency: e[1] }; })
     },
     shadows: {
-      values: [...shadowFreq.entries()].map(([value, frequency]) => ({ value, frequency })),
+      values: mapToArr(shadowFreq).map(function(e) { return { value: e[0], frequency: e[1] }; })
     },
-    breakpoints,
-    rawCSSVariables: cssVariables,
+    breakpoints: breakpoints,
+    rawCSSVariables: cssVariables
   };
 }
+`;

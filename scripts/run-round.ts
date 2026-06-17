@@ -239,17 +239,24 @@ async function captureScreenshots(
   const context = await browser.newContext({ viewport: { width: 1440, height: 900 } });
 
   try {
-    const page1 = await context.newPage();
-    await page1.goto(originalUrl, { waitUntil: 'domcontentloaded', timeout: 60000 });
-    await page1.waitForTimeout(2000);
+    // 原始网站截图（允许失败）
     const originalPath = join(siteDir, 'original.png');
-    await page1.screenshot({ path: originalPath, fullPage: false });
-    await page1.close();
+    try {
+      const page1 = await context.newPage();
+      await page1.goto(originalUrl, { waitUntil: 'domcontentloaded', timeout: 30000 });
+      await page1.waitForTimeout(2000);
+      await page1.screenshot({ path: originalPath, fullPage: false });
+      await page1.close();
+    } catch (err) {
+      console.log(`    ⚠️ Original screenshot failed: ${err instanceof Error ? err.message.slice(0, 60) : err}`);
+      throw new Error(`Original screenshot failed: ${err instanceof Error ? err.message : err}`);
+    }
 
+    // 生成页面截图
+    const generatedPath = join(siteDir, 'generated.png');
     const page2 = await context.newPage();
     await page2.setContent(generatedHtml, { waitUntil: 'load' });
     await page2.waitForTimeout(500);
-    const generatedPath = join(siteDir, 'generated.png');
     await page2.screenshot({ path: generatedPath, fullPage: false });
     await page2.close();
 
@@ -272,43 +279,68 @@ async function compareSimilarity(
   const originalBuffer = await readFile(originalPath);
   const generatedBuffer = await readFile(generatedPath);
 
-  const response = await provider.chat([
-    {
-      role: 'system',
-      content: `你是 UI 设计评审专家。对比两张截图的视觉相似度：
-1. 原始网站截图
-2. 根据设计系统文档重新生成的页面截图
+  // 重试最多 3 次
+  for (let attempt = 1; attempt <= 3; attempt++) {
+    try {
+      const response = await provider.chat([
+        {
+          role: 'system',
+          content: `你是 UI 设计评审专家。对比两张截图的视觉相似度。
 
-评估维度：色彩方案、排版、间距布局、组件风格、整体氛围
+评估维度：色彩方案、排版、间距布局、组件风格、整体氛围。
 
-输出严格 JSON：
-{
-  "score": 0-100,
-  "feedback": "50-100字总体评价",
-  "strengths": ["还原准确的方面"],
-  "weaknesses": ["还原不足的方面，要具体说明差距在哪"]
-}`,
-    },
-    {
-      role: 'user',
-      content: [
-        { type: 'text', text: '原始网站：' },
-        { type: 'image_url', image_url: { url: `data:image/png;base64,${originalBuffer.toString('base64')}`, detail: 'high' } },
-        { type: 'text', text: '生成的页面：' },
-        { type: 'image_url', image_url: { url: `data:image/png;base64,${generatedBuffer.toString('base64')}`, detail: 'high' } },
-        { type: 'text', text: '请评估视觉相似度，输出 JSON。' },
-      ],
-    },
-  ], { temperature: 0.2, maxTokens: 1024, jsonMode: true });
+你必须且只能输出一个合法的 JSON 对象，不要输出任何其他文字，不要用 markdown 代码块包裹：
+{"score":0到100的整数,"feedback":"50到100字的评价","strengths":["优点1","优点2"],"weaknesses":["缺点1","缺点2"]}`,
+        },
+        {
+          role: 'user',
+          content: [
+            { type: 'text', text: '图1是原始网站，图2是根据设计文档生成的页面。请评估视觉相似度。' },
+            { type: 'image_url', image_url: { url: `data:image/png;base64,${originalBuffer.toString('base64')}`, detail: 'high' } },
+            { type: 'image_url', image_url: { url: `data:image/png;base64,${generatedBuffer.toString('base64')}`, detail: 'high' } },
+          ],
+        },
+      ], { temperature: 0.1, maxTokens: 512 });
 
-  try {
-    let jsonStr = response.content.trim();
-    if (jsonStr.startsWith('```')) jsonStr = jsonStr.replace(/^```(?:json)?\n?/, '').replace(/\n?```$/, '');
-    const result = JSON.parse(jsonStr);
-    return { score: result.score || 0, feedback: result.feedback || '', strengths: result.strengths || [], weaknesses: result.weaknesses || [] };
-  } catch {
-    return { score: 0, feedback: 'LLM 输出解析失败', strengths: [], weaknesses: ['解析失败'] };
+      let jsonStr = response.content.trim();
+
+      // 去除 markdown 代码块包裹
+      jsonStr = jsonStr.replace(/^```(?:json)?\n?/, '').replace(/\n?```$/, '').trim();
+
+      // 尝试从响应中提取 JSON 对象
+      const jsonMatch = jsonStr.match(/\{[\s\S]*\}/);
+      if (jsonMatch) jsonStr = jsonMatch[0];
+
+      // 修复常见问题：截断的 JSON
+      if (!jsonStr.endsWith('}')) {
+        // 尝试补全
+        const lastBrace = jsonStr.lastIndexOf('}');
+        if (lastBrace > 0) jsonStr = jsonStr.substring(0, lastBrace + 1);
+        else {
+          // 尝试补全缺失的括号
+          const openBraces = (jsonStr.match(/{/g) || []).length - (jsonStr.match(/}/g) || []).length;
+          const openBrackets = (jsonStr.match(/\[/g) || []).length - (jsonStr.match(/]/g) || []).length;
+          for (let i = 0; i < openBrackets; i++) jsonStr += ']';
+          for (let i = 0; i < openBraces; i++) jsonStr += '}';
+        }
+      }
+
+      const result = JSON.parse(jsonStr);
+      return {
+        score: typeof result.score === 'number' ? result.score : 0,
+        feedback: result.feedback || '',
+        strengths: Array.isArray(result.strengths) ? result.strengths : [],
+        weaknesses: Array.isArray(result.weaknesses) ? result.weaknesses : [],
+      };
+    } catch (err) {
+      if (attempt < 3) {
+        console.log(`    ⚠️ Attempt ${attempt} failed, retrying...`);
+        continue;
+      }
+      return { score: 0, feedback: `LLM 输出解析失败 (${attempt} attempts)`, strengths: [], weaknesses: ['解析失败'] };
+    }
   }
+  return { score: 0, feedback: 'Unexpected error', strengths: [], weaknesses: [] };
 }
 
 // ─── 阶段 3：生成报告 ───
