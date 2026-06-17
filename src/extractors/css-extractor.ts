@@ -37,11 +37,11 @@ export async function extractCSSFromPage(page: Page): Promise<CSSExtraction> {
 
   // 使用字符串形式的脚本，避免 tsup 打包注入浏览器不兼容的 helper
   // 包装为立即执行函数
-  const raw = await page.evaluate(`(${COLLECT_CSS_SCRIPT})()`);
+  const raw = await page.evaluate(`(${COLLECT_CSS_SCRIPT})()`) as any;
 
   // 后处理：标准化颜色值，过滤掉无法转换的现代 CSS 颜色函数
-  const processedColors = raw.colors.raw
-    .map(item => ({
+  const processedColors = (raw.colors.raw as Array<{ value: string; frequency: number; sources: string[] }>)
+    .map((item: { value: string; frequency: number; sources: string[] }) => ({
       ...item,
       value: normalizeColorValue(item.value),
     }))

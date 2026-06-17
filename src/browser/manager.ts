@@ -16,8 +16,8 @@ const DEFAULT_CONFIG: Required<BrowserManagerConfig> = {
   headless: true,
   viewport: { width: 1440, height: 900 },
   waitUntil: 'domcontentloaded',
-  locale: 'en-US',
-  channel: undefined as any,
+  locale: 'zh-CN',
+  channel: 'msedge' as any,  // 默认使用 Edge，Chrome 有网络问题
 };
 
 export class BrowserManager {

@@ -24,6 +24,14 @@ export interface CSSExtraction {
   };
   breakpoints: Array<{ minWidth: string; label: string }>;
   rawCSSVariables: Record<string, string>;
+  /** CSS 动画信息（从页面提取） */
+  animations?: Array<{
+    selector: string;
+    property: string;
+    value: string;
+    duration: string;
+    easing: string;
+  }>;
 }
 
 /** 像素提取结果（截图分析） */

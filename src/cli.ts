@@ -33,7 +33,7 @@ program
   .option('-l, --lang <language>', 'Output language: zh or en', 'zh')
   .option('--viewport <size>', 'Browser viewport size', '1440x900')
   .option('--wait <strategy>', 'Page load strategy: load / domcontentloaded / networkidle', 'domcontentloaded')
-  .option('--channel <channel>', 'Use system browser: chrome / msedge (skip Playwright download)')
+  .option('--channel <channel>', 'Use system browser: chrome / msedge (default: msedge)')
   .action(async (url: string | undefined, options) => {
     // 配置日志
     if (options.debug) {

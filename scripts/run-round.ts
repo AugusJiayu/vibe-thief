@@ -36,16 +36,16 @@ import { chromium } from 'playwright';
 // ─── 测试网站 ───
 
 const TEST_SITES = [
-  { name: 'linear', url: 'https://linear.app', archetype: 'dark-tool' },
-  { name: 'notion', url: 'https://notion.so', archetype: 'light-saas' },
-  { name: 'vercel', url: 'https://vercel.com', archetype: 'developer-docs' },
-  { name: 'stripe', url: 'https://stripe.com', archetype: 'playful-brand' },
-  { name: 'github', url: 'https://github.com', archetype: 'developer-docs' },
-  { name: 'spotify', url: 'https://open.spotify.com', archetype: 'consumer-app' },
-  { name: 'medium', url: 'https://medium.com', archetype: 'news-editorial' },
-  { name: 'figma', url: 'https://figma.com', archetype: 'light-saas' },
-  { name: 'tailwind', url: 'https://tailwindcss.com', archetype: 'developer-docs' },
-  { name: 'hn', url: 'https://news.ycombinator.com', archetype: 'news-editorial' },
+  { name: 'apple', url: 'https://www.apple.com.cn', archetype: 'minimal-portfolio' },
+  { name: 'feishu', url: 'https://www.feishu.cn', archetype: 'light-saas' },
+  { name: 'bilibili', url: 'https://www.bilibili.com', archetype: 'consumer-app' },
+  { name: 'xiaomi', url: 'https://www.mi.com', archetype: 'ecommerce' },
+  { name: 'huawei', url: 'https://www.huawei.com', archetype: 'enterprise' },
+  { name: 'bytedance', url: 'https://www.bytedance.com', archetype: 'startup-landing' },
+  { name: 'netease-music', url: 'https://music.163.com', archetype: 'consumer-app' },
+  { name: 'zhihu', url: 'https://www.zhihu.com', archetype: 'light-saas' },
+  { name: 'douban', url: 'https://www.douban.com', archetype: 'news-editorial' },
+  { name: 'taobao', url: 'https://www.taobao.com', archetype: 'ecommerce' },
 ];
 
 const TARGET_SCORE = 80; // 目标基准线
@@ -235,7 +235,7 @@ async function captureScreenshots(
   generatedHtml: string,
   siteDir: string
 ): Promise<{ original: string; generated: string }> {
-  const browser = await chromium.launch({ headless: true, channel: 'chrome' });
+  const browser = await chromium.launch({ headless: true, channel: 'msedge' });
   const context = await browser.newContext({ viewport: { width: 1440, height: 900 } });
 
   try {

@@ -8,6 +8,7 @@ import type { CSSExtraction, PixelExtraction, VisionAnalysis } from '../types/ex
 import type { DesignSystemDoc } from '../types/design-doc.js';
 import { BrowserManager } from '../browser/manager.js';
 import { captureScreenshots } from '../browser/screenshot.js';
+import { captureMultiScreenshots } from '../browser/multi-screenshot.js';
 import { extractCSSFromPage } from '../extractors/css-extractor.js';
 import { extractPixelsFromBuffer } from '../extractors/pixel-extractor.js';
 import { analyzeVision } from '../extractors/vision-analyzer.js';
@@ -53,8 +54,12 @@ export async function extractFromURL(
   const page = await manager.navigateTo(url);
 
   try {
-    // 截图
+    // 截图 + 多区域 + 交互状态 + CSS 动画
     const screenshots = await captureScreenshots(page);
+    const multiData = await captureMultiScreenshots(page).catch(err => {
+      logger.warn(`Multi-screenshot failed: ${err}`);
+      return null;
+    });
 
     // 提取层：并行执行 CSS 提取 + 像素提取
     logger.info('Running extractors in parallel...');
@@ -71,7 +76,12 @@ export async function extractFromURL(
       }),
     ]);
 
-    // 视觉分析（需要 LLM）
+    // 将动画信息附加到 CSS 数据
+    if (multiData && cssData) {
+      (cssData as any).animations = multiData.animations;
+    }
+
+    // 视觉分析（使用桌面端首屏 + 交互状态截图）
     let visionData: VisionAnalysis | null = null;
     try {
       visionData = await analyzeVision(screenshots.viewport, config.llm);
