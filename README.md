@@ -189,7 +189,6 @@ style_archetype: "playful-brand"
 
 ## Architecture
 
-```
 Input (URL/Screenshot)
     ↓
 Extraction Layer (并行)
@@ -209,7 +208,6 @@ Compilation Layer (两阶段 LLM)
     ↓
 Output Layer
     └── DESIGN.md (Markdown + YAML frontmatter)
-```
 
 ## CLI 参数
 
