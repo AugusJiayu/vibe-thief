@@ -1,6 +1,15 @@
 /**
- * 高质量 DESIGN.md 的数据结构
- * 目标：让 Agent 能理解设计系统的"灵魂"，而不仅仅是 token 数值
+ * DESIGN.md 文档结构定义
+ *
+ * 核心消费者是 AI Coding Agent（如 Cursor）。
+ * Agent 需要读取此文档后能设计出与目标网站视觉风格一致的 UI。
+ *
+ * 结构：
+ * 1. Design Feeling — 描述目标网站的视觉感受
+ * 2. Tokens — 色彩、排版、间距等基础值
+ * 3. Page Structure — 页面区块顺序和每块的内容
+ * 4. CSS/JS Code — 动画、交互、组件样式（可直接复用）
+ * 5. Media Presentation — 图片/视频的呈现方式
  */
 
 /** 前置元数据 */
@@ -14,219 +23,163 @@ export interface DocFrontmatter {
   style_archetype: string;
 }
 
-/** 风格原型（预定义的常见风格） */
+/** 风格原型 */
 export type StyleArchetype =
-  | 'dark-tool'         // Linear, Raycast, Arc
-  | 'light-saas'        // Notion, Figma, Slack
-  | 'minimal-portfolio' // 个人作品集
-  | 'enterprise'        // Salesforce, Jira
-  | 'consumer-app'      // Spotify, Instagram
-  | 'news-editorial'    // NYT, Medium
-  | 'ecommerce'         // Shopify, Stripe
-  | 'developer-docs'    // Vercel, Tailwind Docs
-  | 'playful-brand'     // Stripe, Mailchimp
-  | 'startup-landing'   // 典型 SaaS landing page
+  | 'dark-tool'
+  | 'light-saas'
+  | 'minimal-portfolio'
+  | 'enterprise'
+  | 'consumer-app'
+  | 'news-editorial'
+  | 'ecommerce'
+  | 'developer-docs'
+  | 'playful-brand'
+  | 'immersive-landing'
+  | 'showcase-gallery'
+  | 'startup-landing'
   | string;
 
-/** 设计叙事 */
-export interface DesignNarrative {
-  /** 一段话描述这个设计的灵魂（50-150字） */
-  philosophy: string;
-  /** 3-8 个风格关键词 */
-  keywords: string[];
+/** 色彩角色 */
+export interface ColorRole {
+  token: string;
+  value: string;
+  usage: string;
 }
 
-/** 色彩策略分组 */
+/** 色彩系统 */
 export interface ColorStrategy {
-  /** 背景层级（从深到浅 or 从浅到深） */
-  background_layers: Array<{
-    token: string;
-    value: string;
-    usage: string;
-  }>;
+  /** 背景层级 */
+  background_layers: ColorRole[];
   /** 信号色（强调色、状态色） */
-  signal_colors: Array<{
-    token: string;
-    value: string;
-    usage: string;
-  }>;
+  signal_colors: ColorRole[];
   /** 文字层级 */
-  text_hierarchy: Array<{
-    token: string;
-    value: string;
-    usage: string;
-  }>;
-  /** 色彩使用哲学 */
+  text_hierarchy: ColorRole[];
+  /** 边框/分割线色 */
+  border_colors: ColorRole[];
+  /** 色彩使用哲学（一句话） */
   philosophy: string;
 }
 
-/** 排版策略 */
+/** 排版系统 */
 export interface TypographyStrategy {
   font_stack: {
     heading: string;
     body: string;
     mono: string;
   };
-  /** 语义化字号（按用途而非大小） */
+  /** 字号阶梯（按用途语义化） */
   scale: Array<{
     token: string;
     size: string;
     weight: number;
+    lineHeight: string;
+    letterSpacing?: string;
     usage: string;
   }>;
-  /** 排版哲学 */
+  /** 排版哲学（一句话） */
   philosophy: string;
 }
 
-/** 间距策略 */
+/** 间距系统 */
 export interface SpacingStrategy {
   base_unit: string;
-  /** 语义化间距（按场景而非数值） */
   scale: Array<{
     token: string;
     value: string;
     usage: string;
   }>;
-  /** 间距哲学 */
   philosophy: string;
 }
 
-/** 视觉层级策略 */
+/** 深度系统 */
 export interface DepthStrategy {
-  border_radius: Array<{
-    token: string;
-    value: string;
-    usage: string;
-  }>;
-  shadows: Array<{
-    token: string;
-    value: string;
-    usage: string;
-  }>;
-  borders: Array<{
-    token: string;
-    value: string;
-    usage: string;
-  }>;
-  /** 深度哲学：用什么方式表达层级（阴影 vs 颜色 vs 边框） */
+  border_radius: Array<{ token: string; value: string; usage: string }>;
+  shadows: Array<{ token: string; value: string; usage: string }>;
+  borders: Array<{ token: string; value: string; usage: string }>;
   philosophy: string;
 }
 
-/** 运动策略 */
-export interface MotionStrategy {
-  tokens: Array<{
-    token: string;
-    duration: string;
-    easing: string;
-    usage: string;
-  }>;
-  philosophy: string;
-}
-
-/** 组件模式 */
-export interface ComponentPattern {
+/** 页面区块定义 */
+export interface PageSection {
+  /** 区块名称（如 "Hero", "Features", "Pricing"） */
   name: string;
-  /** 组件描述 */
-  description: string;
-  /** 默认态 */
-  default: Record<string, string>;
-  /** hover 态 */
-  hover?: Record<string, string>;
-  /** focus 态 */
-  focus?: Record<string, string>;
-  /** active 态 */
-  active?: Record<string, string>;
-  /** disabled 态 */
-  disabled?: Record<string, string>;
-  /** 尺寸变体 */
-  sizes?: Array<{
-    name: string;
-    properties: Record<string, string>;
-  }>;
-  /** 风格变体 */
-  variants?: Array<{
-    name: string;
-    properties: Record<string, string>;
-  }>;
+  /** 区块用途 */
+  purpose: string;
+  /** 该区块包含的内容元素 */
+  elements: string[];
+  /** 布局方式（如 "居中单列", "3列网格", "左文右图交替"） */
+  layout: string;
+  /** 特殊说明 */
+  notes?: string;
 }
 
-/** 交互模式 */
-export interface InteractionPatterns {
-  hover_style: string;
-  focus_style: string;
-  active_style: string;
-  loading_style: string;
-  transition_speed: string;
+/** CSS 代码块 */
+export interface CSSCodeBlock {
+  /** 代码用途描述 */
+  purpose: string;
+  /** 完整 CSS 代码 */
+  css: string;
 }
 
-/** 动效语言：描述动效策略，不仅仅是 CSS 值 */
-export interface MotionLanguage {
-  /** 滚动行为：视差、渐入、固定导航等 */
-  scroll_behavior: string;
-  /** 交互反馈：hover、focus、active 的视觉变化策略 */
-  interaction_feedback: string;
-  /** 页面转场：页面间切换的动效 */
-  page_transitions: string;
-  /** 微交互：loading、toast、tooltip 等小动效 */
-  micro_interactions: string;
-  /** 动效性格：整体动效风格的定性描述 */
-  motion_personality: string;
+/** JS 代码块 */
+export interface JSCodeBlock {
+  /** 代码用途描述 */
+  purpose: string;
+  /** 完整 JS 代码 */
+  js: string;
 }
 
-/** 视觉语言：描述视觉策略，不仅仅是 token 值 */
-export interface VisualLanguage {
-  /** 布局哲学：留白策略、信息密度、视觉节奏 */
-  layout_philosophy: string;
-  /** 图像使用：产品图、场景图、插画的风格和处理方式 */
-  imagery_style: string;
-  /** 图标风格：线性/填充/双色、圆角/锐利、线宽等 */
-  icon_style: string;
-  /** 信息密度：每屏承载多少信息，content-to-whitespace 比例 */
-  information_density: string;
-  /** 品牌个性：用 3-5 个词定义这个设计的"性格" */
-  brand_personality: string[];
+/** 媒体呈现规则 */
+export interface MediaPresentation {
+  /** 图片类型和风格描述 */
+  imageStyle: string;
+  /** 图片容器样式（圆角、边框、阴影等） */
+  imageContainer: string;
+  /** 视频呈现方式 */
+  videoStyle: string;
+  /** 图标风格 */
+  iconStyle: string;
+  /** 其他媒体说明 */
+  other?: string;
 }
 
 /** Agent 使用指南 */
 export interface AgentGuide {
   do: string[];
   dont: string[];
-  /** 常见场景的代码片段建议 */
-  snippets?: Array<{
-    scenario: string;
-    description: string;
-    example: string;
-  }>;
-}
-
-/** 布局规则 */
-export interface LayoutRules {
-  max_width: string;
-  grid?: {
-    columns: number;
-    gap: string;
-  };
-  breakpoints: Array<{
-    name: string;
-    value: string;
-  }>;
-  /** 布局哲学 */
-  philosophy: string;
 }
 
 /** 完整的设计文档 */
 export interface DesignSystemDoc {
   frontmatter: DocFrontmatter;
-  narrative: DesignNarrative;
+
+  /** 设计感觉：描述目标网站的整体视觉感受（2-4 段话） */
+  design_feeling: string;
+
+  /** 色彩系统 */
   colors: ColorStrategy;
+
+  /** 排版系统 */
   typography: TypographyStrategy;
+
+  /** 间距系统 */
   spacing: SpacingStrategy;
+
+  /** 深度系统（阴影、边框、圆角） */
   depth: DepthStrategy;
-  motion: MotionStrategy;
-  motion_language: MotionLanguage;
-  visual_language: VisualLanguage;
-  components: ComponentPattern[];
-  interactions: InteractionPatterns;
-  layout: LayoutRules;
+
+  /** 页面结构：区块顺序和每块的内容 */
+  page_structure: PageSection[];
+
+  /** CSS 代码片段（可直接复用） */
+  css_code: CSSCodeBlock[];
+
+  /** JS 代码片段（交互逻辑） */
+  js_code: JSCodeBlock[];
+
+  /** 媒体呈现规则 */
+  media_presentation: MediaPresentation;
+
+  /** Agent 使用指南 */
   agent_guide: AgentGuide;
 }

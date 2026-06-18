@@ -90,7 +90,7 @@ function getLLMConfig(): LLMConfig {
     model: process.env.LLM_MODEL || 'mimo-v2.5-pro',
     visionModel: process.env.LLM_VISION_MODEL || 'mimo-v2.5',
     apiKey,
-    baseUrl: process.env.LLM_BASE_URL,
+    baseUrl: process.env.LLM_BASE_URL || 'https://token-plan-cn.xiaomimimo.com/anthropic',
   };
 }
 

@@ -98,6 +98,29 @@ ${pixelData ? `
 ${JSON.stringify(pixelData, null, 2)}
 \`\`\`` : '\n（无像素分析数据）'}
 
+${cssData.cssCode ? `
+【CSS 代码级提取】
+@keyframes 动画 (${cssData.cssCode.keyframes.length} 个):
+${cssData.cssCode.keyframes.map(k => k.cssText).join('\n')}
+
+Hover 规则 (${cssData.cssCode.hoverRules.length} 个):
+${JSON.stringify(cssData.cssCode.hoverRules.slice(0, 10), null, 2)}
+
+Transition 规则 (${cssData.cssCode.transitionRules.length} 个):
+${JSON.stringify(cssData.cssCode.transitionRules.slice(0, 10), null, 2)}
+
+布局模式 (${cssData.cssCode.layoutPatterns.length} 个):
+${JSON.stringify(cssData.cssCode.layoutPatterns.slice(0, 10), null, 2)}
+
+组件样式 (${cssData.cssCode.componentStyles.length} 个):
+${JSON.stringify(cssData.cssCode.componentStyles.slice(0, 15), null, 2)}
+` : ''}
+
+${cssData.pageStructure ? `
+【页面 DOM 结构】
+${JSON.stringify(cssData.pageStructure, null, 2)}
+` : ''}
+
 请分析以上数据，输出结构化的 Design Token JSON。`;
 
   return { system, user };

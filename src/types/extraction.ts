@@ -32,6 +32,25 @@ export interface CSSExtraction {
     duration: string;
     easing: string;
   }>;
+  /** CSS 代码级提取：动画、交互、布局、组件样式 */
+  cssCode?: {
+    keyframes: Array<{ name: string; cssText: string }>;
+    hoverRules: Array<{ selector: string; declarations: Record<string, string> }>;
+    focusRules: Array<{ selector: string; declarations: Record<string, string> }>;
+    activeRules: Array<{ selector: string; declarations: Record<string, string> }>;
+    transitionRules: Array<{ selector: string; value: string }>;
+    layoutPatterns: Array<{ selector: string; display: string; [key: string]: string }>;
+    componentStyles: Array<{ selector: string; declarations: Record<string, string> }>;
+  };
+  /** 页面 DOM 结构概览 */
+  pageStructure?: Array<{
+    tag: string;
+    role: string;
+    class: string;
+    id: string;
+    textPreview: string;
+    childTags: string[];
+  }>;
 }
 
 /** 像素提取结果（截图分析） */

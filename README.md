@@ -2,15 +2,27 @@
 
 > Good artists copy, great artists steal.
 
-从任何网站提取设计系统，生成结构化的 `DESIGN.md` 文件。同时服务于人类开发者和 AI Agent。
+从任何网站提取设计系统，生成 AI Coding Agent 可直接使用的 `DESIGN.md` 文件。Agent 读取后能设计出与目标网站视觉风格一致的 UI。
+
+## 核心理念
+
+截几张图发给 AI，它做出来的效果往往差强人意。vibe-thief 的解决方案是：**提取可执行的设计代码，而不是描述性语言**。
+
+DESIGN.md 不只是 token 列表——它包含：
+- **设计感觉**：目标网站的视觉氛围描述
+- **Design Tokens**：色彩、排版、间距的精确数值
+- **页面结构**：区块顺序和每块的内容
+- **CSS/JS 代码片段**：动画、交互、组件样式，Agent 可直接复用
+- **媒体呈现规则**：图片/视频的展示方式
 
 ## Features
 
 - **CSS 硬数据提取**：通过 Playwright 采集 CSS Variables、字体栈、字号梯度、间距节奏、圆角、阴影
-- **像素级色彩分析**：从渲染截图中提取实际调色板（支持不使用 CSS Variables 的网站）
-- **视觉感知分析**：多模态 LLM 分析 UI 的情绪、风格、组件交互特征
-- **两阶段 LLM 编译**：结构化分析 → 感知融合，生成高质量 Design Token
-- **双输出格式**：Markdown（人类可读）+ JSON（Agent 可解析）
+- **CSS 代码级提取**：`@keyframes` 动画、`:hover`/`:focus` 交互规则、布局模式（grid/flex）、组件样式
+- **页面结构提取**：DOM 结构分析，识别 header/nav/main/section/footer 等语义区块
+- **像素级色彩分析**：从渲染截图中提取实际调色板
+- **视觉感知分析**：多模态 LLM 分析 UI 的情绪、风格
+- **两阶段 LLM 编译**：结构化分析 → 设计文档生成
 - **CLI + MCP Server**：面向终端和 IDE Agent 的双重调用方式
 
 ## Quick Start
@@ -59,19 +71,15 @@ vibe-thief https://shadcn.com --format json
 # 仅提取 CSS 硬数据（不需要 LLM，速度快）
 vibe-thief https://tailwindcss.com --extract-only
 
-# 使用系统 Chrome（跳过 Playwright 下载）
-vibe-thief https://vercel.com --channel chrome
-
-# 指定多模态模型和文本模型
-vibe-thief https://stripe.com --model mimo-v2.5-pro --vision-model mimo-v2.5
+# 使用系统 Edge（跳过 Playwright 下载）
+vibe-thief https://vercel.com --channel msedge
 ```
 
 ## Programmatic API
 
 ```typescript
-import { extractFromURL, extractFromScreenshot, extractOnly } from 'vibe-thief';
+import { extractFromURL } from 'vibe-thief';
 
-// 完整提取（含 LLM 编译）
 const result = await extractFromURL('https://stripe.com', {
   llm: {
     provider: 'anthropic',
@@ -80,18 +88,13 @@ const result = await extractFromURL('https://stripe.com', {
     apiKey: process.env.ANTHROPIC_API_KEY!,
     baseUrl: process.env.LLM_BASE_URL,
   },
-  browser: { channel: 'chrome' },
+  browser: { channel: 'msedge' },
   output: { language: 'zh' },
 });
 
 console.log(result.markdown);  // DESIGN.md 内容
-console.log(result.tokens);    // 结构化 token 数据
-console.log(result.meta);      // { duration, llmTokensUsed, confidence, degraded }
-
-// 仅提取（不调用 LLM）
-const raw = await extractOnly({ type: 'url', url: 'https://example.com' }, config);
-console.log(raw.css);   // CSS 提取数据
-console.log(raw.pixel); // 像素提取数据
+console.log(result.doc);       // 结构化数据
+console.log(result.meta);      // { duration, llmTokensUsed, confidence }
 ```
 
 ## MCP Server 配置
@@ -124,43 +127,64 @@ console.log(raw.pixel); // 像素提取数据
 | `extract_css_only` | 仅 CSS 提取（快速，无 LLM 调用） | ❌ |
 | `analyze_screenshot` | 纯视觉分析（多模态 LLM） | ✅ |
 
-## DESIGN.md 输出格式
+## DESIGN.md 输出结构
 
 ```markdown
 ---
 schema: "vibe-thief/1.0"
 source: "https://stripe.com"
-extracted_at: "2026-06-16T10:30:00Z"
 confidence: 0.87
-generator: "vibe-thief@1.0"
+style_archetype: "playful-brand"
 ---
 
-# Design System: Stripe
+# Design System
 
-> Stripe 的设计传达一种「精密的优雅感」。大量使用渐变和微阴影...
+## 设计感觉
+暗色背景 + 渐变强调色 = 专业、前沿、有科技感。Stripe 的设计传达一种
+「精密的优雅感」，通过微妙的渐变和阴影创造层次...
 
 ## Colors
-| Token | Value | Name | Usage |
-|-------|-------|------|-------|
-| `color-primary` | `#635BFF` | Electric Purple | 主按钮、链接 |
+> 黑白灰为主，紫蓝渐变仅用在需要视觉冲击的地方
+
+| Token | Value | Usage |
+|-------|-------|-------|
+| `bg-primary` | `#0A2540` | 主背景 |
+| `accent` | `#635BFF` | 按钮、链接 |
 
 ## Typography
+> 通过极大的字号对比（4:1）建立视觉层级
+
 | Token | Size | Weight | Usage |
 |-------|------|--------|-------|
-| `text-2xl` | `36px` | 700 | 页面标题 |
+| `display` | `56px` | 700 | Hero 标题 |
+| `body` | `16px` | 400 | 正文 |
 
-## Spacing
-Base unit: `4px`
-| Token | Value |
-|-------|-------|
-| `space-1` | `4px` |
-| `space-2` | `8px` |
+## Page Structure
+### 1. Hero
+**用途**: 第一印象，传达核心价值
+**包含元素**: 大标题、副标题、CTA 按钮
+**布局**: 居中单列
 
-## Perception Analysis
-| Dimension | Assessment |
-|-----------|------------|
-| **Mood** | Professional, Premium |
-| **Design Principle** | 用渐变和阴影代替边框创造层次 |
+### 2. Features
+**用途**: 展示核心功能
+**包含元素**: 图标、功能标题、功能描述
+**布局**: 3 列网格
+
+## CSS Code
+### 滚动进入动画
+```css
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-in {
+  animation: fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+```
+
+## Media Presentation
+**图片风格**: 高质量产品截图，纯色背景
+**图标风格**: 线条图标，线宽 1.5px
 ```
 
 ## Architecture
@@ -170,12 +194,18 @@ Input (URL/Screenshot)
     ↓
 Extraction Layer (并行)
     ├── CSS Extractor (Playwright 注入 JS)
+    │   ├── Token 数据（颜色、字号、间距）
+    │   ├── @keyframes 动画定义
+    │   ├── :hover/:focus 交互规则
+    │   ├── 布局模式（grid/flex）
+    │   └── 组件样式
     ├── Pixel Extractor (截图色彩聚类)
-    └── Vision Analyzer (多模态 LLM)
+    ├── Vision Analyzer (多模态 LLM)
+    └── DOM Structure (页面结构分析)
     ↓
 Compilation Layer (两阶段 LLM)
     ├── Stage 1: 结构化分析 → JSON
-    └── Stage 2: 感知融合 → DesignTokens
+    └── Stage 2: 设计文档生成 → DESIGN.md
     ↓
 Output Layer
     └── DESIGN.md (Markdown + YAML frontmatter)
@@ -187,14 +217,13 @@ Output Layer
 |------|------|--------|------|
 | `--output` | `-o` | `DESIGN.md` | 输出文件路径 |
 | `--screenshot` | `-s` | - | 截图文件路径 |
-| `--llm` | | `anthropic` | LLM provider |
 | `--model` | `-m` | provider 默认 | 文本模型 |
 | `--vision-model` | | - | 多模态模型 |
 | `--api-key` | | 环境变量 | API Key |
 | `--base-url` | | - | 自定义 LLM endpoint |
 | `--format` | `-f` | `md` | 输出格式：md / json |
 | `--extract-only` | | false | 仅提取，不编译 |
-| `--channel` | | - | 系统浏览器：chrome / msedge |
+| `--channel` | | msedge | 系统浏览器：chrome / msedge |
 | `--debug` | `-d` | false | 调试模式 |
 | `--lang` | `-l` | `zh` | 输出语言：zh / en |
 

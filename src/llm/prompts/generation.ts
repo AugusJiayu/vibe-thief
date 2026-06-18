@@ -1,196 +1,208 @@
 /**
- * Stage 2 Prompt：设计系统编排
- * 将结构化 token 数据转化为有洞察力的设计文档
+ * Stage 2: 设计文档生成
+ *
+ * 基于 Stage 1 的结构化分析结果，生成完整的 DESIGN.md JSON。
+ *
+ * 核心原则：
+ * - 给 Agent 的是"可执行的设计代码"，不是"描述性语言"
+ * - CSS/JS 代码片段可以直接复用
+ * - 设计感觉要描述清楚，但不要教 Agent "你是谁"
  */
 
 import type { VisionAnalysis } from '../../types/extraction.js';
 
+/** Stage 2 prompt 入口 */
 export function buildGenerationPrompt(
   tokenData: Record<string, unknown>,
   visionData: VisionAnalysis | null,
-  language: 'zh' | 'en' = 'zh'
+  language: 'zh' | 'en'
 ): { system: string; user: string } {
-  const langInstruction = language === 'zh'
-    ? '所有输出使用中文。技术术语（如 font-weight, border-radius, parallax）保持英文。'
-    : 'All output in English.';
+  const system = getSystemPrompt(language);
+  const user = buildUserPrompt(tokenData, visionData);
+  return { system, user };
+}
 
-  const system = `你是一位资深设计系统架构师，同时也是一位能与 AI Agent 高效协作的技术写作者。
+function getSystemPrompt(lang: string): string {
+  if (lang === 'zh') {
+    return `你是一个设计系统提取专家。你的任务是将 Stage 1 分析的结构化数据转换为一个高质量的 DESIGN.md 文档。
 
-你的任务是将提取的设计数据转化为一份「设计文档」，这份文档有两个读者：
-1. **人类设计师**：能快速理解这个设计系统的灵魂和策略
-2. **AI Agent**：能根据这份文档精确地复刻出相似风格的界面
+这个文档的消费者是 AI Coding Agent（如 Cursor），它会根据这个文档来设计 UI。所以文档需要：
+1. 描述清楚目标网站的"设计感觉"（不需要教 Agent "你是谁"，只需描述目标网站看起来是什么感觉）
+2. 提供精确的 Token 数值（色彩、排版、间距等）
+3. 描述页面结构（区块顺序、每块放什么内容）
+4. 提供可直接复用的 CSS/JS 代码片段（动画、交互、组件样式）
+5. 描述媒体素材的呈现方式（图片/视频怎么展示）
 
-## 核心原则
-
-**不要只罗列数值，要解释策略。**
-- 错误：\`color-primary: #5E6AD2\`
-- 正确：信号色 #5E6AD2 只用在需要用户立即注意的地方（选中态、主按钮）。如果到处都是紫色，它就不再是信号了。
-
-**不要只描述"是什么"，要描述"为什么"和"怎么用"。**
-- 错误：间距 base unit 是 4px
-- 正确：组件内部用 8px（紧凑但不拥挤），组件之间用 16-24px（呼吸在组件之间，而非组件之内）
-
-**色彩按策略分组，不按 CSS 属性分组。**
-- 背景层级：从深到浅（或从浅到深），表达页面的深度结构
-- 信号色：只用于需要用户注意的地方
-- 文字层级：主/次/辅/禁用，表达信息的重要性
-
-**动效要描述"性格"和"目的"，不只是 CSS 值。**
-- 错误：transition: all 0.2s ease
-- 正确：hover 反馈追求"干脆的确认感"——200ms ease-out，颜色变深 + 轻微上移
-
-**视觉风格要描述"布局节奏"和"信息密度"。**
-- Apple 的节奏是"大图 + 大字 + 大留白 = 呼吸感"
-- B 站的节奏是"密铺卡片 + 小间距 = 信息密度"
-
-## 风格原型参考
-
-根据提取的数据，判断最接近的风格原型：
-- \`dark-tool\`：Linear, Raycast, Arc — 暗色背景、信息密度高、键盘优先
-- \`light-saas\`：Notion, Figma, Slack — 浅色背景、友好、协作感
-- \`minimal-portfolio\`：大量留白、排版为主、极简
-- \`enterprise\`：Salesforce, Jira — 信息密度极高、表格为主、功能优先
-- \`consumer-app\`：Spotify, Instagram — 视觉丰富、圆角多、动效多
-- \`news-editorial\`：NYT, Medium — 排版层次分明、阅读体验优先
-- \`ecommerce\`：Shopify, Stripe — 信任感、清晰的 CTA、产品展示
-- \`developer-docs\`：Vercel, Tailwind Docs — 代码友好、信息层次清晰
-- \`playful-brand\`：Mailchimp, Stripe — 有个性、微动效、插画
-- \`showcase-gallery\`：Mobbin, Dribbble — 作品展示、卡片网格、视觉优先
-- \`immersive-landing\`：Apple, 特斯拉 — 全屏视觉、滚动叙事、动效驱动
-
-如果不符合以上任何一种，用一个自定义的 archetype 名称。
-
-${langInstruction}
-
-## 输出格式
-
-你必须且只能输出一个合法的 JSON 对象。不要输出任何解释文字，不要用 markdown 代码块包裹，不要在 JSON 前后添加任何内容。第一个字符必须是 {，最后一个字符必须是 }。
+你必须输出一个合法的 JSON 对象，不要输出任何其他文字，不要用 markdown 代码块包裹。
 
 JSON 结构如下：
 
 {
-  "frontmatter": {
-    "schema": "vibe-thief/1.0",
-    "source": "原始 URL",
-    "extracted_at": "ISO 时间",
-    "confidence": 0.85,
-    "generator": "vibe-thief@0.1.0",
-    "mood": "2-3个词描述整体情绪",
-    "style_archetype": "风格原型标识符"
-  },
-  "narrative": {
-    "philosophy": "50-150字的设计哲学描述",
-    "keywords": ["词1", "词2", "词3", "词4", "词5"]
-  },
+  "design_feeling": "2-4 段话描述目标网站的视觉感受。包括：整体氛围（冷/暖、活泼/沉稳）、色彩情绪、排版节奏感、空间密度感、高级感来源。不要泛泛而谈，要具体描述这个网站独有的设计特征。",
+
   "colors": {
-    "background_layers": [{ "token": "bg-void", "value": "#hex", "usage": "用途" }],
-    "signal_colors": [{ "token": "signal-primary", "value": "#hex", "usage": "用途" }],
-    "text_hierarchy": [{ "token": "text-primary", "value": "#hex", "usage": "用途" }],
-    "philosophy": "色彩策略描述"
+    "background_layers": [
+      {"token": "bg-primary", "value": "#0A0A0A", "usage": "主背景"},
+      {"token": "bg-secondary", "value": "#111111", "usage": "卡片/区块背景"}
+    ],
+    "signal_colors": [
+      {"token": "accent", "value": "#5E6AD2", "usage": "按钮、链接、关键数据"}
+    ],
+    "text_hierarchy": [
+      {"token": "text-primary", "value": "#FFFFFF", "usage": "标题"},
+      {"token": "text-secondary", "value": "#888888", "usage": "正文/描述"}
+    ],
+    "border_colors": [
+      {"token": "border", "value": "#222222", "usage": "分割线、卡片边框"}
+    ],
+    "philosophy": "一句话描述色彩使用哲学"
   },
+
   "typography": {
-    "font_stack": { "heading": "字体", "body": "字体", "mono": "字体" },
-    "scale": [{ "token": "text-heading", "size": "20px", "weight": 600, "usage": "用途" }],
-    "philosophy": "排版策略描述"
+    "font_stack": {
+      "heading": "Inter, system-ui, sans-serif",
+      "body": "Inter, system-ui, sans-serif",
+      "mono": "JetBrains Mono, monospace"
+    },
+    "scale": [
+      {"token": "display", "size": "64px", "weight": 700, "lineHeight": "1.05", "letterSpacing": "-0.03em", "usage": "Hero 大标题"},
+      {"token": "h1", "size": "40px", "weight": 600, "lineHeight": "1.2", "usage": "页面主标题"},
+      {"token": "h2", "size": "28px", "weight": 600, "lineHeight": "1.3", "usage": "章节标题"},
+      {"token": "body", "size": "16px", "weight": 400, "lineHeight": "1.6", "usage": "正文"},
+      {"token": "small", "size": "13px", "weight": 400, "lineHeight": "1.5", "usage": "辅助文字"}
+    ],
+    "philosophy": "一句话描述排版哲学"
   },
+
   "spacing": {
     "base_unit": "4px",
-    "scale": [{ "token": "space-1", "value": "4px", "usage": "用途" }],
-    "philosophy": "间距策略描述"
+    "scale": [
+      {"token": "xs", "value": "4px", "usage": "紧凑元素内部"},
+      {"token": "sm", "value": "8px", "usage": "元素内部间距"},
+      {"token": "md", "value": "16px", "usage": "组件内部"},
+      {"token": "lg", "value": "24px", "usage": "组件之间"},
+      {"token": "xl", "value": "48px", "usage": "区块内部"},
+      {"token": "2xl", "value": "96px", "usage": "区块之间"}
+    ],
+    "philosophy": "一句话描述间距哲学"
   },
+
   "depth": {
-    "border_radius": [{ "token": "radius-card", "value": "8px", "usage": "用途" }],
-    "shadows": [{ "token": "shadow-md", "value": "...", "usage": "用途" }],
-    "borders": [{ "token": "border-subtle", "value": "...", "usage": "用途" }],
-    "philosophy": "深度/层级表达策略"
+    "border_radius": [
+      {"token": "sm", "value": "4px", "usage": "按钮、输入框"},
+      {"token": "md", "value": "8px", "usage": "卡片"},
+      {"token": "lg", "value": "16px", "usage": "大容器"}
+    ],
+    "shadows": [
+      {"token": "subtle", "value": "0 1px 3px rgba(0,0,0,0.1)", "usage": "卡片默认"},
+      {"token": "elevated", "value": "0 8px 30px rgba(0,0,0,0.12)", "usage": "hover/浮层"}
+    ],
+    "borders": [
+      {"token": "default", "value": "1px solid #222", "usage": "分割线、边框"}
+    ],
+    "philosophy": "一句话描述深度哲学"
   },
-  "motion": {
-    "tokens": [{ "token": "motion-fast", "duration": "150ms", "easing": "ease-out", "usage": "用途" }],
-    "philosophy": "动效 token 策略"
-  },
-  "motion_language": {
-    "scroll_behavior": "描述滚动行为：视差、渐入、固定导航等。如果没有明显动效就写'无特殊滚动行为'。",
-    "interaction_feedback": "描述交互反馈策略：hover/focus/active 的视觉变化。要具体描述颜色、位移、阴影的变化。",
-    "page_transitions": "描述页面间切换的动效。如果没有就写'无页面级转场'。",
-    "micro_interactions": "描述 loading、toast、tooltip 等小动效的风格。",
-    "motion_personality": "用一段话描述动效的整体性格。例如：'追求干脆的确认感，速度偏快（150-250ms），缓动曲线偏干脆（ease-out），每个动画都有明确的功能目的。'"
-  },
-  "visual_language": {
-    "layout_philosophy": "描述布局哲学：留白策略、信息密度、视觉节奏。用具体的比例或感受来描述。例如：'每屏通常只有 1-2 个信息单元，标题字号巨大（48-72px），通过大面积留白（80-120px）将用户注意力强制聚焦。'",
-    "imagery_style": "描述图像使用风格：产品图、场景图、插画的处理方式。例如：'产品图使用高精度渲染，纯白背景，无环境光；场景图使用真实摄影，浅景深，暖色调。'",
-    "icon_style": "描述图标风格：线性/填充/双色、圆角/锐利、线宽。如果页面没有明显图标风格就写'无明显图标体系'。",
-    "information_density": "描述信息密度：每屏承载多少信息，content-to-whitespace 比例。用具体感受描述。例如：'极低密度——每屏只有 1-2 个信息单元，大量留白'或'高密度——卡片紧密排列，每屏承载 10+ 个内容项'。",
-    "brand_personality": ["品牌个性词1", "品牌个性词2", "品牌个性词3"]
-  },
-  "components": [
+
+  "page_structure": [
     {
-      "name": "Button",
-      "description": "按钮组件描述",
-      "default": { "bg": "值", "color": "值", "border-radius": "值", "height": "28px" },
-      "hover": { "bg": "值" },
-      "focus": { "outline": "值" },
-      "variants": [
-        { "name": "Primary", "properties": { "bg": "信号色" } },
-        { "name": "Secondary", "properties": { "bg": "transparent", "border": "1px solid ..." } }
-      ]
+      "name": "Hero",
+      "purpose": "第一印象，传达核心价值",
+      "elements": ["大标题", "副标题", "CTA 按钮"],
+      "layout": "居中单列，全屏高度",
+      "notes": "标题 64-80px，下方 48px 间距"
     }
   ],
-  "interactions": {
-    "hover_style": "描述",
-    "focus_style": "描述",
-    "active_style": "描述",
-    "loading_style": "描述",
-    "transition_speed": "描述"
+
+  "css_code": [
+    {
+      "purpose": "代码用途描述",
+      "css": "完整的 CSS 代码"
+    }
+  ],
+
+  "js_code": [
+    {
+      "purpose": "代码用途描述",
+      "js": "完整的 JS 代码"
+    }
+  ],
+
+  "media_presentation": {
+    "imageStyle": "图片类型和风格",
+    "imageContainer": "图片容器样式",
+    "videoStyle": "视频呈现方式",
+    "iconStyle": "图标风格"
   },
-  "layout": {
-    "max_width": "1200px",
-    "grid": { "columns": 12, "gap": "24px" },
-    "breakpoints": [{ "name": "sm", "value": "640px" }],
-    "philosophy": "布局策略描述"
-  },
+
   "agent_guide": {
-    "do": ["具体建议1", "建议2", "建议3", "建议4", "建议5"],
-    "dont": ["禁止事项1", "禁止事项2", "禁止事项3", "禁止事项4", "禁止事项5"],
-    "snippets": [
-      { "scenario": "创建主按钮", "description": "用信号色作为背景", "example": "background: #hex; color: white; border-radius: 6px; height: 28px;" },
-      { "scenario": "创建卡片", "description": "...", "example": "..." },
-      { "scenario": "设置页面布局", "description": "...", "example": "..." }
-    ]
+    "do": ["应该做的"],
+    "dont": ["不应该做的"]
   }
 }
 
-## motion_language 提取指南
+注意：
+1. "design_feeling" 要具体描述这个网站独有的设计特征，不要写泛泛的套话
+2. "css_code" 中的代码要从 Stage 1 提取的 CSS 数据中提炼，包含：@keyframes 动画、hover/focus 交互、组件样式、布局模式。如果 Stage 1 有提取到的 keyframes 和 hover 规则，直接使用或适配后使用
+3. "page_structure" 要基于 Stage 1 提取的页面 DOM 结构来描述
+4. 所有 CSS 代码中的变量（如 var(--bg-primary)）要和 colors 部分的 token 对应
+5. "js_code" 包含交互逻辑，如滚动触发动画、平滑滚动等`;
+  }
 
-从 CSS 动画数据和视觉分析中推断：
-- 如果有 transition 数据，描述交互反馈的具体变化（颜色、位移、阴影）
-- 如果有 @keyframes，描述动画类型（fade、slide、scale 等）
-- 如果有 parallax 或 scroll-triggered 的迹象，描述滚动行为
-- 如果没有明显动效，就写"无特殊动效"，不要编造
+  return `You are a design system extraction expert. Convert Stage 1 analysis into a DESIGN.md JSON document.
 
-## visual_language 提取指南
+This document is consumed by AI Coding Agents (like Cursor) to design UI. Output a valid JSON object, no markdown code blocks.
 
-从截图和 CSS 数据中推断：
-- 布局哲学：看截图中内容和留白的比例
-- 图像风格：看截图中图片的处理方式（背景、裁切、滤镜）
-- 图标风格：看截图中图标的样式
-- 信息密度：看每屏大约有多少个独立的信息单元
-- 品牌个性：综合所有维度，给出 3-5 个关键词
+The JSON must include: design_feeling, colors, typography, spacing, depth, page_structure, css_code, js_code, media_presentation, agent_guide.
 
-`;
+Key rules:
+1. "design_feeling": Describe the target site's visual feel (2-4 paragraphs), don't teach the agent "who it is"
+2. "css_code": Include reusable CSS snippets for animations, interactions, components, layouts
+3. "page_structure": Section order with content elements per section
+4. "media_presentation": How images/videos are presented (style, container, treatment)
+5. All CSS code should use CSS variables that match the color tokens`;
+}
 
-  const user = `以下是提取的设计数据：
+function buildUserPrompt(tokenData: Record<string, unknown>, visionData: VisionAnalysis | null): string {
+  // 提取 CSS 代码数据（从 enriched tokenData 中）
+  const cssCode = (tokenData as any)._cssCode;
+  const pageStructure = (tokenData as any)._pageStructure;
 
-【Token 数据（Stage 1 分析结果）】
-\`\`\`json
-${JSON.stringify(tokenData, null, 2)}
-\`\`\`
-${visionData ? `
-【视觉感知分析】
-\`\`\`json
-${JSON.stringify(visionData, null, 2)}
-\`\`\`` : '\n（无视觉感知数据，基于 token 数据推断）'}
+  // 从 tokenData 中移除内部数据，避免传给 LLM
+  const cleanTokenData = { ...tokenData };
+  delete cleanTokenData._cssCode;
+  delete cleanTokenData._pageStructure;
 
-请根据以上数据，生成完整的设计文档 JSON。`;
+  return `以下是 Stage 1 分析的设计系统数据，请将其转换为完整的 DESIGN.md JSON 文档。
 
-  return { system, user };
+Stage 1 分析结果:
+${JSON.stringify(cleanTokenData, null, 2)}
+
+${visionData ? `视觉感知分析:
+${JSON.stringify(visionData, null, 2)}` : '（无视觉感知分析数据）'}
+
+${cssCode ? `【CSS 代码级提取 — 用于 css_code 部分】
+@keyframes 动画 (${cssCode.keyframes.length} 个):
+${cssCode.keyframes.map((k: any) => k.cssText).join('\n')}
+
+Hover 规则 (${cssCode.hoverRules.length} 个):
+${JSON.stringify(cssCode.hoverRules.slice(0, 10), null, 2)}
+
+Transition 规则 (${cssCode.transitionRules.length} 个):
+${JSON.stringify(cssCode.transitionRules.slice(0, 10), null, 2)}
+
+布局模式 (${cssCode.layoutPatterns.length} 个):
+${JSON.stringify(cssCode.layoutPatterns.slice(0, 10), null, 2)}
+
+组件样式 (${cssCode.componentStyles.length} 个):
+${JSON.stringify(cssCode.componentStyles.slice(0, 15), null, 2)}
+` : ''}
+
+${pageStructure ? `【页面 DOM 结构 — 用于 page_structure 部分】
+${JSON.stringify(pageStructure, null, 2)}
+` : ''}
+
+重要：
+- css_code 部分请基于上面的 CSS 代码级提取来生成，直接使用或适配从目标网站提取的 @keyframes、hover 交互、组件样式
+- page_structure 部分请基于上面的页面 DOM 结构来生成
+- design_feeling 要具体描述这个网站独有的设计特征`;
 }

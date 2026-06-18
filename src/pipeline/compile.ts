@@ -43,7 +43,10 @@ export async function compile(
 
   // 阶段 2：设计文档生成
   logger.info('Stage 2: Design document generation...');
-  const stage2Result = await stage2Generation(stage1Result.data, visionData, llmConfig, source, language);
+  const stage2Result = await stage2Generation(
+    stage1Result.data, visionData, llmConfig, source, language,
+    cssData.cssCode, cssData.pageStructure
+  );
   totalTokensUsed += stage2Result.tokensUsed;
 
   logger.info(`Compilation complete. LLM tokens used: ${totalTokensUsed}`);
@@ -110,10 +113,18 @@ async function stage2Generation(
   visionData: VisionAnalysis | null,
   llmConfig: LLMConfig,
   source: string,
-  language: 'zh' | 'en'
+  language: 'zh' | 'en',
+  cssCode?: CSSExtraction['cssCode'],
+  pageStructure?: CSSExtraction['pageStructure']
 ): Promise<{ doc: DesignSystemDoc; tokensUsed: number }> {
+  // 将 CSS 代码数据注入到 tokenData 中，供 Stage 2 prompt 使用
+  const enrichedTokenData = {
+    ...tokenData,
+    ...(cssCode ? { _cssCode: cssCode } : {}),
+    ...(pageStructure ? { _pageStructure: pageStructure } : {}),
+  };
   const provider = createLLMProvider(llmConfig);
-  const { system, user } = buildGenerationPrompt(tokenData, visionData, language);
+  const { system, user } = buildGenerationPrompt(enrichedTokenData, visionData, language);
 
   const messages: LLMMessage[] = [
     { role: 'system', content: system },
@@ -207,14 +218,12 @@ function buildFallbackDoc(tokenData: Record<string, unknown>, source: string): D
       mood: 'unknown',
       style_archetype: 'custom',
     },
-    narrative: {
-      philosophy: '（LLM 编译失败，以下是基于 CSS 数据的自动提取结果）',
-      keywords: [],
-    },
+    design_feeling: '（LLM 编译失败，以下是基于 CSS 数据的自动提取结果）',
     colors: {
       background_layers: [],
       signal_colors: colors.primary ? [{ token: 'primary', value: colors.primary.value || '#000', usage: '主色' }] : [],
       text_hierarchy: [{ token: 'text', value: '#000000', usage: '正文' }],
+      border_colors: [],
       philosophy: '',
     },
     typography: {
@@ -227,6 +236,7 @@ function buildFallbackDoc(tokenData: Record<string, unknown>, source: string): D
         token: s.name || 'text',
         size: s.size || '16px',
         weight: s.weight || 400,
+        lineHeight: s.lineHeight || '1.5',
         usage: '',
       })),
       philosophy: '',
@@ -241,30 +251,15 @@ function buildFallbackDoc(tokenData: Record<string, unknown>, source: string): D
       philosophy: '',
     },
     depth: { border_radius: [], shadows: [], borders: [], philosophy: '' },
-    motion: { tokens: [], philosophy: '' },
-    motion_language: {
-      scroll_behavior: '无特殊滚动行为',
-      interaction_feedback: '颜色微调 + 轻微位移',
-      page_transitions: '无页面级转场',
-      micro_interactions: '标准 loading spinner',
-      motion_personality: '（LLM 编译失败，无法提取动效语言）',
+    page_structure: [],
+    css_code: [],
+    js_code: [],
+    media_presentation: {
+      imageStyle: '未知',
+      imageContainer: '未知',
+      videoStyle: '未知',
+      iconStyle: '未知',
     },
-    visual_language: {
-      layout_philosophy: '（LLM 编译失败，无法提取布局哲学）',
-      imagery_style: '未知',
-      icon_style: '未知',
-      information_density: '未知',
-      brand_personality: [],
-    },
-    components: [],
-    interactions: {
-      hover_style: '颜色微调',
-      focus_style: 'outline',
-      active_style: '颜色变深',
-      loading_style: 'spinner',
-      transition_speed: '150ms ease-out',
-    },
-    layout: { max_width: '1200px', breakpoints: [], philosophy: '' },
     agent_guide: { do: [], dont: [] },
   };
 }
