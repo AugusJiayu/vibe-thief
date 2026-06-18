@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1440, initial-scale=1.0">
+    <title>Douban Design System - Preview</title>
+    <style>
+        :root {
+            /* Background Layers */
+            --bg-page: #ffffff;
+            --bg-surface: #f8f8f8;
+
+            /* Signal Colors */
+            --signal-primary: #007722;
+            --signal-secondary: #3377aa;
+            --signal-accent: #d57b0f;
+
+            /* Text Hierarchy */
+            --text-primary: #111111;
+            --text-secondary: #666666;
+            --text-disabled: #999999;
+
+            /* Type Scale */
+            --text-xs: 11px;
+            --text-sm: 12px;
+            --text-base: 13px;
+            --text-md: 14px;
+            --text-lg: 15px;
+            --text-xl: 25px;
+
+            /* Spacing */
+            --space-1: 2px;
+            --space-2: 3px;
+            --space-3: 5px;
+            --space-4: 7px;
+            --space-5: 10px;
+            --space-6: 12px;
+            --space-7: 13px;
+            --space-8: 14px;
+            --space-9: 18px;
+
+            /* Depth & Hierarchy */
+            --radius-sm: 3px;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --radius-full: 9999px;
+            --border-thin: 1px solid #c3c3c3;
+            --border-subtle: 1px solid #f0f0f0;
+
+            /* Motion */
+            --motion-fast: 150ms ease-out;
+            --motion-normal: 250ms ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Helvetica, Arial, sans-serif;
+            font-size: var(--text-base);
+            line-height: 1.5;
+            color: var(--text-primary);
+            background-color: var(--bg-page);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            background-color: var(--signal-primary);
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 var(--space-9);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar-brand {
+            color: #ffffff;
+            font-size: var(--text-lg);
+            font-weight: 400;
+            text-decoration: none;
+        }
+
+        .navbar-links {
+            display: flex;
+            align-items: center;
+            gap: var(--space-6);
+            list-style: none;
+        }
+
+        .navbar-links a {
+            color: #ffffff;
+            font-size: var(--text-md);
+            text-decoration: none;
+            transition: opacity var(--motion-fast);
+        }
+
+        .navbar-links a:hover {
+            opacity: 0.8;
+        }
+
+        .search-input {
+            width: 200px;
+            height: 28px;
+            padding: 0 var(--space-4);
+            background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: var(--radius-sm);
+            color: #ffffff;
+            font-size: var(--text-sm);
+            outline: none;
+            transition: border-color var(--motion-fast);
+        }
+
+        .search-input::placeholder {
+            color: rgba(255,255,255,0.7);
+        }
+
+        .search-input:hover {
+            border-color: rgba(255,255,255,0.6);
+        }
+
+        .search-input:focus {
+            border-color: rgba(255,255,255,0.8);
+            background: rgba(255,255,255,0.25);
+        }
+
+        /* Main Layout Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--space-9);
+        }
+
+        /* Header / Title Section */
+        .header {
+            padding: var(--space-9) 0;
+            border-bottom: var(--border-subtle);
+            margin-bottom: var(--space-9);
+        }
+
+        .header h1 {
+            font-size: var(--text-xl);
+            font-weight: 400;
+            color: var(--text-primary);
+            margin-bottom: var(--space-4);
+        }
+
+        .header p {
+            font-size: var(--text-md);
+            color: var(--text-secondary);
+            max-width: 700px;
+        }
+
+        /* Grid Layout for Content */
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 24px;
+            margin-bottom: var(--space-9);
+        }
+
+        /* Card List */
+        .card-list {
+            grid-column: span 8;
+        }
+
+        .card {
+            background-color: var(--bg-surface);
+            border: none;
+            border-radius: var(--radius-md);
+            padding: var(--space-8);
+            margin-bottom: var(--space-6);
+            transition: transform var(--motion-fast), box-shadow var(--motion-fast);
+        }
+
+        .card:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+
+        .card-title {
+            font-size: var(--text-lg);
+            font-weight: 400;
+            color: var(--text-primary);
+            margin-bottom: var(--space-3);
+        }
+
+        .card-content {
+            font-size: var(--text-md);
+            color: var(--text-secondary);
+            margin-bottom: var(--space-5);
+            line-height: 1.6;
+        }
+
+        .card-meta {
+            display: flex;
+            align-items: center;
+            gap: var(--space-5);
+            font-size: var(--text-sm);
+            color: var(--text-disabled);
+        }
+
+        .card-tag {
+            display: inline-block;
+            background-color: rgba(0, 119, 34, 0.1);
+            color: var(--signal-primary);
+            padding: var(--space-1) var(--space-4);
+            border-radius: var(--radius-sm);
+            font-size: var(--text-xs);
+            margin-right: var(--space-3);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            grid-column: span 4;
+        }
+
+        .sidebar-card {
+            background-color: var(--bg-surface);
+            border-radius: var(--radius-md);
+            padding: var(--space-8);
+            margin-bottom: var(--space-6);
+        }
+
+        .sidebar-card h3 {
+            font-size: var(--text-lg);
+            font-weight: 400;
+            color: var(--text-primary);
+            margin-bottom: var(--space-5);
+            padding-bottom: var(--space-4);
+            border-bottom: var(--border-subtle);
+        }
+
+        /* Buttons */
+        .button-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-4);
+            margin-top: var(--space-6);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            height: 28px;
+            padding: 0 var(--space-6);
+            font-size: var(--text-sm);
+            font-family: inherit;
+            font-weight: 400;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: all var(--motion-fast);
+            text-decoration: none;
+            line-height: 1;
+        }
+
+        .btn-primary {
+            background-color: var(--signal-primary);
+            color: #ffffff;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: #005f1a;
+        }
+
+        .btn-primary:focus {
+            outline: 2px solid var(--signal-secondary);
+            outline-offset: 1px;
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: #494949;
+            border: 1px solid #c3c3c3;
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--bg-surface);
+            border-color: #aaaaaa;
+        }
+
+        .btn-secondary:focus {
+            outline: 2px solid var(--signal-secondary);
+            outline-offset: 1px;
+        }
+
+        .btn-accent {
+            background-color: var(--signal-accent);
+            color: #ffffff;
+            border: none;
+        }
+
+        .btn-accent:hover {
+            background-color: #b86a0c;
+        }
+
+        .btn-accent:focus {
+            outline: 2px solid var(--signal-secondary);
+            outline-offset: 1px;
+        }
+
+        .btn-sm {
+            height: 24px;
+            padding: 0 var(--space-4);
+            font-size: var(--text-xs);
+        }
+
+        /* Input Fields */
+        .form-group {
+            margin-bottom: var(--space-6);
+        }
+
+        .form-label {
+            display: block;
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+            margin-bottom: var(--space-3);
+        }
+
+        .input {
+            width: 100%;
+            height: 28px;
+            padding: 0 var(--space-4);
+            background-color: #ffffff;
+            border: 1px solid #c3c3c3;
+            border-radius: var(--radius-sm);
+            font-size: var(--text-base);
+            font-family: inherit;
+            color: var(--text-primary);
+            outline: none;
+            transition: border-color var(--motion-fast);
+        }
+
+        .input:hover {
+            border-color: #999999;
+        }
+
+        .input:focus {
+            border-color: var(--signal-secondary);
+            box-shadow: 0 0 0 1px var(--signal-secondary);
+        }
+
+        .input::placeholder {
+            color: var(--text-disabled);
+        }
+
+        .input-textarea {
+            height: 80px;
+            padding: var(--space-4);
+            resize: vertical;
+            line-height: 1.5;
+        }
+
+        /* Typography Demo */
+        .type-demo {
+            margin: var(--space-6) 0;
+        }
+
+        .type-demo span {
+            display: block;
+            margin-bottom: var(--space-4);
+            color: var(--text-secondary);
+        }
+
+        .text-xl { font-size: var(--text-xl); color: var(--text-primary); }
+        .text-lg { font-size: var(--text-lg); color: var(--text-primary); }
+        .text-md { font-size: var(--text-md); }
+        .text-base { font-size: var(--text-base); }
+        .text-sm { font-size: var(--text-sm); }
+        .text-xs { font-size: var(--text-xs); }
+
+        /* Color Swatches */
+        .swatch-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: var(--space-5);
+            margin-top: var(--space-5);
+        }
+
+        .swatch {
+            text-align: center;
+        }
+
+        .swatch-color {
+            height: 40px;
+            border-radius: var(--radius-sm);
+            margin-bottom: var(--space-3);
+            border: var(--border-subtle);
+        }
+
+        .swatch-label {
+            font-size: var(--text-xs);
+            color: var(--text-secondary);
+            word-break: break-all;
+        }
+
+        /* Footer */
+        .footer {
+            padding: var(--space-9) 0;
+            border-top: var(--border-subtle);
+            margin-top: var(--space-9);
+            text-align: center;
+            font-size: var(--text-sm);
+            color: var(--text-disabled);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <a href="#" class="navbar-brand">豆瓣</a>
+        <ul class="navbar-links">
+            <li><a href="#">电影</a></li>
+            <li><a href="#">图书</a></li>
+            <li><a href="#">音乐</a></li>
+            <li><a href="#">小组</a></li>
+            <li><a href="#">同城</a></li>
+            <li><a href="#">FM</a></li>
+            <li><a href="#">时间</a></li>
+        </ul>
+        <input type="search" class="search-input" placeholder="搜索你感兴趣的内容...">
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Header Section -->
+        <header class="header">
+            <h1>发现你感兴趣的内容</h1>
+            <p>豆瓣是一个社区平台，帮助你发现电影、图书、音乐和更多有趣的事物。加入讨论，分享你的看法。</p>
+        </header>
+
+        <!-- Main Grid Layout -->
+        <div class="content-grid">
+            <!-- Card List Section -->
+            <section class="card-list">
+                <article class="card">
+                    <h2 class="card-title">最近热映电影推荐</h2>
+                    <p class="card-content">本周有几部备受期待的电影即将上映，从科幻巨制到文艺小品，总有一款适合你的口味。影评人们已经开始热议，现在就来加入讨论吧。</p>
+                    <div class="card-meta">
+                        <span class="card-tag">电影</span>
+                        <span class="card-tag">热门</span>
+                        <span>3小时前</span>
+                        <span>· 246条评论</span>
+                    </div>
+                    <div class="button-group">
+                        <button class="btn btn-primary btn-sm">想看</button>
+                        <button class="btn btn-secondary btn-sm">收藏</button>
+                        <button class="btn btn-accent btn-sm">讨论</button>
+                    </div>
+                </article>
+
+                <article class="card">
+                    <h2 class="card-title">2024年度最佳图书提名</h2>
+                    <p class="card-content">豆瓣读书编辑部精选了本年度最具影响力的图书作品，涵盖小说、社科、科技等多个领域。这些作品不仅在销量上表现突出，更在读者中引发了深度思考。</p>
+                    <div class="card-meta">
+                        <span class="card-tag">图书</span>
+                        <span>昨天</span>
+                        <span>· 89条评论</span>
+                    </div>
+                    <div class="button-group">
+                        <button class="btn btn-primary btn-sm">标记想读</button>
+                        <button class="btn btn-secondary btn-sm">加入书单</button>
+                    </div>
+                </article>
+
+                <article class="card">
+                    <h2 class="card-title">新独立音乐人访谈：创作背后的故事</h2>
+                    <p class="card-content">我们采访了五位新兴独立音乐人，听他们讲述创作灵感、行业挑战以及对未来的展望。音乐不仅是声音的艺术，更是生活的表达。</p>
+                    <div class="card-meta">
+                        <span class="card-tag">音乐</span>
+                        <span class="card-tag">访谈</span>
+                        <span>2天前</span>
+                        <span>· 132条评论</span>
+                    </div>
+                    <div class="button-group">
+                        <button class="btn btn-primary btn-sm">想听</button>
+                        <button class="btn btn-secondary btn-sm">分享</button>
+                    </div>
+                </article>
+            </section>
+
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                <!-- Login Panel -->
+                <div class="sidebar-card">
+                    <h3>登录豆瓣</h3>
+                    <div class="form-group">
+                        <label class="form-label" for="email">邮箱</label>
+                        <input type="email" id="email" class="input" placeholder="请输入邮箱地址">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="password">密码</label>
+                        <input type="password" id="password" class="input" placeholder="请输入密码">
+                    </div>
+                    <div class="button-group">
+                        <button class="btn btn-primary">登录</button>
+                        <button class="btn btn-secondary">注册账号</button>
+                    </div>
+                </div>
+
+                <!-- Design System Demo Panel -->
+                <div class="sidebar-card">
+                    <h3>设计系统演示</h3>
+                    
+                    <!-- Color Swatches -->
+                    <div class="type-demo">
+                        <span class="text-sm">色彩系统</span>
+                        <div class="swatch-grid">
+                            <div class="swatch">
+                                <div class="swatch-color" style="background-color: var(--signal-primary);"></div>
+                                <div class="swatch-label">Primary<br>#007722</div>
+                            </div>
+                            <div class="swatch">
+                                <div class="swatch-color" style="background-color: var(--signal-secondary);"></div>
+                                <div class="swatch-label">Secondary<br>#3377aa</div>
+                            </div>
+                            <div class="swatch">
+                                <div class="swatch-color" style="background-color: var(--signal-accent);"></div>
+                                <div class="swatch-label">Accent<br>#d57b0f</div>
+                            </div>
+                            <div class="swatch">
+                                <div class="swatch-color" style="background-color: var(--bg-surface);"></div>
+                                <div class="swatch-label">Surface<br>#f8f8f8</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Typography Scale -->
+                    <div class="type-demo">
+                        <span class="text-sm">排版比例</span>
+                        <div class="text-xl">标题 (25px)</div>
+                        <div class="text-lg">小标题 (15px)</div>
+                        <div class="text-md">正文内容 (14px)</div>
+                        <div class="text-base">基准文本 (13px)</div>
+                        <div class="text-sm">小号文本 (12px)</div>
+                        <div class="text-xs">注释文本 (11px)</div>
+                    </div>
+
+                    <!-- Button Variants -->
+                    <div class="type-demo">
+                        <span class="text-sm">按钮变体</span>
+                        <div class="button-group">
+                            <button class="btn btn-primary">主要按钮</button>
+                            <button class="btn btn-secondary">次要按钮</button>
+                            <button class="btn btn-accent">强调按钮</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Additional Input Demo -->
+                <div class="sidebar-card">
+                    <h3>创建新话题</h3>
+                    <div class="form-group">
+                        <label class="form-label" for="topic-title">话题标题</label>
+                        <input type="text" id="topic-title" class="input" placeholder="输入你想讨论的话题">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="topic-content">内容描述</label>
+                        <textarea id="topic-content" class="input input-textarea" placeholder="详细描述你想讨论的内容..."></textarea>
+                    </div>
+                    <div class="button-group">
+                        <button class="btn btn-primary">发布话题</button>
+                        <button class="btn btn-secondary">保存草稿</button>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>© 2024 豆瓣 · 使用 Douban Design System 构建</p>
+        </div>
+    </footer>
+</body>
+</html>

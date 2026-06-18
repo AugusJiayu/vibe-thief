@@ -1,0 +1,518 @@
+{
+  "css": {
+    "colors": {
+      "raw": [
+        {
+          "value": "#18191c",
+          "frequency": 100,
+          "sources": [
+            "color",
+            "border-color"
+          ]
+        },
+        {
+          "value": "#ffffff",
+          "frequency": 62,
+          "sources": [
+            "color",
+            "border-color",
+            "background-color"
+          ]
+        },
+        {
+          "value": "#f1f2f3",
+          "frequency": 6,
+          "sources": [
+            "background-color"
+          ]
+        },
+        {
+          "value": "#000000",
+          "frequency": 4,
+          "sources": [
+            "color",
+            "border-color"
+          ]
+        },
+        {
+          "value": "#e3e5e7",
+          "frequency": 3,
+          "sources": [
+            "border-color",
+            "background-color"
+          ]
+        },
+        {
+          "value": "#c9ccd0",
+          "frequency": 2,
+          "sources": [
+            "color",
+            "border-color"
+          ]
+        },
+        {
+          "value": "#00aeec",
+          "frequency": 8,
+          "sources": [
+            "color",
+            "border-color"
+          ]
+        }
+      ],
+      "cssVariables": {}
+    },
+    "typography": {
+      "fontFamilies": [
+        {
+          "family": "-apple-system",
+          "frequency": 86
+        }
+      ],
+      "fontSizes": [
+        {
+          "size": "15px",
+          "frequency": 10,
+          "contexts": [
+            "h3"
+          ]
+        },
+        {
+          "size": "14px",
+          "frequency": 43,
+          "contexts": [
+            "p",
+            "span",
+            "a",
+            "input",
+            "div",
+            "img",
+            "svg"
+          ]
+        },
+        {
+          "size": "16px",
+          "frequency": 29,
+          "contexts": [
+            "p",
+            "a",
+            "li",
+            "button",
+            "main",
+            "div",
+            "svg"
+          ]
+        },
+        {
+          "size": "12px",
+          "frequency": 1,
+          "contexts": [
+            "button"
+          ]
+        },
+        {
+          "size": "22px",
+          "frequency": 1,
+          "contexts": [
+            "button"
+          ]
+        },
+        {
+          "size": "13px",
+          "frequency": 2,
+          "contexts": [
+            "svg"
+          ]
+        }
+      ],
+      "fontWeights": [
+        {
+          "weight": 400,
+          "frequency": 84
+        },
+        {
+          "weight": 500,
+          "frequency": 2
+        }
+      ],
+      "lineHeights": [
+        {
+          "value": "22px",
+          "frequency": 10
+        },
+        {
+          "value": "64px",
+          "frequency": 25
+        },
+        {
+          "value": "20px",
+          "frequency": 2
+        },
+        {
+          "value": "16px",
+          "frequency": 12
+        },
+        {
+          "value": "36px",
+          "frequency": 1
+        },
+        {
+          "value": "25.6px",
+          "frequency": 15
+        },
+        {
+          "value": "22.4px",
+          "frequency": 12
+        },
+        {
+          "value": "14px",
+          "frequency": 1
+        },
+        {
+          "value": "38px",
+          "frequency": 1
+        },
+        {
+          "value": "32px",
+          "frequency": 1
+        },
+        {
+          "value": "20.8px",
+          "frequency": 2
+        }
+      ]
+    },
+    "spacing": {
+      "values": [
+        {
+          "value": "16px",
+          "frequency": 14
+        },
+        {
+          "value": "15px",
+          "frequency": 9
+        },
+        {
+          "value": "4px",
+          "frequency": 6
+        },
+        {
+          "value": "8px",
+          "frequency": 4
+        },
+        {
+          "value": "12px",
+          "frequency": 2
+        },
+        {
+          "value": "9px",
+          "frequency": 4
+        },
+        {
+          "value": "6px",
+          "frequency": 2
+        },
+        {
+          "value": "60px",
+          "frequency": 2
+        },
+        {
+          "value": "24px",
+          "frequency": 2
+        },
+        {
+          "value": "5px",
+          "frequency": 1
+        },
+        {
+          "value": "2px",
+          "frequency": 2
+        }
+      ],
+      "detectedBaseUnit": null
+    },
+    "borders": {
+      "radii": [
+        {
+          "value": "4px",
+          "frequency": 6
+        },
+        {
+          "value": "8px",
+          "frequency": 5
+        }
+      ],
+      "widths": [
+        {
+          "value": "1px",
+          "frequency": 2
+        }
+      ],
+      "styles": [
+        {
+          "value": "solid",
+          "frequency": 2
+        }
+      ]
+    },
+    "shadows": {
+      "values": [
+        {
+          "value": "rgba(0, 0, 0, 0.1) 0px 0px 30px 0px",
+          "frequency": 1
+        }
+      ]
+    },
+    "breakpoints": [],
+    "rawCSSVariables": {},
+    "animations": []
+  },
+  "pixel": {
+    "dominantColors": [
+      {
+        "hex": "#f8f8f8",
+        "rgb": [
+          248,
+          248,
+          248
+        ],
+        "hsl": [
+          0,
+          0,
+          97
+        ],
+        "role": "background",
+        "population": 0.43924199623352167
+      },
+      {
+        "hex": "#f0f0f0",
+        "rgb": [
+          240,
+          240,
+          240
+        ],
+        "hsl": [
+          0,
+          0,
+          94
+        ],
+        "role": "background",
+        "population": 0.24619784310263654
+      },
+      {
+        "hex": "#303020",
+        "rgb": [
+          48,
+          48,
+          32
+        ],
+        "hsl": [
+          60,
+          20,
+          16
+        ],
+        "role": "unknown",
+        "population": 0.01605424611581921
+      },
+      {
+        "hex": "#000000",
+        "rgb": [
+          0,
+          0,
+          0
+        ],
+        "hsl": [
+          0,
+          0,
+          0
+        ],
+        "role": "text",
+        "population": 0.00884386770244821
+      },
+      {
+        "hex": "#f0f0f8",
+        "rgb": [
+          240,
+          240,
+          248
+        ],
+        "hsl": [
+          240,
+          36,
+          96
+        ],
+        "role": "background",
+        "population": 0.008021789665725048
+      },
+      {
+        "hex": "#00a8e8",
+        "rgb": [
+          0,
+          168,
+          232
+        ],
+        "hsl": [
+          197,
+          100,
+          45
+        ],
+        "role": "unknown",
+        "population": 0.004870306614877589
+      },
+      {
+        "hex": "#e0e0e0",
+        "rgb": [
+          224,
+          224,
+          224
+        ],
+        "hsl": [
+          0,
+          0,
+          88
+        ],
+        "role": "neutral",
+        "population": 0.003730431967984934
+      },
+      {
+        "hex": "#e8e8e8",
+        "rgb": [
+          232,
+          232,
+          232
+        ],
+        "hsl": [
+          0,
+          0,
+          91
+        ],
+        "role": "background",
+        "population": 0.003372542961393597
+      },
+      {
+        "hex": "#181818",
+        "rgb": [
+          24,
+          24,
+          24
+        ],
+        "hsl": [
+          0,
+          0,
+          9
+        ],
+        "role": "text",
+        "population": 0.0030337806026365347
+      },
+      {
+        "hex": "#e0e8e8",
+        "rgb": [
+          224,
+          232,
+          232
+        ],
+        "hsl": [
+          180,
+          15,
+          89
+        ],
+        "role": "unknown",
+        "population": 0.002102827801318267
+      },
+      {
+        "hex": "#080808",
+        "rgb": [
+          8,
+          8,
+          8
+        ],
+        "hsl": [
+          0,
+          0,
+          3
+        ],
+        "role": "text",
+        "population": 0.001890227754237288
+      },
+      {
+        "hex": "#404810",
+        "rgb": [
+          64,
+          72,
+          16
+        ],
+        "hsl": [
+          69,
+          64,
+          17
+        ],
+        "role": "unknown",
+        "population": 0.0014859934086629
+      }
+    ],
+    "paletteHarmony": {
+      "type": "triadic",
+      "saturationRange": [
+        0,
+        100
+      ],
+      "lightnessRange": [
+        0,
+        97
+      ]
+    }
+  },
+  "vision": {
+    "mood": {
+      "primary": "playful",
+      "descriptors": [
+        "energetic",
+        "youthful",
+        "vibrant"
+      ]
+    },
+    "components": {
+      "buttons": {
+        "borderRadius": "medium-large rounded",
+        "style": "solid vibrant color, minimal shadow, smooth hover transition"
+      },
+      "cards": {
+        "borderRadius": "small-medium rounded",
+        "shadow": "subtle or no visible shadow",
+        "border": "no visible border on content cards"
+      },
+      "inputFields": {
+        "borderRadius": "small rounded",
+        "style": "light background, blue border highlight on focus"
+      }
+    },
+    "layout": {
+      "density": "comfortable",
+      "alignment": {
+        "navigation": "left-aligned horizontal layout",
+        "content": "grid-based, left-right aligned card arrangement"
+      },
+      "grid": "clear 3-column grid for content cards, consistent spacing between all elements"
+    },
+    "visualWeight": {
+      "contrast": "moderate",
+      "focusArea": {
+        "typography": "clean, legible sans-serif text",
+        "color": "vibrant accent colors (blue, pink, orange) for interactive elements",
+        "imagery": "high-visual-weight, colorful video thumbnails as primary content focus"
+      },
+      "overall": "balanced, with imagery dominating content sections, UI elements providing clear secondary hierarchy"
+    },
+    "interactions": {
+      "hoverStyle": "subtle background color shift for buttons, slight opacity change for card elements",
+      "focusStyle": "blue border highlight for input fields, focus ring for interactive components",
+      "transitionSpeed": "fast, smooth (~0.2-0.3s ease-in-out)"
+    },
+    "confidence": {
+      "mood": 0.9,
+      "components": 0.9,
+      "layout": 0.85,
+      "visualWeight": 0.9,
+      "interactions": 0.8
+    }
+  }
+}

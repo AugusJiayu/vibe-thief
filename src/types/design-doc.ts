@@ -159,6 +159,34 @@ export interface InteractionPatterns {
   transition_speed: string;
 }
 
+/** 动效语言：描述动效策略，不仅仅是 CSS 值 */
+export interface MotionLanguage {
+  /** 滚动行为：视差、渐入、固定导航等 */
+  scroll_behavior: string;
+  /** 交互反馈：hover、focus、active 的视觉变化策略 */
+  interaction_feedback: string;
+  /** 页面转场：页面间切换的动效 */
+  page_transitions: string;
+  /** 微交互：loading、toast、tooltip 等小动效 */
+  micro_interactions: string;
+  /** 动效性格：整体动效风格的定性描述 */
+  motion_personality: string;
+}
+
+/** 视觉语言：描述视觉策略，不仅仅是 token 值 */
+export interface VisualLanguage {
+  /** 布局哲学：留白策略、信息密度、视觉节奏 */
+  layout_philosophy: string;
+  /** 图像使用：产品图、场景图、插画的风格和处理方式 */
+  imagery_style: string;
+  /** 图标风格：线性/填充/双色、圆角/锐利、线宽等 */
+  icon_style: string;
+  /** 信息密度：每屏承载多少信息，content-to-whitespace 比例 */
+  information_density: string;
+  /** 品牌个性：用 3-5 个词定义这个设计的"性格" */
+  brand_personality: string[];
+}
+
 /** Agent 使用指南 */
 export interface AgentGuide {
   do: string[];
@@ -195,6 +223,8 @@ export interface DesignSystemDoc {
   spacing: SpacingStrategy;
   depth: DepthStrategy;
   motion: MotionStrategy;
+  motion_language: MotionLanguage;
+  visual_language: VisualLanguage;
   components: ComponentPattern[];
   interactions: InteractionPatterns;
   layout: LayoutRules;

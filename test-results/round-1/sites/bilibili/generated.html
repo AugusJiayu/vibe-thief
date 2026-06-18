@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bilibili Design System</title>
+    <style>
+        /* === RESET & BASE === */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+            line-height: 1.6;
+            color: #000000;
+            background-color: #f4f4f4;
+        }
+
+        /* === DESIGN TOKENS APPLIED === */
+        :root {
+            --color-primary: #00aeec;
+            --color-primary-hover: #33beef;
+            --color-primary-active: #009ad4;
+            --color-text: #000000;
+            --font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            --font-stack-code: monospace;
+            --text-xs: 12px;
+            --text-sm: 14px;
+            --text-base: 16px;
+            --text-lg: 15px;
+            --text-xl: 22px;
+            --weight-normal: 400;
+            --weight-medium: 500;
+            --space-1: 4px;
+            --space-2: 8px;
+            --space-3: 12px;
+            --space-4: 16px;
+            --space-5: 24px;
+            --space-6: 60px;
+            --max-width: 1200px;
+            --transition: 150ms ease-out;
+        }
+
+        /* === LAYOUT === */
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 var(--space-5);
+        }
+
+        /* === NAVIGATION === */
+        .navbar {
+            background-color: var(--color-primary);
+            padding: var(--space-4) 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .navbar .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .navbar-brand {
+            font-size: var(--text-xl);
+            font-weight: var(--weight-medium);
+            color: white;
+            text-decoration: none;
+        }
+
+        .navbar-links {
+            list-style: none;
+            display: flex;
+            gap: var(--space-5);
+        }
+
+        .navbar-links a {
+            color: white;
+            text-decoration: none;
+            font-size: var(--text-base);
+            transition: opacity var(--transition);
+        }
+
+        .navbar-links a:hover {
+            opacity: 0.8;
+        }
+
+        .navbar-actions {
+            display: flex;
+            align-items: center;
+            gap: var(--space-4);
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            background: white;
+            border-radius: 8px;
+            padding: var(--space-2) var(--space-3);
+        }
+
+        .search-input {
+            border: none;
+            outline: none;
+            font-size: var(--text-sm);
+            color: var(--color-text);
+            width: 180px;
+        }
+
+        /* === HERO / TITLE SECTION === */
+        .hero-section {
+            padding: var(--space-6) 0;
+            background: linear-gradient(135deg, #f5f9ff, #eef6ff);
+            margin-bottom: var(--space-6);
+        }
+
+        .hero-content h1 {
+            font-size: 36px;
+            font-weight: var(--weight-medium);
+            color: var(--color-text);
+            margin-bottom: var(--space-4);
+        }
+
+        .hero-content p {
+            font-size: var(--text-lg);
+            color: #555;
+            max-width: 600px;
+            line-height: 1.8;
+        }
+
+        /* === COMPONENTS: CARD LIST === */
+        .section-title {
+            font-size: var(--text-xl);
+            font-weight: var(--weight-medium);
+            color: var(--color-text);
+            margin-bottom: var(--space-5);
+            padding-bottom: var(--space-2);
+            border-bottom: 2px solid var(--color-primary);
+            display: inline-block;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: var(--space-5);
+            margin-bottom: var(--space-6);
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            transition: transform var(--transition), box-shadow var(--transition);
+            cursor: pointer;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+        }
+
+        .card-image {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .card-body {
+            padding: var(--space-4);
+        }
+
+        .card-title {
+            font-size: var(--text-base);
+            font-weight: var(--weight-medium);
+            color: var(--color-text);
+            margin-bottom: var(--space-2);
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .card-meta {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            font-size: var(--text-xs);
+            color: #999;
+            margin-top: var(--space-3);
+        }
+
+        .card-author {
+            display: flex;
+            align-items: center;
+            gap: var(--space-1);
+        }
+
+        .card-author-avatar {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--color-primary);
+        }
+
+        /* === COMPONENTS: BUTTONS === */
+        .buttons-section {
+            margin-bottom: var(--space-6);
+        }
+
+        .button-group {
+            display: flex;
+            gap: var(--space-3);
+            flex-wrap: wrap;
+            align-items: center;
+            margin-bottom: var(--space-4);
+        }
+
+        .button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: var(--space-2) var(--space-5);
+            border: none;
+            border-radius: 8px;
+            font-family: var(--font-stack);
+            font-size: var(--text-sm);
+            font-weight: var(--weight-medium);
+            cursor: pointer;
+            transition: all var(--transition);
+            text-decoration: none;
+        }
+
+        .button-primary {
+            background-color: var(--color-primary);
+            color: white;
+        }
+
+        .button-primary:hover {
+            background-color: var(--color-primary-hover);
+        }
+
+        .button-primary:active {
+            background-color: var(--color-primary-active);
+            transform: translateY(1px);
+        }
+
+        .button-secondary {
+            background-color: #f0f0f0;
+            color: var(--color-text);
+        }
+
+        .button-secondary:hover {
+            background-color: #e0e0e0;
+        }
+
+        .button-outline {
+            background-color: transparent;
+            border: 1.5px solid var(--color-primary);
+            color: var(--color-primary);
+        }
+
+        .button-outline:hover {
+            background-color: rgba(0, 174, 236, 0.05);
+        }
+
+        .button-text {
+            background-color: transparent;
+            color: var(--color-primary);
+            padding-left: var(--space-2);
+            padding-right: var(--space-2);
+        }
+
+        .button-text:hover {
+            background-color: rgba(0, 174, 236, 0.1);
+        }
+
+        .button-large {
+            padding: var(--space-3) var(--space-6);
+            font-size: var(--text-base);
+        }
+
+        .button-small {
+            padding: var(--space-1) var(--space-3);
+            font-size: var(--text-xs);
+        }
+
+        /* === COMPONENTS: INPUT === */
+        .inputs-section {
+            margin-bottom: var(--space-6);
+        }
+
+        .form-group {
+            margin-bottom: var(--space-4);
+        }
+
+        .form-label {
+            display: block;
+            font-size: var(--text-sm);
+            font-weight: var(--weight-medium);
+            color: var(--color-text);
+            margin-bottom: var(--space-2);
+        }
+
+        .form-input {
+            width: 100%;
+            max-width: 400px;
+            padding: var(--space-3) var(--space-4);
+            border: 1.5px solid #ddd;
+            border-radius: 8px;
+            font-family: var(--font-stack);
+            font-size: var(--text-base);
+            color: var(--color-text);
+            transition: border-color var(--transition), box-shadow var(--transition);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 3px rgba(0, 174, 236, 0.2);
+        }
+
+        .form-input::placeholder {
+            color: #aaa;
+        }
+
+        .input-with-button {
+            display: flex;
+            gap: var(--space-2);
+            max-width: 500px;
+        }
+
+        .input-with-button .form-input {
+            flex: 1;
+            max-width: none;
+        }
+
+        /* === UTILITY: TEXT SIZES DEMO === */
+        .type-scale-demo {
+            background: white;
+            padding: var(--space-5);
+            border-radius: 12px;
+            margin-bottom: var(--space-5);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        .type-scale-demo p {
+            margin-bottom: var(--space-3);
+        }
+
+        .type-xs { font-size: var(--text-xs); }
+        .type-sm { font-size: var(--text-sm); }
+        .type-base { font-size: var(--text-base); }
+        .type-lg { font-size: var(--text-lg); }
+        .type-xl { font-size: var(--text-xl); font-weight: var(--weight-medium); }
+
+        /* === FOOTER === */
+        .footer {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: var(--space-6) 0;
+            margin-top: var(--space-6);
+            font-size: var(--text-sm);
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .footer-section h4 {
+            font-size: var(--text-base);
+            margin-bottom: var(--space-3);
+            color: var(--color-primary);
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section li {
+            margin-bottom: var(--space-2);
+        }
+
+        .footer-section a {
+            color: #bdc3c7;
+            text-decoration: none;
+            transition: color var(--transition);
+        }
+
+        .footer-section a:hover {
+            color: var(--color-primary);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: var(--space-5);
+            padding-top: var(--space-4);
+            border-top: 1px solid #4a6a7a;
+            color: #95a5a6;
+            font-size: var(--text-xs);
+        }
+
+        /* === LOADING SPINNER (Micro-interaction) === */
+        .spinner {
+            width: 24px;
+            height: 24px;
+            border: 3px solid rgba(0, 174, 236, 0.2);
+            border-top-color: var(--color-primary);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="#" class="navbar-brand">Bilibili Design</a>
+            <ul class="navbar-links">
+                <li><a href="#">首页</a></li>
+                <li><a href="#">动态</a></li>
+                <li><a href="#">番剧</a></li>
+                <li><a href="#">直播</a></li>
+            </ul>
+            <div class="navbar-actions">
+                <div class="search-box">
+                    <input type="text" class="search-input" placeholder="搜索视频、用户...">
+                </div>
+                <button class="button button-secondary">登录</button>
+                <button class="button button-primary">注册</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="hero-content">
+                <h1>设计系统概览</h1>
+                <p>这是基于 Bilibili 风格提取的设计系统示例，展示了色彩、排版、间距和核心组件。该设计系统强调清晰的信息层次和友好的用户交互。</p>
+            </div>
+        </div>
+    </section>
+
+    <main class="container">
+        <!-- Typography Demo -->
+        <section class="type-scale-demo">
+            <h2 class="section-title">字体比例 (Type Scale)</h2>
+            <p class="type-xs">Extra Small (12px) - 用于辅助文字、标签等</p>
+            <p class="type-sm">Small (14px) - 次要正文、描述信息</p>
+            <p class="type-base">Base (16px) - 标准正文大小</p>
+            <p class="type-lg">Large (15px) - 强调段落或副标题</p>
+            <p class="type-xl">Extra Large (22px) - 主要标题</p>
+        </section>
+
+        <!-- Card List Section -->
+        <section>
+            <h2 class="section-title">热门内容 (卡片列表)</h2>
+            <div class="card-grid">
+                <!-- Card 1 -->
+                <div class="card">
+                    <div class="card-image" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);"></div>
+                    <div class="card-body">
+                        <h3 class="card-title">学习前端设计系统：从理论到实践的完整指南</h3>
+                        <div class="card-meta">
+                            <div class="card-author">
+                                <div class="card-author-avatar"></div>
+                                <span>设计小哥</span>
+                            </div>
+                            <span>12.5万播放</span>
+                            <span>3天前</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card 2 -->
+                <div class="card">
+                    <div class="card-image" style="background: linear-gradient(135deg, #fbc2eb 0%, #a6c1ee 100%);"></div>
+                    <div class="card-body">
+                        <h3 class="card-title">B站UI组件库开发实战，手把手教你造轮子</h3>
+                        <div class="card-meta">
+                            <div class="card-author">
+                                <div class="card-author-avatar" style="background: #ff6b6b;"></div>
+                                <span>码上行动</span>
+                            </div>
+                            <span>8.9万播放</span>
+                            <span>1周前</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card 3 -->
+                <div class="card">
+                    <div class="card-image" style="background: linear-gradient(135deg, #d4fc79 0%, #96e6a1 100%);"></div>
+                    <div class="card-body">
+                        <h3 class="card-title">色彩心理学在UI设计中的应用实例解析</h3>
+                        <div class="card-meta">
+                            <div class="card-author">
+                                <div class="card-author-avatar" style="background: #feca57;"></div>
+                                <span>创意工坊</span>
+                            </div>
+                            <span>24.1万播放</span>
+                            <span>5天前</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card 4 -->
+                <div class="card">
+                    <div class="card-image" style="background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);"></div>
+                    <div class="card-body">
+                        <h3 class="card-title">移动端交互设计趋势2026：微交互与动效</h3>
+                        <div class="card-meta">
+                            <div class="card-author">
+                                <div class="card-author-avatar" style="background: #54a0ff;"></div>
+                                <span>UX研究院</span>
+                            </div>
+                            <span>6.3万播放</span>
+                            <span>2天前</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Buttons Section -->
+        <section class="buttons-section">
+            <h2 class="section-title">按钮组件 (Buttons)</h2>
+            <div class="button-group">
+                <button class="button button-primary button-large">主要按钮</button>
+                <button class="button button-secondary">次要按钮</button>
+                <button class="button button-outline">轮廓按钮</button>
+                <button class="button button-text">文字按钮</button>
+            </div>
+            <div class="button-group">
+                <button class="button button-primary button-small">小号主要按钮</button>
+                <button class="button button-secondary button-small">小号次要按钮</button>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <span style="font-size: var(--text-sm); color: #666;">加载中:</span>
+                    <div class="spinner"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Inputs Section -->
+        <section class="inputs-section">
+            <h2 class="section-title">输入框组件 (Inputs)</h2>
+            <div class="form-group">
+                <label class="form-label">用户名</label>
+                <input type="text" class="form-input" placeholder="请输入您的用户名">
+            </div>
+            <div class="form-group">
+                <label class="form-label">密码</label>
+                <input type="password" class="form-input" placeholder="请输入密码">
+            </div>
+            <div class="form-group">
+                <label class="form-label">搜索并关注</label>
+                <div class="input-with-button">
+                    <input type="text" class="form-input" placeholder="搜索UP主或关键词...">
+                    <button class="button button-primary">搜索</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>关于我们</h4>
+                    <ul>
+                        <li><a href="#">公司介绍</a></li>
+                        <li><a href="#">联系我们</a></li>
+                        <li><a href="#">加入我们</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>帮助中心</h4>
+                    <ul>
+                        <li><a href="#">用户反馈</a></li>
+                        <li><a href="#">版权说明</a></li>
+                        <li><a href="#">隐私政策</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>合作</h4>
+                    <ul>
+                        <li><a href="#">广告合作</a></li>
+                        <li><a href="#">机构入驻</a></li>
+                        <li><a href="#">API开放平台</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>客户端下载</h4>
+                    <ul>
+                        <li><a href="#">Android</a></li>
+                        <li><a href="#">iOS</a></li>
+                        <li><a href="#">Windows</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Bilibili Design System Demo. 基于 DESIGN.md 生成。视口: 1440x900px</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

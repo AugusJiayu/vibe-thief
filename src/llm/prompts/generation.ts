@@ -11,7 +11,7 @@ export function buildGenerationPrompt(
   language: 'zh' | 'en' = 'zh'
 ): { system: string; user: string } {
   const langInstruction = language === 'zh'
-    ? '所有输出使用中文。技术术语（如 font-weight, border-radius）保持英文。'
+    ? '所有输出使用中文。技术术语（如 font-weight, border-radius, parallax）保持英文。'
     : 'All output in English.';
 
   const system = `你是一位资深设计系统架构师，同时也是一位能与 AI Agent 高效协作的技术写作者。
@@ -35,9 +35,13 @@ export function buildGenerationPrompt(
 - 信号色：只用于需要用户注意的地方
 - 文字层级：主/次/辅/禁用，表达信息的重要性
 
-**组件模式要完整：default → hover → focus → active → disabled**
+**动效要描述"性格"和"目的"，不只是 CSS 值。**
+- 错误：transition: all 0.2s ease
+- 正确：hover 反馈追求"干脆的确认感"——200ms ease-out，颜色变深 + 轻微上移
 
-**Agent 指南要具体可执行：Do/Don't 列表 + 代码片段建议**
+**视觉风格要描述"布局节奏"和"信息密度"。**
+- Apple 的节奏是"大图 + 大字 + 大留白 = 呼吸感"
+- B 站的节奏是"密铺卡片 + 小间距 = 信息密度"
 
 ## 风格原型参考
 
@@ -50,8 +54,9 @@ export function buildGenerationPrompt(
 - \`news-editorial\`：NYT, Medium — 排版层次分明、阅读体验优先
 - \`ecommerce\`：Shopify, Stripe — 信任感、清晰的 CTA、产品展示
 - \`developer-docs\`：Vercel, Tailwind Docs — 代码友好、信息层次清晰
-- \`playful-brand\`：Mailchimp, Linear（旧版）— 有个性、微动效、插画
-- \`startup-landing\`：典型 SaaS 落地页 — hero section、feature grid、CTA
+- \`playful-brand\`：Mailchimp, Stripe — 有个性、微动效、插画
+- \`showcase-gallery\`：Mobbin, Dribbble — 作品展示、卡片网格、视觉优先
+- \`immersive-landing\`：Apple, 特斯拉 — 全屏视觉、滚动叙事、动效驱动
 
 如果不符合以上任何一种，用一个自定义的 archetype 名称。
 
@@ -74,52 +79,48 @@ JSON 结构如下：
     "style_archetype": "风格原型标识符"
   },
   "narrative": {
-    "philosophy": "50-150字的设计哲学描述，要像一个资深设计师在向新人解释这个系统",
+    "philosophy": "50-150字的设计哲学描述",
     "keywords": ["词1", "词2", "词3", "词4", "词5"]
   },
   "colors": {
-    "background_layers": [
-      { "token": "bg-void", "value": "#0A0A0B", "usage": "页面最底层背景" }
-    ],
-    "signal_colors": [
-      { "token": "signal-primary", "value": "#5E6AD2", "usage": "主按钮、选中态、关键链接" }
-    ],
-    "text_hierarchy": [
-      { "token": "text-primary", "value": "#EDEDEC", "usage": "标题、关键信息" }
-    ],
-    "philosophy": "一段话解释色彩策略"
+    "background_layers": [{ "token": "bg-void", "value": "#hex", "usage": "用途" }],
+    "signal_colors": [{ "token": "signal-primary", "value": "#hex", "usage": "用途" }],
+    "text_hierarchy": [{ "token": "text-primary", "value": "#hex", "usage": "用途" }],
+    "philosophy": "色彩策略描述"
   },
   "typography": {
-    "font_stack": { "heading": "字体名", "body": "字体名", "mono": "字体名" },
-    "scale": [
-      { "token": "text-heading", "size": "20px", "weight": 600, "usage": "页面标题" }
-    ],
-    "philosophy": "一段话解释排版策略"
+    "font_stack": { "heading": "字体", "body": "字体", "mono": "字体" },
+    "scale": [{ "token": "text-heading", "size": "20px", "weight": 600, "usage": "用途" }],
+    "philosophy": "排版策略描述"
   },
   "spacing": {
     "base_unit": "4px",
-    "scale": [
-      { "token": "space-tight", "value": "4px", "usage": "图标与文字" }
-    ],
-    "philosophy": "一段话解释间距策略"
+    "scale": [{ "token": "space-1", "value": "4px", "usage": "用途" }],
+    "philosophy": "间距策略描述"
   },
   "depth": {
-    "border_radius": [
-      { "token": "radius-card", "value": "6px", "usage": "卡片" }
-    ],
-    "shadows": [
-      { "token": "shadow-dropdown", "value": "0 4px 12px rgba(0,0,0,0.4)", "usage": "下拉菜单" }
-    ],
-    "borders": [
-      { "token": "border-subtle", "value": "1px solid #222229", "usage": "卡片边框" }
-    ],
-    "philosophy": "一段话解释深度/层级表达策略（用阴影？用颜色？用边框？）"
+    "border_radius": [{ "token": "radius-card", "value": "8px", "usage": "用途" }],
+    "shadows": [{ "token": "shadow-md", "value": "...", "usage": "用途" }],
+    "borders": [{ "token": "border-subtle", "value": "...", "usage": "用途" }],
+    "philosophy": "深度/层级表达策略"
   },
   "motion": {
-    "tokens": [
-      { "token": "motion-fast", "duration": "150ms", "easing": "ease-out", "usage": "hover 反馈" }
-    ],
-    "philosophy": "一段话解释动效策略"
+    "tokens": [{ "token": "motion-fast", "duration": "150ms", "easing": "ease-out", "usage": "用途" }],
+    "philosophy": "动效 token 策略"
+  },
+  "motion_language": {
+    "scroll_behavior": "描述滚动行为：视差、渐入、固定导航等。如果没有明显动效就写'无特殊滚动行为'。",
+    "interaction_feedback": "描述交互反馈策略：hover/focus/active 的视觉变化。要具体描述颜色、位移、阴影的变化。",
+    "page_transitions": "描述页面间切换的动效。如果没有就写'无页面级转场'。",
+    "micro_interactions": "描述 loading、toast、tooltip 等小动效的风格。",
+    "motion_personality": "用一段话描述动效的整体性格。例如：'追求干脆的确认感，速度偏快（150-250ms），缓动曲线偏干脆（ease-out），每个动画都有明确的功能目的。'"
+  },
+  "visual_language": {
+    "layout_philosophy": "描述布局哲学：留白策略、信息密度、视觉节奏。用具体的比例或感受来描述。例如：'每屏通常只有 1-2 个信息单元，标题字号巨大（48-72px），通过大面积留白（80-120px）将用户注意力强制聚焦。'",
+    "imagery_style": "描述图像使用风格：产品图、场景图、插画的处理方式。例如：'产品图使用高精度渲染，纯白背景，无环境光；场景图使用真实摄影，浅景深，暖色调。'",
+    "icon_style": "描述图标风格：线性/填充/双色、圆角/锐利、线宽。如果页面没有明显图标风格就写'无明显图标体系'。",
+    "information_density": "描述信息密度：每屏承载多少信息，content-to-whitespace 比例。用具体感受描述。例如：'极低密度——每屏只有 1-2 个信息单元，大量留白'或'高密度——卡片紧密排列，每屏承载 10+ 个内容项'。",
+    "brand_personality": ["品牌个性词1", "品牌个性词2", "品牌个性词3"]
   },
   "components": [
     {
@@ -145,40 +146,36 @@ JSON 结构如下：
     "max_width": "1200px",
     "grid": { "columns": 12, "gap": "24px" },
     "breakpoints": [{ "name": "sm", "value": "640px" }],
-    "philosophy": "一段话解释布局策略"
+    "philosophy": "布局策略描述"
   },
   "agent_guide": {
-    "do": ["具体的可执行建议1", "建议2"],
-    "dont": ["具体的禁止事项1", "禁止事项2"],
+    "do": ["具体建议1", "建议2", "建议3", "建议4", "建议5"],
+    "dont": ["禁止事项1", "禁止事项2", "禁止事项3", "禁止事项4", "禁止事项5"],
     "snippets": [
-      { "scenario": "创建主按钮", "description": "用信号色作为背景", "example": "background: #5E6AD2; color: white; border-radius: 6px; height: 28px;" }
+      { "scenario": "创建主按钮", "description": "用信号色作为背景", "example": "background: #hex; color: white; border-radius: 6px; height: 28px;" },
+      { "scenario": "创建卡片", "description": "...", "example": "..." },
+      { "scenario": "设置页面布局", "description": "...", "example": "..." }
     ]
   }
 }
-\`\`\`
 
-## 组件模式提取指南
+## motion_language 提取指南
 
-从 CSS 数据和视觉分析中推断以下组件（如果数据足够）：
-- **Button**：从 button 元素的 computed style 推断
-- **Input**：从 input/textarea 推断
-- **Card**：从有背景色+边框+圆角的容器推断
-- **Navigation**：从 nav/header 推断
-- **List/Table**：从 table/ul 推断
+从 CSS 动画数据和视觉分析中推断：
+- 如果有 transition 数据，描述交互反馈的具体变化（颜色、位移、阴影）
+- 如果有 @keyframes，描述动画类型（fade、slide、scale 等）
+- 如果有 parallax 或 scroll-triggered 的迹象，描述滚动行为
+- 如果没有明显动效，就写"无特殊动效"，不要编造
 
-每个组件至少要有 default 态。如果有视觉分析数据，补充 hover/focus 态。
+## visual_language 提取指南
 
-## Agent 指南提取指南
+从截图和 CSS 数据中推断：
+- 布局哲学：看截图中内容和留白的比例
+- 图像风格：看截图中图片的处理方式（背景、裁切、滤镜）
+- 图标风格：看截图中图标的样式
+- 信息密度：看每屏大约有多少个独立的信息单元
+- 品牌个性：综合所有维度，给出 3-5 个关键词
 
-Do/Don't 列表应该包含 5-8 条，每条都要具体可执行：
-- ✅ Do: "用背景色层级表达深度，而非阴影"
-- ❌ Don't: "不要在卡片上加超过 4px 的圆角"
-
-Snippets 应该包含 3-5 个常见场景：
-- 创建主按钮
-- 创建卡片
-- 创建输入框
-- 设置页面布局
 `;
 
   const user = `以下是提取的设计数据：

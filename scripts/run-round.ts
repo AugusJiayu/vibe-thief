@@ -36,16 +36,12 @@ import { chromium } from 'playwright';
 // ─── 测试网站 ───
 
 const TEST_SITES = [
-  { name: 'apple', url: 'https://www.apple.com.cn', archetype: 'minimal-portfolio' },
-  { name: 'feishu', url: 'https://www.feishu.cn', archetype: 'light-saas' },
+  { name: 'apple', url: 'https://www.apple.com.cn', archetype: 'immersive-landing' },
   { name: 'bilibili', url: 'https://www.bilibili.com', archetype: 'consumer-app' },
-  { name: 'xiaomi', url: 'https://www.mi.com', archetype: 'ecommerce' },
-  { name: 'huawei', url: 'https://www.huawei.com', archetype: 'enterprise' },
-  { name: 'bytedance', url: 'https://www.bytedance.com', archetype: 'startup-landing' },
-  { name: 'netease-music', url: 'https://music.163.com', archetype: 'consumer-app' },
-  { name: 'zhihu', url: 'https://www.zhihu.com', archetype: 'light-saas' },
-  { name: 'douban', url: 'https://www.douban.com', archetype: 'news-editorial' },
-  { name: 'taobao', url: 'https://www.taobao.com', archetype: 'ecommerce' },
+  { name: 'mobbin', url: 'https://mobbin.com', archetype: 'showcase-gallery' },
+  { name: 'volcengine', url: 'https://www.volcengine.com/activity/codingplan', archetype: 'enterprise' },
+  { name: 'cssda', url: 'https://www.cssdesignawards.com', archetype: 'showcase-gallery' },
+  { name: 'accio', url: 'https://www.accio-ai.com/work', archetype: 'minimal-portfolio' },
 ];
 
 const TARGET_SCORE = 80; // 目标基准线
@@ -172,7 +168,7 @@ async function validateSite(
     const html = await generateHTML(designMd, llmConfig);
     await writeFile(join(siteDir, 'generated.html'), html, 'utf-8');
 
-    // 截图对比
+    // 截图对比（压缩图片以适配 API 限制）
     const screenshots = await captureScreenshots(siteResult.url, html, siteDir);
 
     // 多模态 LLM 评估相似度
@@ -276,8 +272,16 @@ async function compareSimilarity(
     model: llmConfig.visionModel || llmConfig.model,
   });
 
-  const originalBuffer = await readFile(originalPath);
-  const generatedBuffer = await readFile(generatedPath);
+  // 压缩图片：缩放到 1024px 宽，转为 JPEG，质量 80
+  const sharp = (await import('sharp')).default;
+  const originalBuffer = await sharp(await readFile(originalPath))
+    .resize(1024, null, { withoutEnlargement: true })
+    .jpeg({ quality: 80 })
+    .toBuffer();
+  const generatedBuffer = await sharp(await readFile(generatedPath))
+    .resize(1024, null, { withoutEnlargement: true })
+    .jpeg({ quality: 80 })
+    .toBuffer();
 
   // 重试最多 3 次
   for (let attempt = 1; attempt <= 3; attempt++) {
@@ -296,8 +300,8 @@ async function compareSimilarity(
           role: 'user',
           content: [
             { type: 'text', text: '图1是原始网站，图2是根据设计文档生成的页面。请评估视觉相似度。' },
-            { type: 'image_url', image_url: { url: `data:image/png;base64,${originalBuffer.toString('base64')}`, detail: 'high' } },
-            { type: 'image_url', image_url: { url: `data:image/png;base64,${generatedBuffer.toString('base64')}`, detail: 'high' } },
+            { type: 'image_url', image_url: { url: `data:image/jpeg;base64,${originalBuffer.toString('base64')}`, detail: 'high' } },
+            { type: 'image_url', image_url: { url: `data:image/jpeg;base64,${generatedBuffer.toString('base64')}`, detail: 'high' } },
           ],
         },
       ], { temperature: 0.1, maxTokens: 512 });
@@ -546,7 +550,7 @@ async function main() {
   const llmConfig = getLLMConfig();
   const pipelineConfig: PipelineConfig = {
     llm: llmConfig,
-    browser: { headless: true, channel: 'chrome' as const },
+    browser: { headless: true, channel: 'msedge' as const },
     output: { format: 'full', language: 'zh' },
   };
 

@@ -1,0 +1,301 @@
+{
+  "frontmatter": {
+    "schema": "vibe-thief/1.0",
+    "source": "https://mobbin.com",
+    "extracted_at": "2026-06-17T15:24:50.221Z",
+    "confidence": 0.8,
+    "generator": "vibe-thief@0.1.0",
+    "mood": "专业、极简、专注",
+    "style_archetype": "minimal-tool"
+  },
+  "narrative": {
+    "philosophy": "设计以排版和留白为核心驱动力，追求绝对的清晰与专注。通过超大标题瞬间抓住用户注意力，再用大量留白将视线引导至核心内容。色彩极度克制，几乎只用黑白灰，唯一的紫色作为品牌信号点出现，强调其工具属性的精准与专业。",
+    "keywords": [
+      "专业",
+      "极简",
+      "专注",
+      "留白",
+      "排版驱动"
+    ]
+  },
+  "colors": {
+    "background_layers": [
+      {
+        "token": "bg-primary",
+        "value": "#FFFFFF",
+        "usage": "页面主背景，提供干净的画布。"
+      },
+      {
+        "token": "bg-surface",
+        "value": "#FFFFFF",
+        "usage": "卡片或内容容器背景，与主背景一致，不制造额外层级。"
+      }
+    ],
+    "signal_colors": [
+      {
+        "token": "signal-accent",
+        "value": "#8A5CFF (推断)",
+        "usage": "仅用于品牌Logo和需要强调的、非交互的视觉焦点，如Logo图标。"
+      },
+      {
+        "token": "signal-interactive",
+        "value": "#141414",
+        "usage": "实心按钮、关键交互元素的背景色。使用最深的颜色作为交互信号，而非亮色。"
+      }
+    ],
+    "text_hierarchy": [
+      {
+        "token": "text-primary",
+        "value": "#141414",
+        "usage": "标题、正文主文字，确保最高可读性。"
+      },
+      {
+        "token": "text-secondary",
+        "value": "#717171",
+        "usage": "次级说明文字、辅助信息、边框色。"
+      }
+    ],
+    "philosophy": "色彩策略是‘色彩即信息层级，而非装饰’。主背景为绝对白色，文字用最深黑和中灰区分重要性。唯一的例外是品牌Logo的紫色，它不属于交互色系，仅作为身份标识。交互元素（如按钮）的‘信号’是通过使用最深的颜色（#141414）实现，与周围留白形成高对比，而非使用亮色。"
+  },
+  "typography": {
+    "font_stack": {
+      "heading": "M Saans 652, sans-serif",
+      "body": "M Saans 652, sans-serif",
+      "mono": "monospace"
+    },
+    "scale": [
+      {
+        "token": "display-hero",
+        "size": "80px",
+        "weight": 400,
+        "usage": "首屏超大标题，用于瞬间吸引注意力，是页面的绝对视觉重心。"
+      },
+      {
+        "token": "display-lg",
+        "size": "56px",
+        "weight": 400,
+        "usage": "次级大标题，用于重要章节。"
+      },
+      {
+        "token": "heading-md",
+        "size": "24px",
+        "weight": 400,
+        "usage": "中级标题，用于卡片或内容区块标题。"
+      },
+      {
+        "token": "heading-sm",
+        "size": "20px",
+        "weight": 400,
+        "usage": "小型标题或强调正文。"
+      },
+      {
+        "token": "body",
+        "size": "16px",
+        "weight": 400,
+        "usage": "标准正文，确保长文本阅读舒适。"
+      },
+      {
+        "token": "body-sm",
+        "size": "14px",
+        "weight": 400,
+        "usage": "辅助正文、按钮文字、输入框文字。"
+      },
+      {
+        "token": "caption",
+        "size": "12px",
+        "weight": 400,
+        "usage": "说明文字、标签、元数据。"
+      }
+    ],
+    "philosophy": "采用单一无衬线字体（M Saans 652）营造统一、现代的工程感。排版策略是‘夸张对比’——标题极大（80px/56px），正文常规（16px），形成强烈的视觉节奏。所有字号weight均为400（Regular），通过字号大小而非字重来区分层级，追求极致的平静与克制。行高统一使用1.5，保证良好的可读性。"
+  },
+  "spacing": {
+    "base_unit": "4px",
+    "scale": [
+      {
+        "token": "space-xs",
+        "value": "10-11px",
+        "usage": "紧凑间距，用于列表项内部、输入框内边距。"
+      },
+      {
+        "token": "space-sm",
+        "value": "16-18px",
+        "usage": "组件内部标准间距，如按钮内padding、卡片内间距。"
+      },
+      {
+        "token": "space-md",
+        "value": "24-28px",
+        "usage": "组件之间的分隔，内容区块的外边距。"
+      },
+      {
+        "token": "space-lg",
+        "value": "72-80px",
+        "usage": "大区块之间的分隔，用于创造强烈的呼吸感和章节划分。"
+      }
+    ],
+    "philosophy": "间距系统基于4px的网格，但实际使用值并非严格的倍数，而是根据视觉感知微调。策略是‘呼吸在组件之间，而非组件之内’：组件内部保持紧凑（10-28px），而区块之间使用极大间距（72-80px）。这种巨大的垂直留白是设计的核心特征，它强制用户视线聚焦，并赋予页面平静、有序的节奏感。"
+  },
+  "depth": {
+    "border_radius": [
+      {
+        "token": "radius-button",
+        "value": "8-12px",
+        "usage": "按钮、交互容器，采用中等圆角，显得友好但不幼稚。"
+      },
+      {
+        "token": "radius-logo",
+        "value": "large",
+        "usage": "Logo图标，使用大圆角的方形，是品牌视觉记忆点。"
+      }
+    ],
+    "shadows": [
+      {
+        "token": "shadow-none",
+        "value": "none",
+        "usage": "全局策略：几乎不使用投影。组件依靠颜色、边框和留白区分层级，保持扁平与干净。"
+      }
+    ],
+    "borders": [
+      {
+        "token": "border-subtle",
+        "value": "1px solid #717171 或 #E5E5E5 (推断)",
+        "usage": "边框按钮、输入框、分隔线。使用浅灰色，作为结构的暗示而非强调。"
+      }
+    ],
+    "philosophy": "深度表达策略是‘克制投影，强调轮廓’。通过移除所有阴影，界面保持绝对的扁平化。层级仅通过背景色对比（极少）、边框和巨大的物理间距来表达。这营造了一种干净、精准、像蓝图或工程文档般的视觉质感。"
+  },
+  "motion": {
+    "tokens": [
+      {
+        "token": "motion-fast",
+        "duration": "150ms",
+        "easing": "ease-out",
+        "usage": "交互状态变化，如按钮hover/focus，追求即时反馈。"
+      },
+      {
+        "token": "motion-medium",
+        "duration": "250ms",
+        "easing": "ease-in-out",
+        "usage": "展开/收起、微小位移，追求平滑过渡。"
+      }
+    ],
+    "philosophy": "动效策略是‘平滑而克制，服务于功能’。所有动效都应快速（150-250ms）且目的明确，例如提供状态反馈或引导注意力。避免装饰性、无意义的动画，确保动效不会干扰用户对内容的专注。"
+  },
+  "motion_language": {
+    "scroll_behavior": "无特殊视差或复杂滚动行为。内容以静态、大区块的形式垂直排列，滚动过程平滑，依赖大量静态留白来区分章节。",
+    "interaction_feedback": "交互反馈以微妙的色彩和背景变化为主。hover时，实心按钮背景可能从纯黑变为深灰（#333），边框按钮可能出现极浅的背景色。focus状态采用标准的轮廓（outline）样式，确保可访问性。",
+    "page_transitions": "无页面级转场。假定为传统的页面跳转或局部内容更新，无复杂的进入/退出动画。",
+    "micro_interactions": "Loading、Toast等提示应保持极简，可能使用简单的淡入淡出（fade-in/out）或轻微的缩放（scale），不使用复杂路径或图标动画。",
+    "motion_personality": "整体动效性格是‘干练的确认感’。它不追求愉悦或惊奇，而是追求精确、可靠的功能反馈。速度偏快，缓动曲线偏干脆（ease-out），每个动画都有明确的功能目的——告诉用户‘操作已收到’或‘内容已就绪’。"
+  },
+  "visual_language": {
+    "layout_philosophy": "布局哲学是‘中心对齐与稀疏排版’。所有内容在页面水平居中，最大宽度约1200px。垂直方向上，通过72px-80px的巨大间距将页面分割为几个独立的、呼吸感极强的章节。每屏通常只有1-2个核心信息单元（一个超大标题或一个卡片组），用户注意力被强制聚焦。",
+    "imagery_style": "图像使用极为克制。推测主要视觉元素是产品截图或示意图，会以干净、无装饰的方式呈现。无复杂摄影或插画，可能仅有用于标识的几何图形Logo。",
+    "icon_style": "图标风格统一。品牌Logo为紫色填充的圆角方形，内部是白色文字/图形。功能性图标应遵循类似风格：使用线条（stroke）图标，线宽一致，圆角与按钮系统协调（中等圆角）。避免使用复杂、拟物的图标。",
+    "information_density": "信息密度极低。设计优先考虑每项内容的‘展示空间’而非‘信息量’。大量的留白（垂直和水平）是核心设计元素，它降低了视觉负荷，提升了信息的可读性和严肃感。",
+    "brand_personality": [
+      "专业",
+      "简约",
+      "清晰",
+      "专注",
+      "可靠"
+    ]
+  },
+  "components": [
+    {
+      "name": "Button",
+      "description": "按钮是主要交互元素，有两种清晰变体。设计强调可点击性，但不喧宾夺主。",
+      "default": {
+        "bg": "#141414 (Primary) / transparent (Secondary)",
+        "color": "#FFFFFF (Primary) / #141414 (Secondary)",
+        "border-radius": "8-12px",
+        "height": "28px"
+      },
+      "hover": {
+        "bg": "#333333 (Primary) / #F5F5F5 (Secondary)"
+      },
+      "focus": {
+        "outline": "2px solid #141414"
+      },
+      "variants": [
+        {
+          "name": "Primary",
+          "properties": {
+            "bg": "#141414",
+            "color": "#FFFFFF"
+          }
+        },
+        {
+          "name": "Secondary",
+          "properties": {
+            "bg": "transparent",
+            "border": "1px solid #717171 或 #E5E5E5",
+            "color": "#141414"
+          }
+        }
+      ]
+    }
+  ],
+  "interactions": {
+    "hover_style": "微妙的色彩加深（主按钮）或添加极浅背景（次按钮），提供即时的可交互暗示。",
+    "focus_style": "清晰的轮廓（outline），确保键盘导航的可访问性。",
+    "active_style": "可能进一步加深背景色，提供‘按下’的反馈。",
+    "loading_style": "极简，可能为按钮内部文字/图标淡出并出现简单的加载指示器（如三个点渐显动画）。",
+    "transition_speed": "150ms - 250ms，追求平滑但不拖沓的反馈。"
+  },
+  "layout": {
+    "max_width": "1200px",
+    "grid": {
+      "columns": 12,
+      "gap": "24px"
+    },
+    "breakpoints": [
+      {
+        "name": "sm",
+        "value": "640px"
+      },
+      {
+        "name": "md",
+        "value": "768px"
+      },
+      {
+        "name": "lg",
+        "value": "1024px"
+      }
+    ],
+    "philosophy": "采用居中布局，最大宽度1200px，在不同屏幕尺寸下保持内容的可读性和视觉舒适度。内部可能使用12列网格进行精细对齐，但整体感觉是流动的、区块化的，而非严格的网格卡片布局。"
+  },
+  "agent_guide": {
+    "do": [
+      "使用超大字号（80px, 56px）作为页面章节的标题，创造视觉冲击力。",
+      "在内容区块之间使用巨大的垂直间距（72px+），这是该风格的灵魂。",
+      "保持色彩极度克制，主体只使用黑白灰。紫色仅用于品牌Logo。",
+      "按钮使用实心黑色或灰色细边框，圆角保持8-12px。",
+      "所有交互反馈（hover, focus）必须平滑、快速且明显。"
+    ],
+    "dont": [
+      "不要使用过多的颜色，尤其是明亮的强调色（橙色、绿色等）。",
+      "不要添加阴影（box-shadow），保持绝对扁平。",
+      "不要将内容塞得太满，留白比内容更重要。",
+      "不要使用粗体（bold）字重，所有文字都用Regular (400)。",
+      "不要使用复杂的图标或插画，保持图形元素的几何与简约。"
+    ],
+    "snippets": [
+      {
+        "scenario": "创建首屏 Hero 区域",
+        "description": "一个巨大的居中标题，下方一个主按钮，周围大量留白。",
+        "example": "font-size: 80px; line-height: 1.5; margin-bottom: 80px; text-align: center;"
+      },
+      {
+        "scenario": "创建主按钮",
+        "description": "使用纯黑背景、白色文字、中等圆角。",
+        "example": "background: #141414; color: #FFFFFF; border-radius: 10px; height: 28px; padding: 0 16px; border: none; font-size: 14px;"
+      },
+      {
+        "scenario": "设置页面整体布局",
+        "description": "内容居中，区块间用大间距分隔。",
+        "example": "body { max-width: 1200px; margin: 0 auto; } .section { margin-bottom: 72px; }"
+      }
+    ]
+  }
+}

@@ -2,7 +2,7 @@
  * 输出层：将 DesignSystemDoc 渲染为高质量 DESIGN.md
  */
 
-import type { DesignSystemDoc, ComponentPattern } from '../types/design-doc.js';
+import type { DesignSystemDoc, ComponentPattern, MotionLanguage, VisualLanguage } from '../types/design-doc.js';
 import { logger } from '../utils/logger.js';
 
 /**
@@ -22,6 +22,8 @@ export function renderDesignDoc(doc: DesignSystemDoc): string {
   sections.push(renderSpacing(doc));
   sections.push(renderDepth(doc));
   sections.push(renderMotion(doc));
+  sections.push(renderMotionLanguage(doc.motion_language));
+  sections.push(renderVisualLanguage(doc.visual_language));
   sections.push(renderComponents(doc));
   sections.push(renderInteractions(doc));
   sections.push(renderLayout(doc));
@@ -224,6 +226,54 @@ function renderMotion(doc: DesignSystemDoc): string {
 
   if (doc.motion.philosophy) {
     lines.push(`> ${doc.motion.philosophy}\n`);
+  }
+
+  return lines.join('\n');
+}
+
+function renderMotionLanguage(ml: MotionLanguage): string {
+  if (!ml) return '';
+  const lines: string[] = [];
+  lines.push('## Motion Language\n');
+
+  lines.push('### 滚动行为');
+  lines.push(ml.scroll_behavior + '\n');
+
+  lines.push('### 交互反馈');
+  lines.push(ml.interaction_feedback + '\n');
+
+  lines.push('### 页面转场');
+  lines.push(ml.page_transitions + '\n');
+
+  lines.push('### 微交互');
+  lines.push(ml.micro_interactions + '\n');
+
+  lines.push('### 动效性格');
+  lines.push('> ' + ml.motion_personality + '\n');
+
+  return lines.join('\n');
+}
+
+function renderVisualLanguage(vl: VisualLanguage): string {
+  if (!vl) return '';
+  const lines: string[] = [];
+  lines.push('## Visual Language\n');
+
+  lines.push('### 布局哲学');
+  lines.push(vl.layout_philosophy + '\n');
+
+  lines.push('### 图像使用');
+  lines.push(vl.imagery_style + '\n');
+
+  lines.push('### 图标风格');
+  lines.push(vl.icon_style + '\n');
+
+  lines.push('### 信息密度');
+  lines.push(vl.information_density + '\n');
+
+  if (vl.brand_personality && vl.brand_personality.length > 0) {
+    lines.push('### 品牌个性');
+    lines.push(vl.brand_personality.map(p => `\`${p}\``).join(' ') + '\n');
   }
 
   return lines.join('\n');

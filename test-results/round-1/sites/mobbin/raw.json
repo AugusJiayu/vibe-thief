@@ -1,0 +1,558 @@
+{
+  "css": {
+    "colors": {
+      "raw": [
+        {
+          "value": "#141414",
+          "frequency": 72,
+          "sources": [
+            "color",
+            "border-color",
+            "background-color"
+          ]
+        },
+        {
+          "value": "#717171",
+          "frequency": 6,
+          "sources": [
+            "color",
+            "border-color"
+          ]
+        },
+        {
+          "value": "#ffffff",
+          "frequency": 11,
+          "sources": [
+            "color",
+            "border-color",
+            "background-color"
+          ]
+        },
+        {
+          "value": "#adadad",
+          "frequency": 2,
+          "sources": [
+            "color",
+            "border-color"
+          ]
+        },
+        {
+          "value": "#0000ee",
+          "frequency": 4,
+          "sources": [
+            "color",
+            "border-color"
+          ]
+        },
+        {
+          "value": "#000000",
+          "frequency": 68,
+          "sources": [
+            "border-color",
+            "color"
+          ]
+        },
+        {
+          "value": "#414141",
+          "frequency": 2,
+          "sources": [
+            "border-color"
+          ]
+        },
+        {
+          "value": "#ededed",
+          "frequency": 1,
+          "sources": [
+            "background-color"
+          ]
+        }
+      ],
+      "cssVariables": {}
+    },
+    "typography": {
+      "fontFamilies": [
+        {
+          "family": "M Saans 652",
+          "frequency": 14
+        },
+        {
+          "family": "M Saans Variable Light",
+          "frequency": 11
+        },
+        {
+          "family": "M Saans 600",
+          "frequency": 17
+        },
+        {
+          "family": "M Saans 456",
+          "frequency": 2
+        },
+        {
+          "family": "sans-serif",
+          "frequency": 35
+        }
+      ],
+      "fontSizes": [
+        {
+          "size": "80px",
+          "frequency": 5,
+          "contexts": [
+            "h1",
+            "span"
+          ]
+        },
+        {
+          "size": "56px",
+          "frequency": 8,
+          "contexts": [
+            "h1",
+            "h2",
+            "span"
+          ]
+        },
+        {
+          "size": "24px",
+          "frequency": 1,
+          "contexts": [
+            "h3"
+          ]
+        },
+        {
+          "size": "20px",
+          "frequency": 6,
+          "contexts": [
+            "h4"
+          ]
+        },
+        {
+          "size": "14px",
+          "frequency": 2,
+          "contexts": [
+            "p",
+            "span"
+          ]
+        },
+        {
+          "size": "16px",
+          "frequency": 22,
+          "contexts": [
+            "p",
+            "span",
+            "a"
+          ]
+        },
+        {
+          "size": "12px",
+          "frequency": 35,
+          "contexts": [
+            "a",
+            "li",
+            "header",
+            "nav",
+            "footer",
+            "div",
+            "img",
+            "svg"
+          ]
+        }
+      ],
+      "fontWeights": [
+        {
+          "weight": 652,
+          "frequency": 14
+        },
+        {
+          "weight": 300,
+          "frequency": 11
+        },
+        {
+          "weight": 600,
+          "frequency": 17
+        },
+        {
+          "weight": 456,
+          "frequency": 2
+        },
+        {
+          "weight": 400,
+          "frequency": 35
+        }
+      ],
+      "lineHeights": [
+        {
+          "value": "80px",
+          "frequency": 5
+        },
+        {
+          "value": "56px",
+          "frequency": 8
+        },
+        {
+          "value": "30px",
+          "frequency": 1
+        },
+        {
+          "value": "26px",
+          "frequency": 6
+        },
+        {
+          "value": "20px",
+          "frequency": 2
+        },
+        {
+          "value": "22px",
+          "frequency": 22
+        }
+      ]
+    },
+    "spacing": {
+      "values": [
+        {
+          "value": "11px",
+          "frequency": 4
+        },
+        {
+          "value": "16px",
+          "frequency": 8
+        },
+        {
+          "value": "10px",
+          "frequency": 4
+        },
+        {
+          "value": "24px",
+          "frequency": 3
+        },
+        {
+          "value": "18px",
+          "frequency": 2
+        },
+        {
+          "value": "72px",
+          "frequency": 1
+        },
+        {
+          "value": "80px",
+          "frequency": 2
+        },
+        {
+          "value": "28px",
+          "frequency": 1
+        }
+      ],
+      "detectedBaseUnit": null
+    },
+    "borders": {
+      "radii": [
+        {
+          "value": "999px",
+          "frequency": 4
+        },
+        {
+          "value": "30px",
+          "frequency": 1
+        }
+      ],
+      "widths": [
+        {
+          "value": "1px",
+          "frequency": 2
+        }
+      ],
+      "styles": [
+        {
+          "value": "solid",
+          "frequency": 2
+        }
+      ]
+    },
+    "shadows": {
+      "values": []
+    },
+    "breakpoints": [],
+    "rawCSSVariables": {},
+    "animations": [
+      {
+        "selector": "#__framer-editorbar-label",
+        "property": "transition",
+        "value": "opacity 0.4s ease-out",
+        "duration": "0.4s",
+        "easing": "ease"
+      },
+      {
+        "selector": "#__framer-editorbar-button",
+        "property": "transition",
+        "value": "unset",
+        "duration": "unknown",
+        "easing": "ease"
+      },
+      {
+        "selector": "#__framer-editorbar-button",
+        "property": "animation",
+        "value": "unset",
+        "duration": "unknown",
+        "easing": "ease"
+      },
+      {
+        "selector": "@keyframes __framer-loading-spin",
+        "property": "keyframe",
+        "value": "@keyframes __framer-loading-spin",
+        "duration": "varies",
+        "easing": "varies"
+      }
+    ]
+  },
+  "pixel": {
+    "dominantColors": [
+      {
+        "hex": "#f8f8f8",
+        "rgb": [
+          248,
+          248,
+          248
+        ],
+        "hsl": [
+          0,
+          0,
+          97
+        ],
+        "role": "background",
+        "population": 0.8513869389325679
+      },
+      {
+        "hex": "#f0f0f0",
+        "rgb": [
+          240,
+          240,
+          240
+        ],
+        "hsl": [
+          0,
+          0,
+          94
+        ],
+        "role": "background",
+        "population": 0.1310832137360123
+      },
+      {
+        "hex": "#101010",
+        "rgb": [
+          16,
+          16,
+          16
+        ],
+        "hsl": [
+          0,
+          0,
+          6
+        ],
+        "role": "text",
+        "population": 0.006016850222555015
+      },
+      {
+        "hex": "#e8e8e8",
+        "rgb": [
+          232,
+          232,
+          232
+        ],
+        "hsl": [
+          0,
+          0,
+          91
+        ],
+        "role": "background",
+        "population": 0.001184793460626482
+      },
+      {
+        "hex": "#181818",
+        "rgb": [
+          24,
+          24,
+          24
+        ],
+        "hsl": [
+          0,
+          0,
+          9
+        ],
+        "role": "text",
+        "population": 0.0005417628645118349
+      },
+      {
+        "hex": "#909090",
+        "rgb": [
+          144,
+          144,
+          144
+        ],
+        "hsl": [
+          0,
+          0,
+          56
+        ],
+        "role": "neutral",
+        "population": 0.0004905440118141354
+      },
+      {
+        "hex": "#b8b8b8",
+        "rgb": [
+          184,
+          184,
+          184
+        ],
+        "hsl": [
+          0,
+          0,
+          72
+        ],
+        "role": "neutral",
+        "population": 0.0004750093597903407
+      },
+      {
+        "hex": "#303030",
+        "rgb": [
+          48,
+          48,
+          48
+        ],
+        "hsl": [
+          0,
+          0,
+          19
+        ],
+        "role": "neutral",
+        "population": 0.0004615546611755897
+      },
+      {
+        "hex": "#d0d0d0",
+        "rgb": [
+          208,
+          208,
+          208
+        ],
+        "hsl": [
+          0,
+          0,
+          82
+        ],
+        "role": "neutral",
+        "population": 0.00044868494945713214
+      },
+      {
+        "hex": "#5030e8",
+        "rgb": [
+          80,
+          48,
+          232
+        ],
+        "hsl": [
+          250,
+          80,
+          55
+        ],
+        "role": "unknown",
+        "population": 0.0003942161695578019
+      },
+      {
+        "hex": "#484848",
+        "rgb": [
+          72,
+          72,
+          72
+        ],
+        "hsl": [
+          0,
+          0,
+          28
+        ],
+        "role": "neutral",
+        "population": 0.0003797214942385291
+      },
+      {
+        "hex": "#686868",
+        "rgb": [
+          104,
+          104,
+          104
+        ],
+        "hsl": [
+          0,
+          0,
+          41
+        ],
+        "role": "neutral",
+        "population": 0.0003510571363201464
+      }
+    ],
+    "paletteHarmony": {
+      "type": "triadic",
+      "saturationRange": [
+        0,
+        80
+      ],
+      "lightnessRange": [
+        6,
+        97
+      ]
+    }
+  },
+  "vision": {
+    "mood": {
+      "primary": {
+        "value": [
+          "professional",
+          "minimal"
+        ],
+        "description": "Clean, focused, and uncluttered, conveying a sense of organized expertise tailored for design inspiration discovery.",
+        "confidence": 0.95
+      },
+      "descriptors": []
+    },
+    "components": {
+      "buttons": {
+        "solid": {
+          "borderRadius": "medium (approx 8-12px)",
+          "shadow": "none",
+          "style": "filled black with white text, no shadow, rounded edges",
+          "confidence": 0.9
+        },
+        "outlined": {
+          "borderRadius": "medium (approx 8-12px)",
+          "border": "1px light gray",
+          "shadow": "none",
+          "style": "light gray thin border, dark text, no shadow, rounded edges",
+          "confidence": 0.9
+        }
+      },
+      "icons": {
+        "logo": {
+          "borderRadius": "large rounded square",
+          "style": "purple rounded square with white text, no shadow",
+          "confidence": 0.95
+        }
+      },
+      "inputFields": "none present"
+    },
+    "layout": {
+      "density": "sparse",
+      "alignment": "center-aligned (all content elements are horizontally centered on the page)",
+      "grid": "no explicit grid structure, uses generous vertical spacing and center alignment for an open, flowing layout",
+      "spacing": "generous white space between all elements, emphasizing content focus",
+      "confidence": 0.95
+    },
+    "visualWeight": {
+      "contrast": "high (black bold title on white background, purple logo as a small high-contrast accent)",
+      "focus": "typography (oversized bold title is the primary visual focal point), followed by the purple logo as a secondary accent",
+      "balance": "typography-dominated, balanced with small accent elements and ample negative space",
+      "confidence": 0.9
+    },
+    "interactions": {
+      "hoverStyle": "subtle background/color shift for buttons (inferred from common minimalist design patterns, not visible in the screenshot)",
+      "focusStyle": "soft outline for interactive elements (standard accessible design pattern, not visible in the screenshot)",
+      "transitionSpeed": "medium (smooth, subtle transitions consistent with minimalist UI conventions)",
+      "confidence": 0.5
+    },
+    "confidence": 0.5
+  }
+}

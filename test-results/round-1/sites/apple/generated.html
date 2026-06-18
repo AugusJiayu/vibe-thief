@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Design System Showcase</title>
+    <style>
+        :root {
+            /* Colors - Background Layers */
+            --bg-canvas: #ffffff;
+            --bg-surface: #f5f5f7;
+            
+            /* Colors - Signal */
+            --signal-primary: #0071e3;
+            --signal-primary-hover: #0077ed;
+            --signal-primary-active: #006edb;
+            
+            /* Colors - Text */
+            --text-primary: #1d1d1f;
+            --text-secondary: #6e6e73;
+            --text-tertiary: #86868b;
+            --text-disabled: #86868b;
+            
+            /* Typography */
+            --font-stack: 'SF Pro SC', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', sans-serif;
+            --text-caption: 12px;
+            --text-small: 13.3333px;
+            --text-body: 17px;
+            --text-subheading: 21px;
+            --text-heading-3: 24px;
+            --text-heading-2: 28px;
+            --text-heading-1: 34px;
+            --text-display: 40px;
+            --text-hero: 44px;
+            --weight-regular: 400;
+            --weight-semibold: 600;
+            
+            /* Spacing */
+            --space-1: 2px;
+            --space-2: 4px;
+            --space-3: 6px;
+            --space-4: 8px;
+            --space-5: 9px;
+            --space-6: 11px;
+            --space-7: 14px;
+            --space-8: 18px;
+            
+            /* Layout Spacing */
+            --spacing-section-padding: 80px 24px;
+            --spacing-content-gap: 24px;
+            
+            /* Depth & Hierarchy */
+            --radius-sm: 4px;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --radius-pill: 9999px;
+            --shadow-none: none;
+            --border-subtle: 1px solid #d2d2d7;
+            --border-default: 1px solid #e8e8ed;
+            
+            /* Motion */
+            --motion-fast: 200ms cubic-bezier(0.4, 0, 0.6, 1);
+            --motion-normal: 300ms ease-in-out;
+            --motion-slow: 400ms ease-in-out;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-stack);
+            background-color: var(--bg-canvas);
+            color: var(--text-primary);
+            line-height: 1.47;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Navigation Bar */
+        .nav-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 44px;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: saturate(180%) blur(20px);
+            -webkit-backdrop-filter: saturate(180%) blur(20px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 var(--spacing-content-gap);
+            z-index: 1000;
+            border-bottom: var(--border-subtle);
+        }
+
+        .nav-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        .nav-logo {
+            font-size: var(--text-body);
+            font-weight: var(--weight-semibold);
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            list-style: none;
+        }
+
+        .nav-link {
+            font-size: var(--text-caption);
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: color var(--motion-normal);
+        }
+
+        .nav-link:hover {
+            color: var(--signal-primary);
+        }
+
+        /* Main Content */
+        .main-content {
+            padding-top: 44px;
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .section-hero {
+            padding: var(--spacing-section-padding);
+            text-align: center;
+            min-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 48px;
+        }
+
+        .hero-title {
+            font-size: var(--text-hero);
+            font-weight: var(--weight-semibold);
+            color: var(--text-primary);
+            letter-spacing: -0.025em;
+            max-width: 800px;
+        }
+
+        .hero-subtitle {
+            font-size: var(--text-subheading);
+            font-weight: var(--weight-regular);
+            color: var(--text-secondary);
+            max-width: 600px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: var(--spacing-content-gap);
+            margin-top: var(--space-8);
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-stack);
+            font-size: var(--text-body);
+            font-weight: var(--weight-semibold);
+            text-decoration: none;
+            cursor: pointer;
+            transition: background-color var(--motion-normal), color var(--motion-normal), border-color var(--motion-normal), box-shadow var(--motion-fast);
+            border: none;
+            line-height: 1;
+        }
+
+        .btn-primary {
+            background-color: var(--signal-primary);
+            color: #ffffff;
+            border-radius: var(--radius-pill);
+            height: 36px;
+            padding: 0 24px;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--signal-primary-hover);
+        }
+
+        .btn-primary:active {
+            background-color: var(--signal-primary-active);
+        }
+
+        .btn-primary:focus-visible {
+            outline: 3px solid rgba(0, 113, 227, 0.3);
+            outline-offset: 2px;
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--signal-primary);
+            border: 1px solid var(--signal-primary);
+            border-radius: var(--radius-pill);
+            height: 36px;
+            padding: 0 24px;
+        }
+
+        .btn-secondary:hover {
+            background-color: rgba(0, 113, 227, 0.05);
+        }
+
+        .btn-secondary:active {
+            background-color: rgba(0, 113, 227, 0.1);
+        }
+
+        .btn-secondary:focus-visible {
+            outline: 3px solid rgba(0, 113, 227, 0.3);
+            outline-offset: 2px;
+        }
+
+        .btn-text {
+            background: transparent;
+            color: var(--signal-primary);
+            border: none;
+            padding: 0 10px;
+            height: auto;
+            font-weight: var(--weight-regular);
+        }
+
+        .btn-text:hover {
+            text-decoration: underline;
+        }
+
+        /* Content Section */
+        .content-section {
+            padding: var(--spacing-section-padding);
+            background-color: var(--bg-surface);
+        }
+
+        .content-container {
+            max-width: 930px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 48px;
+        }
+
+        .section-title {
+            font-size: var(--text-heading-1);
+            font-weight: var(--weight-semibold);
+            color: var(--text-primary);
+        }
+
+        .section-description {
+            font-size: var(--text-body);
+            color: var(--text-secondary);
+            max-width: 700px;
+            line-height: 1.76; /* 1.47 * 1.2 for longer text */
+        }
+
+        /* Cards */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--spacing-content-gap);
+            width: 100%;
+        }
+
+        .card {
+            background-color: var(--bg-canvas);
+            border-radius: var(--radius-md);
+            padding: 40px 32px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 16px;
+            transition: transform var(--motion-slow);
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+        }
+
+        .card-icon {
+            width: 48px;
+            height: 48px;
+            background-color: var(--bg-surface);
+            border-radius: var(--radius-lg);
+            margin-bottom: var(--space-4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card-title {
+            font-size: var(--text-heading-3);
+            font-weight: var(--weight-semibold);
+            color: var(--text-primary);
+        }
+
+        .card-text {
+            font-size: var(--text-body);
+            color: var(--text-secondary);
+            line-height: 1.59; /* Slightly adjusted for card context */
+        }
+
+        /* Form Section */
+        .section-form {
+            padding: var(--spacing-section-padding);
+        }
+
+        .form-container {
+            max-width: 480px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 40px;
+            text-align: center;
+        }
+
+        .form-group {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-4);
+        }
+
+        .form-label {
+            font-size: var(--text-small);
+            font-weight: var(--weight-regular);
+            color: var(--text-secondary);
+            text-align: left;
+        }
+
+        .form-input {
+            width: 100%;
+            height: 40px;
+            padding: 0 var(--space-7);
+            border: var(--border-default);
+            border-radius: var(--radius-sm);
+            font-family: var(--font-stack);
+            font-size: var(--text-body);
+            color: var(--text-primary);
+            background-color: var(--bg-canvas);
+            transition: border-color var(--motion-fast), box-shadow var(--motion-fast);
+        }
+
+        .form-input::placeholder {
+            color: var(--text-tertiary);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--signal-primary);
+            box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.15);
+        }
+
+        /* Footer */
+        .footer {
+            padding: 48px 24px;
+            text-align: center;
+            border-top: var(--border-subtle);
+        }
+
+        .footer-text {
+            font-size: var(--text-caption);
+            color: var(--text-tertiary);
+        }
+
+        /* Utility for centering max-width content */
+        .container-center {
+            max-width: 930px;
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: var(--spacing-content-gap);
+            padding-right: var(--spacing-content-gap);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <header class="nav-bar">
+        <nav class="nav-content">
+            <a href="#" class="nav-logo">Showcase</a>
+            <ul class="nav-links">
+                <li><a href="#hero" class="nav-link">首页</a></li>
+                <li><a href="#features" class="nav-link">特性</a></li>
+                <li><a href="#form" class="nav-link">联系</a></li>
+                <li><a href="#" class="nav-link">商店</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        <!-- Hero Section -->
+        <section id="hero" class="section-hero">
+            <h1 class="hero-title">为专注而设计。</h1>
+            <p class="hero-subtitle">沉浸式的体验，将您的注意力完全引导至真正重要的事物上。界面是安静的画布，您的内容是舞台上的主角。</p>
+            <div class="button-group">
+                <a href="#" class="btn btn-primary">立即探索</a>
+                <a href="#" class="btn btn-secondary">了解更多</a>
+            </div>
+        </section>
+
+        <!-- Features Content Section -->
+        <section id="features" class="content-section">
+            <div class="content-container">
+                <h2 class="section-title">核心哲学</h2>
+                <p class="section-description">我们相信优秀的设计是隐形的。通过极致的克制和对细节的专注，我们创造出不喧宾夺主、却能极大提升使用效率与愉悦感的工具。每处留白都有其目的，每个交互都经过深思熟虑。</p>
+                
+                <div class="card-grid">
+                    <div class="card">
+                        <div class="card-icon"></div>
+                        <h3 class="card-title">沉浸式布局</h3>
+                        <p class="card-text">大面积留白和中心对齐的叙事流，强制聚焦当前核心信息，营造影院般的专注体验。</p>
+                        <a href="#" class="btn btn-text">阅读更多 &gt;</a>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon"></div>
+                        <h3 class="card-title">克制的动效</h3>
+                        <p class="card-text">平滑的过渡与温和的反馈，不急不缓地确认交互，服务于内容而非吸引注意力。</p>
+                        <a href="#" class="btn btn-text">阅读更多 &gt;</a>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon"></div>
+                        <h3 class="card-title">纯粹色彩</h3>
+                        <p class="card-text">中性色构建冷静基调，品牌蓝仅用于关键引导，确保信号清晰、不疲劳。</p>
+                        <a href="#" class="btn btn-text">阅读更多 &gt;</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Form Section -->
+        <section id="form" class="section-form">
+            <div class="form-container">
+                <h2 class="section-title">保持联系</h2>
+                <p class="section-description">订阅我们的通讯，获取关于设计理念与新功能的深度见解。</p>
+                <form class="form-group">
+                    <label for="name" class="form-label">姓名</label>
+                    <input type="text" id="name" class="form-input" placeholder="您的姓名">
+                    
+                    <label for="email" class="form-label">电子邮件地址</label>
+                    <input type="email" id="email" class="form-input" placeholder="name@example.com">
+                    
+                    <div style="margin-top: var(--space-7);">
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">订阅通讯</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p class="footer-text">© 2026 设计系统展示。遵循克制与聚焦的哲学。</p>
+    </footer>
+</body>
+</html>

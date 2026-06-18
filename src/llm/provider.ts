@@ -114,10 +114,32 @@ class AnthropicProvider implements LLMProvider {
     const systemMsg = messages.find(m => m.role === 'system');
     const nonSystemMsgs = messages.filter(m => m.role !== 'system');
 
-    const anthropicMessages = nonSystemMsgs.map(m => ({
-      role: m.role,
-      content: m.content,
-    }));
+    // 转换 image_url 格式为 Anthropic 原生 image 格式
+    const anthropicMessages = nonSystemMsgs.map(m => {
+      if (typeof m.content === 'string') {
+        return { role: m.role, content: m.content };
+      }
+      // 数组内容：转换 image_url 为 image
+      const convertedContent = (m.content as any[]).map((part: any) => {
+        if (part.type === 'image_url' && part.image_url?.url) {
+          const url = part.image_url.url;
+          // data:image/png;base64,xxx → 提取 base64 和 media_type
+          const match = url.match(/^data:(image\/\w+);base64,(.+)$/);
+          if (match) {
+            return {
+              type: 'image',
+              source: {
+                type: 'base64',
+                media_type: match[1],
+                data: match[2],
+              },
+            };
+          }
+        }
+        return part;
+      });
+      return { role: m.role, content: convertedContent };
+    });
 
     const body: any = {
       model: this.config.model,

@@ -242,6 +242,20 @@ function buildFallbackDoc(tokenData: Record<string, unknown>, source: string): D
     },
     depth: { border_radius: [], shadows: [], borders: [], philosophy: '' },
     motion: { tokens: [], philosophy: '' },
+    motion_language: {
+      scroll_behavior: '无特殊滚动行为',
+      interaction_feedback: '颜色微调 + 轻微位移',
+      page_transitions: '无页面级转场',
+      micro_interactions: '标准 loading spinner',
+      motion_personality: '（LLM 编译失败，无法提取动效语言）',
+    },
+    visual_language: {
+      layout_philosophy: '（LLM 编译失败，无法提取布局哲学）',
+      imagery_style: '未知',
+      icon_style: '未知',
+      information_density: '未知',
+      brand_personality: [],
+    },
     components: [],
     interactions: {
       hover_style: '颜色微调',

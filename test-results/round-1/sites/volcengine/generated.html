@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1440, height=900, initial-scale=1.0">
+    <title>Volcengine Design System</title>
+    <style>
+        :root {
+            /* Backgrounds */
+            --bg-page: #f7f8fa;
+            --bg-surface: #ffffff;
+            /* Signals */
+            --signal-primary: #165dff;
+            --signal-primary-hover: #3a7bff;
+            --signal-accent: #5850f0;
+            /* Text */
+            --text-primary: #1d2129;
+            --text-secondary: #41464f;
+            --text-disabled: #86909c;
+            /* Spacing */
+            --space-1: 2px;
+            --space-2: 4px;
+            --space-3: 8px;
+            --space-4: 16px;
+            --space-5: 24px;
+            --space-6: 32px;
+            --space-7: 44px;
+            /* Depth */
+            --radius-sm: 4px;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --radius-full: 9999px;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 12px 0 rgba(0, 0, 0, 0.08);
+            --border-default: 1px solid #e5e6eb;
+            --border-strong: 1px solid #c9cdd4;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "PingFang SC", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.5;
+        }
+
+        body {
+            background-color: var(--bg-page);
+            color: var(--text-primary);
+            font-size: 14px;
+        }
+
+        /* Layout */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--space-5);
+        }
+
+        /* Navigation */
+        .nav {
+            background-color: var(--bg-surface);
+            box-shadow: var(--shadow-sm);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .nav .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 64px;
+        }
+
+        .nav-logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: var(--space-4);
+            align-items: center;
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            padding: var(--space-3) var(--space-4);
+            border-radius: var(--radius-sm);
+            transition: background-color 250ms ease, color 150ms ease-out;
+        }
+
+        .nav-link:hover {
+            background-color: rgba(22, 93, 255, 0.08);
+            color: var(--signal-primary);
+        }
+
+        .nav-link:focus-visible {
+            outline: 2px solid rgba(22, 93, 255, 0.25);
+            outline-offset: 2px;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            height: 32px;
+            padding: 0 var(--space-4);
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 150ms ease-out, box-shadow 250ms ease;
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--signal-primary);
+            color: #ffffff;
+        }
+
+        .btn-primary:hover {
+            background: var(--signal-primary-hover);
+        }
+
+        .btn-primary:active {
+            transform: translateY(1px);
+            background: #0d47b3;
+        }
+
+        .btn-primary:focus-visible {
+            box-shadow: 0 0 0 2px rgba(22, 93, 255, 0.25);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-primary);
+            border: var(--border-default);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--text-disabled);
+            background: rgba(0, 0, 0, 0.02);
+        }
+
+        .btn-secondary:active {
+            transform: translateY(1px);
+            background: rgba(0, 0, 0, 0.04);
+        }
+
+        .btn-secondary:focus-visible {
+            box-shadow: 0 0 0 2px rgba(22, 93, 255, 0.25);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: var(--space-7) 0;
+            text-align: center;
+        }
+
+        .hero-title {
+            font-size: 52px;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: var(--space-4);
+        }
+
+        .hero-subtitle {
+            font-size: 18px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            margin-bottom: var(--space-6);
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: var(--space-4);
+            justify-content: center;
+        }
+
+        /* Cards Section */
+        .section-title {
+            font-size: 40px;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: var(--space-7);
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-5);
+            margin-bottom: var(--space-7);
+        }
+
+        .card {
+            background: var(--bg-surface);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-md);
+            padding: var(--space-5);
+            transition: transform 250ms ease, box-shadow 250ms ease;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+        }
+
+        .card-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #165dff 0%, #5850f0 100%);
+            border-radius: var(--radius-md);
+            margin-bottom: var(--space-4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card-icon svg {
+            width: 24px;
+            height: 24px;
+            fill: white;
+        }
+
+        .card-title {
+            font-size: 20px;
+            font-weight: 500;
+            margin-bottom: var(--space-3);
+            color: var(--text-primary);
+        }
+
+        .card-description {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: var(--space-5);
+        }
+
+        /* Input Section */
+        .form-section {
+            max-width: 600px;
+            margin: 0 auto var(--space-7);
+            background: var(--bg-surface);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-md);
+            padding: var(--space-6);
+        }
+
+        .form-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: var(--space-5);
+        }
+
+        .form-group {
+            margin-bottom: var(--space-5);
+        }
+
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: var(--space-2);
+            color: var(--text-primary);
+        }
+
+        .form-input {
+            width: 100%;
+            height: 36px;
+            padding: 0 var(--space-3);
+            border: var(--border-default);
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            background: var(--bg-surface);
+            color: var(--text-primary);
+            transition: border-color 150ms ease-out, box-shadow 150ms ease-out;
+        }
+
+        .form-input:hover {
+            border-color: #c9cdd4;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--signal-primary);
+            box-shadow: 0 0 0 2px rgba(22, 93, 255, 0.1);
+        }
+
+        .form-input::placeholder {
+            color: var(--text-disabled);
+        }
+
+        .form-actions {
+            display: flex;
+            gap: var(--space-4);
+            justify-content: flex-end;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="container">
+            <a href="#" class="nav-logo">Volcengine</a>
+            <div class="nav-links">
+                <a href="#" class="nav-link">产品</a>
+                <a href="#" class="nav-link">解决方案</a>
+                <a href="#" class="nav-link">文档</a>
+                <a href="#" class="nav-link">定价</a>
+                <a href="#" class="nav-link">企业</a>
+                <button class="btn btn-primary">免费试用</button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container">
+        <!-- Hero Section -->
+        <section class="hero">
+            <h1 class="hero-title">构建下一代云端应用</h1>
+            <p class="hero-subtitle">提供从基础设施到应用层的全栈云服务，助力企业数字化转型</p>
+            <div class="hero-actions">
+                <button class="btn btn-primary" style="height: 40px; padding: 0 24px; font-size: 16px;">开始使用</button>
+                <button class="btn btn-secondary" style="height: 40px; padding: 0 24px; font-size: 16px;">查看演示</button>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="features">
+            <h2 class="section-title">核心能力</h2>
+            <div class="card-grid">
+                <div class="card">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                    </div>
+                    <h3 class="card-title">高性能计算</h3>
+                    <p class="card-description">基于全球基础设施，提供低延迟、高并发的计算资源，支持您的业务扩展。</p>
+                    <button class="btn btn-secondary">了解更多</button>
+                </div>
+                <div class="card">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96z"/></svg>
+                    </div>
+                    <h3 class="card-title">弹性存储</h3>
+                    <p class="card-description">可扩展的对象存储和块存储服务，安全可靠，按需使用，按量计费。</p>
+                    <button class="btn btn-secondary">了解更多</button>
+                </div>
+                <div class="card">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>
+                    </div>
+                    <h3 class="card-title">安全合规</h3>
+                    <p class="card-description">多层次的安全防护与合规认证，保障您的数据隐私与业务安全。</p>
+                    <button class="btn btn-secondary">了解更多</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Form Section -->
+        <section class="form-section">
+            <h2 class="form-title">联系我们</h2>
+            <form>
+                <div class="form-group">
+                    <label class="form-label" for="name">姓名</label>
+                    <input class="form-input" type="text" id="name" placeholder="请输入您的姓名">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="email">邮箱</label>
+                    <input class="form-input" type="email" id="email" placeholder="请输入您的邮箱地址">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="message">留言</label>
+                    <textarea class="form-input" id="message" rows="4" placeholder="请输入您的需求或问题" style="height: auto; padding: var(--space-3); resize: vertical;"></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary">取消</button>
+                    <button type="submit" class="btn btn-primary">提交申请</button>
+                </div>
+            </form>
+        </section>
+    </main>
+</body>
+</html>
